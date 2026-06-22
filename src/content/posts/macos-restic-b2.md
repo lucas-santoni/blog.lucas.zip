@@ -7,6 +7,22 @@ AMFI, codesigning, DarkWake) that make nightly encrypted offsite backups with
 restic, resticprofile, and Backblaze B2 trickier than they should be."
 ---
 
+**Update, June 2026**: a follow-up on the `prune` / `check` cycle. Restic's
+default `--max-unused` of 5% makes `prune` repack pack files aggressively, and
+on B2 repacking means downloading and re-uploading whole packs. On a heavy week
+that turned into a 6h+ run that held the repository lock well past the `check`
+scheduled an hour later, so `check` couldn't acquire the lock and exited 11
+(restic's "failed to lock repository"). The fix was to stop letting `prune`
+become a marathon: raise `--max-unused` to 10% so it repacks far less, cap each
+run with `--max-repack-size=300M`, and run `prune` daily instead of weekly so
+the work stays small and spread out, with `check` moved off its day. A `prune`
+that had been running 6h+ dropped to ~100 seconds while reclaiming *more*
+space. This is only one way to bound it and the numbers are just an example:
+other strategies work too, like pushing `--max-unused` higher, sizing
+`--max-repack-size` to your link, or matching the `prune` cadence to your
+churn. The Sunday `prune` / `check` schedule and the empty
+`[profiles.default.prune]` section shown further down predate this change.
+
 **Update, May 2026**: a macOS 26.5 update broke this setup soon after I was
 done writing it. I had Claude dig into it for a while and I made some
 experiments, but I couldn't get the pretty Login Items name and the custom icon
