@@ -31,5 +31,10 @@
     "globals": "^17.5.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.1"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1",
+    "path-to-regexp": "^6.3.0",
+    "yaml": "^2.9.0"
   }
 }
