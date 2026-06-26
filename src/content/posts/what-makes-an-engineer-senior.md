@@ -2,10 +2,10 @@
 title: "What actually makes an engineer senior"
 slug: what-makes-an-engineer-senior
 date: 2026-06-26
-description: "Tenure isn't seniority, and seniority isn't management. After five
-years co-founding and running engineering at a fintech, here's what I think
-seniority actually is: the ability to reduce uncertainty for the people around
-you."
+description: "Tenure isn't seniority, and seniority isn't management. After six
+years building an engineering team from one person to thirty at a fintech,
+here's what I think seniority actually is: the ability to reduce uncertainty for
+the people around you."
 ---
 
 Is a developer with ten years of experience senior?
@@ -15,11 +15,16 @@ must have seen a lot, learned a lot, earned the title. That instinct is exactly
 the problem. We treat seniority as something that accumulates on its own, like
 interest in a savings account, and it doesn't.
 
-I spent about five years co-founding a fintech startup and running its
-engineering as it grew into a scale-up. I hired seniors, I mislabeled people as
-seniors, I watched some "juniors" run circles around people with twice their
-tenure, and I made most of the classic mistakes myself. Along the way I changed
-my mind about what the word even means. Here's where I landed.
+This post is roughly a written version of a talk I gave in French a while back,
+which you can [watch here](https://www.youtube.com/watch?v=5I6Ozt30jI4&t=920s) if
+that's your language.
+
+I joined a fintech startup six years ago as a very early employee, and over the
+next stretch I built the engineering team from scratch, from one engineer to more
+than thirty. I hired seniors, I mislabeled people as seniors, I watched some
+"juniors" run circles around people with twice their tenure, and I made most of
+the classic mistakes myself. Along the way I changed my mind about what the word
+even means. Here's where I landed.
 
 ## Time in the chair is not the same as growth
 
