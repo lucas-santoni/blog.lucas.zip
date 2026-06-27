@@ -76,10 +76,10 @@ on... each rung a tidy step above the last. But actual competence does not grow
 that way. You don't magically become "mid"
 after two years and "senior" after five.
 
-There's a saying that some people don't have ten years of experience; they have
-one year of experience, repeated ten times. The first year they learned the
-stack, shipped features, stopped breaking things. Years two through ten they
-did that same year again, a little faster, a little smoother, but not
+There's a saying that **some people don't have ten years of experience; they
+have one year of experience, repeated ten times**. The first year they learned
+the stack, shipped features, stopped breaking things. Years two through ten
+they did that same year again, a little faster, a little smoother, but not
 fundamentally harder or different.
 
 This is the plateau, and most developers reach some version of it. They ship,
@@ -99,17 +99,17 @@ feels easy is the day you've stopped getting better.
 ## Seniority is not management
 
 A very obvious and expensive mistake I've made myself is to promote great
-engineers to a management position. "She's been here five years, she's senior,
-let's give her a team." It's a great way to lose a strong engineer and
-manufacture a struggling manager in a single move...
+engineers to a management position. "He's been here five years, He's senior,
+let's give him a team." **It's a great way to lose a strong engineer and
+manufacture a struggling manager in a single move...**
 
-Management is not a promotion you earn by being good at engineering. It's a
-career change. It runs on a different set of skills that nobody acquires by
+**Management is not a promotion you earn by being good at engineering. It's a
+career change.** It runs on a different set of skills that nobody acquires by
 writing good code: giving feedback that lands, sitting in conflict without
 flinching, prioritizing other people's work, recruiting, absorbing pressure
 from above so your team can keep their heads down and a ton of other things.
-Some excellent engineers want none of that and / or are bad at it, and forcing
-it on them punishes everyone.
+**Some excellent engineers want none of that and / or are bad at it, and
+forcing it on them punishes everyone.**
 
 The healthier model has two tracks. There's the management track: tech lead,
 engineering manager, VP of Engineering. And there's the individual contributor
@@ -136,10 +136,12 @@ title says.
 
 ## So what is it? Reducing uncertainty
 
-If I have to compress it into one idea, here it is. Senior engineers reduce
-uncertainty for the people around them. Everything else is a symptom of that.
-Four things make it concrete, and all four assume real technical depth
-underneath: that's table stakes, not the differentiator.
+If I have to compress it into one idea, here it is. **Senior engineers reduce
+uncertainty for the people around them.** Everything else is a symptom of that.
+I've identified four main things that make it concrete. All four assume real
+technical depth underneath, but they lean just as hard on personality and soft
+skills: empathy, kindness, humility and the instinct to put the team before
+your own ego.
 
 **The first is technical culture.** Knowing what NOT to do is sometimes worth
 more than knowing what to do. A senior has accumulated enough scars to
