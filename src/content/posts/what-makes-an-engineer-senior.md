@@ -8,12 +8,6 @@ what I've come to believe seniority is: the ability to reduce uncertainty for th
 people around you."
 ---
 
-This post is roughly a written version of a talk I gave in French a while back,
-which you can [watch here](https://www.youtube.com/watch?v=5I6Ozt30jI4&t=920s) if
-that's your language.
-
----
-
 Is a developer with ten years of experience senior?
 
 I think most people would answer "yes" without really thinking about it. Ten
@@ -21,6 +15,14 @@ years is a long time after all. They must have seen a lot, learned a lot,
 earned the title. That instinct is exactly the problem. We tend to treat
 seniority as something that accumulates on its own, like interest in a savings
 account... But I don't think it does!
+
+---
+
+This post is roughly a written version of a talk I gave in French a while back,
+which you can [watch here](https://www.youtube.com/watch?v=5I6Ozt30jI4&t=920s) if
+that's your language.
+
+---
 
 I joined a fintech startup as CTO six years ago, when the company was only four
 people (including me!). I built the engineering team from scratch, from one
@@ -59,24 +61,21 @@ experience, it's not always the case.
 Picture two developers... One has eight years at a large company, working on a
 narrow slice of a big system, with well-defined specs handed down and a clear
 lane to stay in. The other has three years at an early-stage startup, making
-structural architecture decisions with incomplete information, getting ping'd
-late when production falls over, and scaling systems that were very much not
-built to be scaled. Who has more transferable competence between these two
-guys?
+structural architecture decisions with incomplete information, getting paged
+at 2am when production falls over, and scaling systems that were very much not
+built to be scaled. Who has more transferable competence?
 
 I'm not saying the answer is always the second one. **The point is that the first
 one's eight years tell you almost nothing on their own.** It's not about duration,
-it's about density of experience. Eight years of the same well-specified ticket
+it's about **density of experience**. Eight years of the same well-specified ticket
 is eight years of one thing. Three years of being thrown into the deep end
 repeatedly is something else entirely.
 
 ## Skill doesn't grow in a straight line
 
 Company career ladders are roughly linear: junior, mid, senior, lead, and so
-on... each run a tidy step above the last. That's especially true for early
-startups who want to focus on building stuff and tend to delay the moment they
-start to take HR and personal growth matters seriously. But the point is that
-actual competence does not grow that way. You don't magically become "mid"
+on... each rung a tidy step above the last. But actual competence does not grow
+that way. You don't magically become "mid"
 after two years and "senior" after five.
 
 There's a saying that some people don't have ten years of experience; they have
@@ -96,14 +95,14 @@ What actually moves you off the plateau is the stuff that feels bad in the
 moment: reading code you didn't write and wouldn't have written that way,
 stepping into a problem domain you don't master and feeling like a beginner
 again, taking the project where you're clearly the least qualified person in
-the room, etc. Growth lives in that discomfort and growth will increase your
-seniority level.
+the room, etc. Growth lives in that discomfort. The day everything at work
+feels easy is the day you've stopped getting better.
 
 ## Seniority is not management
 
-A very obvious and expensive mistake I've done myself is to promote great
-engineers to management position. "He's been here five years, he's senior,
-let's give him a team." It's a great way to lose a strong engineer and
+A very obvious and expensive mistake I've made myself is to promote great
+engineers to a management position. "She's been here five years, she's senior,
+let's give her a team." It's a great way to lose a strong engineer and
 manufacture a struggling manager in a single move...
 
 Management is not a promotion you earn by being good at engineering. It's a
@@ -111,7 +110,7 @@ career change. It runs on a different set of skills that nobody acquires by
 writing good code: giving feedback that lands, sitting in conflict without
 flinching, prioritizing other people's work, recruiting, absorbing pressure
 from above so your team can keep their heads down and a ton of other things.
-Some excellent engineers want none of that and / or are bad a it, and forcing
+Some excellent engineers want none of that and / or are bad at it, and forcing
 it on them punishes everyone.
 
 The healthier model has two tracks. There's the management track: tech lead,
@@ -141,7 +140,8 @@ title says.
 
 If I have to compress it into one idea, here it is. Senior engineers reduce
 uncertainty for the people around them. Everything else is a symptom of that.
-Four things make it concrete.
+Four things make it concrete, and all four assume real technical depth
+underneath: that's table stakes, not the differentiator.
 
 **The first is technical culture.** Knowing what NOT to do is sometimes worth
 more than knowing what to do. A senior has accumulated enough scars to
@@ -152,7 +152,7 @@ The senior recognizes patterns and reduces uncertainty by being able to say
 "let's do this" or "let's not do this" with a good level of confidence.
 
 **The second is communication.** A senior can take a technical tradeoff and
-translate it into business impact a product manager or a sales can act on. They
+translate it into business impact a product manager or salesperson can act on. They
 can explain an infrastructure risk in terms a CEO actually feels. They
 calibrate the level of detail to who's in the room, instead of either drowning
 people in jargon or talking down to them. This sounds obvious written down but
@@ -168,13 +168,15 @@ differently and they anticipate the thing that's about to matter instead of
 polishing the thing that doesn't.
 
 **The fourth is the multiplier effect**. A developer who only solves their own
-problems, even brilliantly and fast, is a good developer, full stop. What makes
-someone senior is making the people around them better. Some examples: code
-review that teaches instead of just gatekeeping, documentation that means the
-next person doesn't have to ask, spending ten minutes to unblock a junior who's
-been stuck for two hours instead of letting them grind so they "learn". One's
-individual output has a hard ceiling, set by the number of hours they put out
-every day, but the impact as a multiplier doesn't.
+problems, even brilliantly and fast, is a great developer. What tips them into
+senior is making the people around them better, whether directly or through the
+systems they leave behind. Some examples: code review that teaches instead of
+just gatekeeping, documentation that means the next person doesn't have to ask,
+an architecture clean enough that nobody has to ask how it works, spending ten
+minutes to unblock a junior who's been stuck for two hours instead of letting
+them grind so they "learn". Your
+individual output has a hard ceiling, set by the hours in your day. Your impact
+as a multiplier doesn't.
 
 ## Back to the question
 
