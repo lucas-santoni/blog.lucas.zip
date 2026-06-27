@@ -1,5 +1,5 @@
 ---
-title: "What actually makes an engineer senior"
+title: "Is a developer with ten years of experience senior?"
 slug: what-makes-an-engineer-senior
 date: 2026-06-26
 description: "Tenure isn't seniority, and seniority isn't management. After six
@@ -137,57 +137,58 @@ matters, **seniority does mean leadership in some form**. If your influence
 ends at the edge of your own keyboard, you're not senior yet, whatever the
 title says.
 
-## So what is it? Reducing uncertainty.
+## So what is it? Reducing uncertainty
 
-If I have to compress it into one idea, here it is. A senior engineer reduces
+If I have to compress it into one idea, here it is. Senior engineers reduce
 uncertainty for the people around them. Everything else is a symptom of that.
 Four things make it concrete.
 
-The first is technical culture. Knowing what not to do is usually worth more
-than knowing what to do. A senior has accumulated enough scars to recognize, on
-sight, the paths that end in tears. The clever abstraction that will rot. The
-"quick" migration that will eat a quarter. The architecture that looks fine on
-the whiteboard and becomes a hostage situation in production. It isn't theory.
-It's pattern matching, forged by having been burned, and it saves teams from
-running into walls that the senior already has the bruises from.
+**The first is technical culture.** Knowing what NOT to do is sometimes worth
+more than knowing what to do. A senior has accumulated enough scars to
+recognize, on sight, the paths that end in tears: clever abstractions that
+cause more harm than good, "quick" migrations that end up eating up a quarter,
+architectures which look fine on paper but suffer blatant scalability issues...
+The senior recognizes patterns and reduces uncertainty by being able to say
+"let's do this" or "let's not do this" with a good level of confidence.
 
-The second is communication. A senior can take a technical tradeoff and
-translate it into business impact a product manager can act on. They can explain
-an infrastructure risk in terms a CEO actually feels. They calibrate the level
-of detail to who's in the room, instead of either drowning people in jargon or
-talking down to them. This sounds obvious written down. It is genuinely rare and
-genuinely hard, and the people who can do it are worth their weight.
+**The second is communication.** A senior can take a technical tradeoff and
+translate it into business impact a product manager or a sales can act on. They
+can explain an infrastructure risk in terms a CEO actually feels. They
+calibrate the level of detail to who's in the room, instead of either drowning
+people in jargon or talking down to them. This sounds obvious written down but
+it's genuinely rare and hard.
 
-The third is vision beyond engineering, and in a startup or scale-up it's
-decisive. An engineer who understands churn, ARR, the acquisition funnel, and
-how much runway the burn rate leaves makes fundamentally different technical
-decisions than one who only sees code. They know when "good enough, shipped this
-week" beats "perfect, shipped next quarter," because they understand what the
-business is actually racing against. They prioritize differently. They anticipate
-the thing that's about to matter instead of polishing the thing that doesn't.
+**The third is vision beyond engineering**, which is especially relevant in a
+startup or scaleup. An engineer who understands churn, ARR, the acquisition
+funnel, and how much runway the burn rate leaves makes fundamentally different
+technical decisions than one who only sees code. They know when "good enough,
+shipped this week" beats "perfect, shipped next quarter," because they
+understand what the business is actually racing against. They prioritize
+differently and they anticipate the thing that's about to matter instead of
+polishing the thing that doesn't.
 
-The fourth is the multiplier effect, and it's the one that separates a genuinely
-good developer from a senior. A developer who only solves their own problems,
-even brilliantly and fast, is a good developer. Full stop. What makes someone
-senior is making the people around them better. Code review that teaches instead
-of just gatekeeping. Documentation that means the next person doesn't have to
-ask. Spending ten minutes to unblock a junior who's been stuck for two hours,
-instead of letting them grind so they "learn." Your individual output has a hard
-ceiling, set by the number of hours in your day. Your impact as a multiplier
-doesn't.
+**The fourth is the multiplier effect**. A developer who only solves their own
+problems, even brilliantly and fast, is a good developer, full stop. What makes
+someone senior is making the people around them better. Some examples: code
+review that teaches instead of just gatekeeping, documentation that means the
+next person doesn't have to ask, spending ten minutes to unblock a junior who's
+been stuck for two hours instead of letting them grind so they "learn". One's
+individual output has a hard ceiling, set by the number of hours they put out
+every day, but the impact as a multiplier doesn't.
 
 ## Back to the question
 
-So, is a developer with ten years of experience senior? In my experience you
-can't know from the sentence. Ten years tells you how long they've been employed,
-nothing more.
+So, is a developer with ten years of experience senior? In my experience, you
+can't know from the sentence. Ten years tells you how long they've been
+employed, nothing more.
 
 For me, being senior was never about time, titles, or lines of code. It's about
 what you did with the time. It's whether the people around you face less
-uncertainty because you're there, and whether they leave each interaction a little
-more capable than they came in. That's where I've landed, at least. The years are
-just the container. What you poured into them is what counts.
+uncertainty because you're there, and whether they leave each interaction a
+little more capable than they came in. That's where I've landed, at least. The
+years are just the container and it's what you poured into them that counts.
 
-If you're hiring or growing a team, that's the lens I'd offer: stop counting years
-and start asking who reduces uncertainty for everyone else. It's served me well,
-but it's only my experience — test it against your own and keep what holds.
+If you're hiring or growing a team, that's the lens I'd offer: stop counting
+years and start asking who reduces uncertainty for everyone else. It's served
+me well, but it's only my experience. Test it against your own and keep what
+holds! Good luck to you!
