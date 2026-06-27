@@ -16,8 +16,6 @@ earned the title. That instinct is exactly the problem. We tend to treat
 seniority as something that accumulates on its own, like interest in a savings
 account... But I don't think it does!
 
----
-
 This post is roughly a written version of a talk I gave in French a while back,
 which you can [watch here](https://www.youtube.com/watch?v=5I6Ozt30jI4&t=920s) if
 that's your language.
