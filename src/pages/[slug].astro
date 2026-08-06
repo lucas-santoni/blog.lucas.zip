@@ -15,6 +15,9 @@ export async function getStaticPaths() {
     'posts',
     'resume',
     '404',
+    // Owned by src/pages/journal/index.astro; a page using this slug would
+    // emit a colliding route.
+    'journal',
   ])
 
   const entries = [

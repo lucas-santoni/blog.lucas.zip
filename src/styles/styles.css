@@ -348,6 +348,210 @@ li {
   margin-left: 170px;
 }
 
+/* Journal kind accents --------------------------------------------------- */
+
+/* One hue per kind, declared as explicit rgba pairs per theme — the same
+   shape .note uses for its variants. `data-kind` only ever lands on the two
+   label elements, so a bare attribute selector is enough. */
+/* Deliberately not blue: --color-primary is blue, and a blue label sitting
+   next to blue links reads as a link. */
+[data-kind='book'] {
+  --kind-accent: rgb(170, 85, 50);
+  --kind-bg: rgba(170, 85, 50, 0.1);
+}
+[data-kind='podcast'] {
+  --kind-accent: rgb(140, 70, 180);
+  --kind-bg: rgba(140, 70, 180, 0.1);
+}
+[data-kind='game'] {
+  --kind-accent: rgb(30, 130, 85);
+  --kind-bg: rgba(30, 130, 85, 0.1);
+}
+[data-kind='music'] {
+  --kind-accent: rgb(185, 55, 115);
+  --kind-bg: rgba(185, 55, 115, 0.1);
+}
+[data-kind='film'] {
+  --kind-accent: rgb(150, 125, 20);
+  --kind-bg: rgba(150, 125, 20, 0.1);
+}
+[data-kind='thought'] {
+  --kind-accent: rgb(85, 105, 125);
+  --kind-bg: rgba(85, 105, 125, 0.1);
+}
+
+:root[data-theme='dark'] [data-kind='book'] {
+  --kind-accent: rgb(232, 152, 112);
+  --kind-bg: rgba(232, 152, 112, 0.14);
+}
+:root[data-theme='dark'] [data-kind='podcast'] {
+  --kind-accent: rgb(193, 152, 245);
+  --kind-bg: rgba(193, 152, 245, 0.14);
+}
+:root[data-theme='dark'] [data-kind='game'] {
+  --kind-accent: rgb(105, 200, 150);
+  --kind-bg: rgba(105, 200, 150, 0.14);
+}
+:root[data-theme='dark'] [data-kind='music'] {
+  --kind-accent: rgb(240, 140, 185);
+  --kind-bg: rgba(240, 140, 185, 0.14);
+}
+:root[data-theme='dark'] [data-kind='film'] {
+  --kind-accent: rgb(214, 196, 96);
+  --kind-bg: rgba(214, 196, 96, 0.14);
+}
+:root[data-theme='dark'] [data-kind='thought'] {
+  --kind-accent: rgb(160, 180, 200);
+  --kind-bg: rgba(160, 180, 200, 0.14);
+}
+
+/* Journal listing ------------------------------------------------------- */
+
+/* Flex rather than a right float: consecutive floats in these tight rows
+   never clear, so each row's stars stacked to the left of the previous
+   row's instead of hitting the right edge. `text-align` is reset because
+   .content justifies, which pulls wrapped titles apart. */
+.journal-row dd {
+  display: flex;
+  align-items: baseline;
+  gap: 0 0.5em;
+  text-align: left;
+}
+
+/* min-width lets a long title wrap inside its own box instead of pushing
+   the row onto extra flex lines and orphaning the kind label. */
+.journal-title {
+  min-width: 0;
+}
+
+/* Sits between the date and the title, as its own aligned column. */
+.journal-kind {
+  flex-shrink: 0;
+  width: 5.6em;
+  color: var(--kind-accent, var(--color-faded));
+  font-size: 0.85em;
+}
+
+/* Journal entry --------------------------------------------------------- */
+
+/* stretch, not flex-start: the headline column must take the full row height
+   for its trailing metadata to align with the bottom of the cover. */
+.journal-masthead {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5em;
+  margin-bottom: 2.2em;
+}
+
+/* A column so the trailing metadata can be pushed to the bottom edge of the
+   cover with margin-top:auto, rather than trailing off mid-artwork. */
+.journal-headline {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-headline > :last-child > :last-child {
+  margin-bottom: 0;
+}
+
+/* The auto margin does the aligning; padding-top is only a floor for when
+   there is no slack left. Where the block does fit, shrinking this changes
+   nothing — the auto margin simply absorbs whatever it gives back — so it can
+   be tight enough to keep a two-line title inside the poster. */
+.journal-headline-foot {
+  margin-top: auto;
+  padding-top: 0.6em;
+}
+
+/* Spacing here comes from the auto margin above, not from the byline. */
+.journal-masthead .journal-date {
+  margin-bottom: 0;
+}
+
+/* Fixed stencils. The author finds artwork that is roughly the right shape;
+   object-fit crops it to the exact box, so the layout never depends on the
+   source proportions. The tinted background shows through if an image is
+   narrower than its stencil rather than leaving a white gap. */
+.journal-cover {
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid var(--color-code-border);
+  background-color: var(--color-faded-transparent);
+}
+
+.journal-cover[data-format='poster'] {
+  width: 150px;
+  height: 225px;
+}
+
+/* 200, not 180: with the placeholder lines always present the metadata block
+   is ~200px tall, and a shorter square would leave it hanging past the
+   artwork. Still 1:1. */
+.journal-cover[data-format='square'] {
+  width: 200px;
+  height: 200px;
+}
+
+/* Entry pages only — the listing keeps its plain `.journal-kind` label.
+   inline-block so the background hugs the word instead of spanning the
+   column. Padding and radius match the .note badge. */
+.journal-kind-line {
+  display: inline-block;
+  color: var(--kind-accent, var(--color-faded));
+  font-size: 0.75em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-color: var(--kind-bg, var(--color-faded-transparent));
+  border-radius: 3px;
+  padding: 0.35em 0.55em 0.25em;
+  margin-bottom: 1em;
+}
+
+/* .content justifies its text; the masthead should not stretch. */
+.journal-title-block,
+.journal-meta,
+.journal-stars,
+.journal-date,
+.journal-link {
+  text-align: left;
+}
+
+/* Carries .article-meta so it stays identical to a post's byline — size,
+   colour, family and bottom margin all come from there. Only the alignment
+   override below is journal-specific. */
+
+.journal-stars {
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+  color: var(--color-title);
+}
+
+.journal-meta {
+  color: var(--color-faded);
+  margin-top: 0.25em;
+}
+
+.journal-meta span + span::before {
+  content: ' · ';
+}
+
+.journal-link {
+  font-size: 0.9em;
+  color: var(--color-faded);
+  margin-top: 0.35em;
+}
+
+/* Stand-ins for absent metadata. Lighter than --color-faded in both themes,
+   so they hold the layout without competing with the real values. The
+   letter-spacing reset undoes the star tracking on the rating stand-in. */
+.journal-headline-foot .journal-placeholder {
+  color: var(--color-faded-max);
+  letter-spacing: normal;
+}
+
 .footer {
   border-top: 1px solid var(--color-footer-border);
   margin: 2em 0 1em 0;
@@ -414,5 +618,60 @@ li {
 
   .article-meta {
     margin-bottom: 1em;
+  }
+
+  .journal-kind {
+    width: auto;
+  }
+
+  /* Date and kind share the first row, the title takes the next one.
+     `display: contents` drops the <dd> box so its children become flex items
+     of the row alongside the <dt>, which is what lets the title be pushed to
+     a line of its own with flex-basis. */
+  .journal-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.5em;
+  }
+
+  .journal-row dt {
+    width: auto;
+    float: none;
+    margin-bottom: 0;
+  }
+
+  .journal-row dd {
+    display: contents;
+  }
+
+  .journal-row .journal-title {
+    flex-basis: 100%;
+  }
+
+  /* Narrow screens squeeze the metadata into more lines, so its height stops
+     tracking the cover and bottom-alignment turns ragged. Centring the two
+     against each other stays tidy at any width. row-reverse puts the cover on
+     the right without touching the DOM order, so the heading still comes
+     first for screen readers. */
+  .journal-masthead {
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1.8em;
+  }
+
+  .journal-headline-foot {
+    padding-top: 1.2em;
+  }
+
+  .journal-cover[data-format='poster'] {
+    width: 110px;
+    height: 165px;
+  }
+
+  .journal-cover[data-format='square'] {
+    width: 130px;
+    height: 130px;
   }
 }

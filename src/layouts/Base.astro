@@ -30,6 +30,8 @@ type Props = {
   bodyClass?: string;
   ogType?: 'website' | 'article';
   jsonLd?: Record<string, unknown>;
+  feed?: { href: string; title: string };
+  lang?: string;
 };
 
 const {
@@ -41,7 +43,15 @@ const {
   bodyClass,
   ogType = 'website',
   jsonLd,
+  feed,
+  lang = DEFAULT_LANG,
 } = Astro.props
+
+// The footer offers the section you are not currently in. Anchored rather
+// than a bare prefix test, or a post slugged "journalisme" would inherit the
+// journal's footer and French feed.
+const path = Astro.url.pathname.replace(/\/$/, '')
+const isJournal = path === '/journal' || path.startsWith('/journal/')
 
 const fullTitle = title ?? SITENAME
 const plainTitle = fullTitle.replace(/<[^>]+>/g, '')
@@ -50,7 +60,7 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
 ---
 
 <!doctype html>
-<html lang={DEFAULT_LANG}>
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="theme-color" content="#000000" />
@@ -110,13 +120,27 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
     {ogImage && <meta property="og:image" content={ogImage} />}
 
     <link rel="canonical" href={canonical} />
+    {feed && (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={feed.title}
+        href={feed.href}
+      />
+    )}
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <title>{plainTitle}</title>
 
+    {/* JSON.stringify does not escape "<", so a literal </script> anywhere in
+        the payload would close this element early and let the rest of it be
+        parsed as markup. Escaping the angle bracket is the standard guard. */}
     {jsonLd && (
-      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')}
+      />
     )}
 
     <ClientRouter />
@@ -135,9 +159,14 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
     <div class="footer">
       <ul>
         <li><a href={GITHUB_URL}>GitHub</a></li>
+        {/* The Journal link is withheld until there is something to read
+            there. The Blog link still shows on journal pages so anyone who
+            reaches one has a way back. Restore by turning this back into a
+            ternary that offers /journal elsewhere. */}
+        {isJournal && <li><a href="/posts">Blog</a></li>}
         <li><a href="/resume">Resume</a></li>
         <li><a href="/about">About</a></li>
-        <li><a href="/rss.xml">RSS</a></li>
+        <li><a href={isJournal ? '/journal/rss.xml' : '/rss.xml'}>RSS</a></li>
       </ul>
     </div>
 
