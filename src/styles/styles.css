@@ -1,6 +1,24 @@
+/* Cross-document view transitions: the browser animates a real navigation,
+   so the session history stays entirely native. Astro's ClientRouter gave the
+   same animation but rebuilt history in JS, pushing its entry only after the
+   DOM swap — when that push was lost, the page still rendered and the back
+   button jumped clean out of the site. Browsers without support simply
+   navigate without the fade. */
+@view-transition {
+  navigation: auto;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 150ms;
+}
+
+/* The fade is decoration, so drop it rather than fight the UA's own
+   reduced-motion handling of the default cross-fade. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
 }
 
 :root {
@@ -651,24 +669,21 @@ li {
     width: auto;
   }
 
-  /* Date and kind share the first row, the title takes the next one.
-     A grid on the <dl> rather than a flex row per entry: flex can only align
-     items within their own row, so the ragged date widths ("7 août 2026" vs
-     "24 juillet 2026") pushed every kind label to a different x. Hoisting the
-     tracks to the list makes `max-content` measure the widest date across all
-     entries, so the whole column lines up.
+  /* Date and kind share the first row, the title takes the next one. The kind
+     simply trails the date: once the title has a line to itself there is no
+     column for the labels to line up with, so pinning them to a shared x only
+     opened a ragged gap after the shorter dates.
 
-     `display: contents` on both the row and the <dd> drops their boxes, which
-     is what promotes the date, kind and title to grid items of that shared
-     list-level grid. */
-  .journal-list {
-    display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
+     `display: contents` drops the <dd> box so its children become flex items
+     of the row alongside the <dt> — that is what lets the title claim a line
+     of its own with flex-basis. */
+  .journal-row {
+    display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    column-gap: 0.5em;
+    gap: 0 0.5em;
   }
 
-  .journal-row,
   .journal-row dd {
     display: contents;
   }
@@ -680,13 +695,10 @@ li {
     margin-bottom: 0;
   }
 
-  /* Spanning both tracks is what forces the title onto its own line. The
-     margin separates entries: `display: contents` erased the row box that
-     used to carry it, and a grid row-gap would space the two lines of a
-     single entry just as much as it spaces neighbouring entries. */
+  /* The anchor is the flex item, not the .journal-title span inside it, so
+     the basis has to land here or the title never leaves the first line. */
   .journal-title-cell {
-    grid-column: 1 / -1;
-    margin-bottom: 0.9em;
+    flex-basis: 100%;
   }
 
   /* Narrow screens squeeze the metadata into more lines, so its height stops
