@@ -11,7 +11,6 @@ import '@fontsource/iosevka/400.css'
 import '@fontsource/iosevka/700.css'
 import '@fontsource/iosevka/400-italic.css'
 import '../styles/styles.css'
-import { ClientRouter } from 'astro:transitions'
 import {
   AUTHOR,
   DEFAULT_LANG,
@@ -79,14 +78,8 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
           }
         }
         document.documentElement.setAttribute('data-theme', getTheme())
-        // Set the attribute on the incoming document before Astro swaps it in,
-        // otherwise the View Transitions snapshot captures a light-mode frame.
-        document.addEventListener('astro:before-swap', (event) => {
-          event.newDocument.documentElement.setAttribute('data-theme', getTheme())
-        })
-        // Delegate from document so the handler survives view-transition swaps
-        // of the toggle button (otherwise clicks landing between astro:after-swap
-        // and astro:page-load hit a button with no listener).
+        // Delegate from document so the toggle works no matter when the button
+        // parses, since this script runs in <head> before the body exists.
         document.addEventListener('click', (event) => {
           const target = event.target
           if (!(target instanceof Element)) return
@@ -142,8 +135,6 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
         set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')}
       />
     )}
-
-    <ClientRouter />
   </head>
   <body class={bodyClass}>
     <div class="header">

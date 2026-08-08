@@ -1,6 +1,24 @@
+/* Cross-document view transitions: the browser animates a real navigation,
+   so the session history stays entirely native. Astro's ClientRouter gave the
+   same animation but rebuilt history in JS, pushing its entry only after the
+   DOM swap — when that push was lost, the page still rendered and the back
+   button jumped clean out of the site. Browsers without support simply
+   navigate without the fade. */
+@view-transition {
+  navigation: auto;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 150ms;
+}
+
+/* The fade is decoration, so drop it rather than fight the UA's own
+   reduced-motion handling of the default cross-fade. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
 }
 
 :root {
@@ -443,12 +461,17 @@ li {
   content: ' · ';
 }
 
-/* Sits between the date and the title, as its own aligned column. */
+/* Sits between the date and the title, as its own aligned column.
+
+   No font-size of its own, so it matches the date exactly. The two share a
+   baseline, and at 0.85em the label's cap height fell visibly short of the
+   date's, which read as a vertical misalignment rather than as a smaller
+   label — most obvious on narrow screens, where the label sits immediately
+   after the date. The colour alone marks it as secondary. */
 .journal-kind {
   flex-shrink: 0;
   width: 5.6em;
   color: var(--kind-accent, var(--color-faded));
-  font-size: 0.85em;
 }
 
 /* Journal entry --------------------------------------------------------- */
@@ -658,10 +681,14 @@ li {
     width: auto;
   }
 
-  /* Date and kind share the first row, the title takes the next one.
+  /* Date and kind share the first row, the title takes the next one. The kind
+     simply trails the date: once the title has a line to itself there is no
+     column for the labels to line up with, so pinning them to a shared x only
+     opened a ragged gap after the shorter dates.
+
      `display: contents` drops the <dd> box so its children become flex items
-     of the row alongside the <dt>, which is what lets the title be pushed to
-     a line of its own with flex-basis. */
+     of the row alongside the <dt> — that is what lets the title claim a line
+     of its own with flex-basis. */
   .journal-row {
     display: flex;
     flex-wrap: wrap;
@@ -669,17 +696,20 @@ li {
     gap: 0 0.5em;
   }
 
-  .journal-row dt {
-    width: auto;
-    float: none;
-    margin-bottom: 0;
-  }
-
   .journal-row dd {
     display: contents;
   }
 
-  .journal-row .journal-title {
+  .journal-row dt {
+    width: auto;
+    float: none;
+    text-align: left;
+    margin-bottom: 0;
+  }
+
+  /* The anchor is the flex item, not the .journal-title span inside it, so
+     the basis has to land here or the title never leaves the first line. */
+  .journal-title-cell {
     flex-basis: 100%;
   }
 

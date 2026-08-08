@@ -4,7 +4,6 @@ import '@fontsource/fira-sans/600.css'
 import '@fontsource/fira-sans/700.css'
 import '../styles/styles.css'
 import '../styles/resume.css'
-import { ClientRouter } from 'astro:transitions'
 import {
   AUTHOR,
   DEFAULT_LANG,
@@ -38,14 +37,8 @@ const title = `${SITENAME} — Resume`;
           }
         }
         document.documentElement.setAttribute('data-theme', getTheme())
-        // Set the attribute on the incoming document before Astro swaps it in,
-        // otherwise the View Transitions snapshot captures a light-mode frame.
-        document.addEventListener('astro:before-swap', (event) => {
-          event.newDocument.documentElement.setAttribute('data-theme', getTheme())
-        })
-        // Delegate from document so the handler survives view-transition swaps
-        // of the toggle button (otherwise clicks landing between astro:after-swap
-        // and astro:page-load hit a button with no listener).
+        // Delegate from document so the toggle works no matter when the button
+        // parses, since this script runs in <head> before the body exists.
         document.addEventListener('click', (event) => {
           const target = event.target
           if (!(target instanceof Element)) return
@@ -67,8 +60,6 @@ const title = `${SITENAME} — Resume`;
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{title}</title>
-
-    <ClientRouter />
   </head>
   <body class="resume-page">
     <div class="resume-wrapper">
@@ -274,11 +265,10 @@ const title = `${SITENAME} — Resume`;
       </div>
     </div>
     <script>
-      document.addEventListener('astro:page-load', () => {
-        document
-          .getElementById('print-button')
-          ?.addEventListener('click', () => window.print())
-      })
+      // Module scripts are deferred, so the button has already parsed.
+      document
+        .getElementById('print-button')
+        ?.addEventListener('click', () => window.print())
     </script>
   </body>
 </html>
