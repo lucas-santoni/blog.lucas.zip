@@ -7,7 +7,7 @@ Durant votre [première journée](/2019-web-00-student) de
 sécurité web, vous avez eu l'occasion de travailler sur des vulnérabilités
 archi classiques. Cette journée sera exclusivement dédiée aux injections SQL.
 
-La grande majorité des applications WEB utilisent un ou plusieurs systèmes de
+La grande majorité des applications web utilisent un ou plusieurs systèmes de
 gestion de base de données (SGBD), pour du stockage plus ou moins persistant.
 Lorsque des entrées utilisateur sont utilisées dans les requêtes passées au
 SGBD, les choses se compliquent.
@@ -20,7 +20,7 @@ d'autres syntaxes.
 Si vous n'avez jamais fait de SQL, vous pourrez apprendre sur le tas. Vous
 allez juste galérer un peu.
 
-Si vous êtes à l'aise avec SQL, vous irez surement assez vite une fois le
+Si vous êtes à l'aise avec SQL, vous irez sûrement assez vite une fois le
 principe compris. Vous pourrez en profiter pour revenir sur la journée
 précédente ou bien commencer la journée de demain.
 
@@ -36,13 +36,13 @@ ainsi que [Docker Compose](https://docs.docker.com/compose/).
 *Note : Si vous ne connaissez pas Docker... Il s'agit, pour faire très simple,
 d'un outil vous permettant d'exécuter sur votre machine des applications
 demandant des dépendances et configurations complexes sans avoir à toucher
-à votre système. La, ou les, applications(s) tournent alors dans des
+à votre système. La, ou les, application(s) tournent alors dans des
 containers, plus ou moins isolés de votre système hôte.*
 
 Lancez Docker.
 
 Récupérez ensuite [le code](https://github.com/Geospace/sqli-platform) de
-l'application vulnérable et placez-vous dans le dépot.
+l'application vulnérable et placez-vous dans le dépôt.
 
 Lancez l'application :
 
@@ -53,7 +53,7 @@ docker-compose up
 Attendez que tout démarre. Vous avez devant vous les journaux de l'application
 et de sa base de données.
 
-Rendez vous ensuite sur `http://localhost:8080/` et soyez attentif lors de la
+Rendez-vous ensuite sur `http://localhost:8080/` et soyez attentif lors de la
 démonstration.
 
 Vous devez obtenir les mots de passe stockés dans la base de données à l'aide
@@ -82,7 +82,7 @@ Vous allez affronter [cette épreuve](https://www.root-me.org/fr/Challenges/Web-
 
 Quelques questions pour vous guider :
 
-* vous savez qu'il existe d'autres champs que ceux de connexion, n'est ce pas ?
+* vous savez qu'il existe d'autres champs que ceux de connexion, n'est-ce pas ?
 * combien de colonnes dans cette requête ?
 * on va chercher le schéma de table ou on le devine ?
 
@@ -91,7 +91,7 @@ Quelques questions pour vous guider :
 
 Vous allez affronter [cette épreuve](https://www.root-me.org/fr/Challenges/Web-Serveur/SQL-injection-numerique).
 
-Vous êtes des grands maintenant, débrouillez vous ! ;)
+Vous êtes des grands maintenant, débrouillez-vous ! ;)
 
 
 ## Exercice 04
@@ -104,11 +104,11 @@ plus facilement.
 
 Quelques questions :
 
-* quel est le problème ? Qu'est ce qui rend cette épreuve différentes des
+* quel est le problème ? Qu'est-ce qui rend cette épreuve différente des
   précédentes ?
-* pouvez-vous connaitre la longueur de ce que vous recherchez ? Ce serait
+* pouvez-vous connaître la longueur de ce que vous recherchez ? Ce serait
   quand même plus facile...
-* sur quelle *range* de caractère pouvez-vous raisonnablement itérer ?
+* sur quelle *range* de caractères pouvez-vous raisonnablement itérer ?
 
 
 ## Exercice 05

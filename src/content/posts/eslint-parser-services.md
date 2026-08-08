@@ -12,7 +12,7 @@ means that we won't have to deal with [this warning](https://github.com/iamturns
 
 However, if you followed my [ESLint guide](/eslint-guide), this update will most likely
 break your configuration. The reason is that two breaking changes were introduced
-in this `7.0.0` realease.
+in this `7.0.0` release.
 
 First, `@typescript-eslint/eslint-plugin` must be upgraded to `2.19.0`. For
 example:
@@ -26,8 +26,8 @@ in your ESLint configuration. The reason for that is that some new rules
 which require type information were introduced and they need to know where
 your `tsconfig.json` file is in order to work properly.
 
-I'm quite suprised that this attribute does not have `tsconfig.json` or, more
-explicitely, `./tsconfig.json` as a default but anyway, here is how to fix it
+I'm quite surprised that this attribute does not have `tsconfig.json` or, more
+explicitly, `./tsconfig.json` as a default but anyway, here is how to fix it
 in a YAML configuration:
 
 ```yaml
@@ -37,7 +37,7 @@ parserOptions:
 ```
 
 In case you don't already have a `tsconfig.json` file, here is how you can
-generate a *default* one, providing that `typescript` is already a local
+generate a *default* one, provided that `typescript` is already a local
 dependency of the project:
 
 ```

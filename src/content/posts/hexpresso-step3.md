@@ -25,7 +25,7 @@ bruteforce. The combination of
 [Dislocker](https://wreckedsecurity.com/encryption-and-data-protection/brute-force-dictionary-attack-against-bitlocker/)
 and `rockyou.txt` reveals the password: `password`.
 
-Dislocker also allows to mount the volume and retrieve its files. Let's open
+Dislocker also allows us to mount the volume and retrieve its files. Let's open
 `flag.txt`:
 
 ```

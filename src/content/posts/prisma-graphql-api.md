@@ -1,8 +1,8 @@
 ---
-title: Build production grade API with Prisma and GraphQL
+title: Build a production-grade API with Prisma and GraphQL
 slug: prisma-graphql-api
 date: 2020-07-30
-description: Learn how to build a production ready GraphQL API endpoint using Prisma. This tutorial is aimed at beginners and covers all the basics.
+description: Learn how to build a production-ready GraphQL API endpoint using Prisma. This tutorial is aimed at beginners and covers all the basics.
 cover: /assets/prisma/cover.png
 ---
 
@@ -24,7 +24,7 @@ the past few months. As they
 I thought it could be interesting to share my experience.
 
 In this article, I will show you how and why you should build your next
-GraphQL API with Prisma. For demonstration purpose we will build a simple API
+GraphQL API with Prisma. For demonstration purposes we will build a simple API
 that could be used for a basic blog application. The complete code can be
 found in [this GitHub repository](https://github.com/gabrielcolson/blog-prisma-graphql).
 
@@ -41,14 +41,14 @@ In order to follow along in the best conditions, here are a few requirements:
 
 ## Architecture
 
-In a typical web application, the code can usually be split in 3 distinct
+In a typical web application, the code can usually be split into 3 distinct
 layers:
 
 ![Web Application Layers](/assets/prisma/layers-schema.png)
 
 **The data layer**
 
-This is the code responsible to shape, persist and access the data consumed
+This is the code responsible for shaping, persisting and accessing the data consumed
 by the application. In the case of our app, it will describe the shape of a
 `Post`, a `User`, etc. It will also provide basic CRUD (**C**reate, **R**ead,
 **U**pdate, **D**elete) operations, so we can manipulate and persist the data
@@ -69,7 +69,7 @@ REST, or any other endpoint.
 
 **Prisma**
 
-There is usually 3 ways to interact with a database in Node.js:
+There are usually 3 ways to interact with a database in Node.js:
 
 1. Raw SQL written in a string. You have absolutely no type safety,
    no auto completion, and no syntax highlighting. It is hard to write
@@ -214,7 +214,7 @@ docker run                        \
   postgres
 ```
 
-This command starts a container running PostgreSQL and listen to the port 5432.
+This command starts a container running PostgreSQL and listens on port 5432.
 
 All we have to do now is to replace the content of the `prisma/.env` file
 with this:
@@ -306,7 +306,7 @@ resources defined in the `schema.prisma`.
 npx prisma generate
 ```
 
-If everything went good, we should be able to use it in our `src/index.ts` file:
+If everything went well, we should be able to use it in our `src/index.ts` file:
 
 ```typescript
 import { PrismaClient } from '@prisma/client';
@@ -345,7 +345,7 @@ async function main() {
 main().finally(() => prisma.disconnect());
 ```
 
-This little script demonstrate how easy it is to use the Prisma Client. The
+This little script demonstrates how easy it is to use the Prisma Client. The
 code speaks for itself: we create a user, we create a post linked to this
 user, and we fetch the post including its author. I strongly encourage you to
 write this code by yourself on your favorite editor, so you can appreciate
@@ -422,7 +422,7 @@ export default schema;
 
 Nexus will generate 2 different artifacts in development mode:
 
-- A GraphQL schema, it gives us a clear view of how our final API looks like
+- A GraphQL schema, it gives us a clear view of what our final API looks like
 - The Nexus types, it ensures type safety in our resolvers.
 
 To generate those files, we can add a script to our `package.json`:
@@ -602,7 +602,7 @@ server.listen().then(({ url }) => {
 ```
 
 Run it with `npm start` and go to http://localhost:4000/. From there you
-access the GraphQL Playground where we can play with our schema and make sure
+can access the GraphQL Playground where we can play with our schema and make sure
 everything works as expected.
 
 ![Prisma GraphQL Playground](/assets/prisma/graphql-playground.png)
@@ -678,7 +678,7 @@ export const UserQuery = extendType({
 The thing is that the `ctx` parameter is still typed as `any`. We said
 earlier that the biggest advantage of `@nexus/schema` was to have fully typed
 resolvers and this doesn't seem just right. The reason is that we didn't
-didn't tell Nexus to use our `Context` interface as our context type. In
+tell Nexus to use our `Context` interface as our context type. In
 order to do so, we have to add some configuration to `makeSchema`:
 
 ```javascript
@@ -701,7 +701,7 @@ You can now run `npm run generate` and see that our context is now correctly
 typed.
 
 Our GraphQL schema is now complete and fully typed! You can check the final
-version in the Github repository.
+version in the GitHub repository.
 
 ## The Logic Layer
 
@@ -713,7 +713,7 @@ To do that, I usually add a `services` module which contains all the
 functions I need in my resolvers. We could write this logic directly inside
 the resolvers but as the application grows, it will quickly become
 unmaintainable. Extracting these functions defines a clear separation of
-concerns and allow you to reuse some logic without duplication.
+concerns and allows you to reuse some logic without duplication.
 
 Here is how I implemented it for `User`:
 

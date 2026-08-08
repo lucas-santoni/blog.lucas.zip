@@ -10,11 +10,11 @@ powers this blog. It is written in Python and I like it for its simplicity
 and sane defaults.
 
 Pelican's functionalities can be extended by writing **plugins**. These
-pieces of code, also written in Python, allow to perform actions at the
+pieces of code, also written in Python, allow us to perform actions at the
 different stages of the build process.
 
 The [documentation](http://docs.getpelican.com/en/latest/plugins.html) does
-not say much about plugins development. The aim of this post is to provide
+not say much about plugin development. The aim of this post is to provide
 enough information so that you could write your own plugins.
 
 ## Install plugins
@@ -52,7 +52,7 @@ look like this:
 1. Scan for all the posts' paths
 2. Read their content
 3. Transform their content to HTML
-3. Write the HTML to the output directory
+4. Write the HTML to the output directory
 
 Now, let's imagine that, for each of these steps, you could have a chance
 to run a function. On step 2, the function could look like this:
@@ -69,7 +69,7 @@ is able to read. Moreover, any modification that you do to the `content`
 object that is received as parameter would be preserved for the rest of the
 build process.
 
-Such function is usually called a *callback*, or a *hook*. It is called
+Such a function is usually called a *callback*, or a *hook*. It is called
 automatically when a corresponding *event* happens in the build process. But
 how do we associate an event and a hook function?
 
@@ -98,7 +98,7 @@ create a custom generator (keep reading to know more).
 **`article_generator_write_article`**
 
 Happens before writing each article. You get the generator instance for the
-article being processed, and the actual article (including its metadatas) as
+article being processed, and the actual article (including its metadata) as
 parameters. You could write a plugin to calculate the read time of an article
 here.
 
@@ -132,7 +132,7 @@ description:
 The parameters we must receive in our callback are named `path` and
 `context`. There is no type definition in the documentation to my knowledge
 so you will have to explore Pelican's source code or read other people's
-module in order to understand the actual types of these variables. Of course,
+modules in order to understand the actual types of these variables. Of course,
 you can also use Python's introspection with `dir` or `.keys()` while writing
 the module.
 
@@ -170,7 +170,7 @@ Let's run it:
 
 ![Failed run](/assets/pelican-plugins/failed.png)
 
-Wups! Our plugin actually is a Python package so Pelican imports it and try
+Wups! Our plugin actually is a Python package so Pelican imports it and tries
 to call its `register` function. In order to expose it, let's create the
 `plugins/toy/__init__.py` file with the following content:
 
@@ -184,8 +184,8 @@ Now it works:
 
 There is one problem we can immediately observe: our plugin does not make any
 difference between articles (what we are interested in), and other document
-types (such as pages). How can we know what is the type of the document being
-processed? The `context` can help.
+types (such as pages). How can we know what the type of the document being
+processed is? The `context` can help.
 
 Indeed, if the document being processed is an article, context would have an
 `article` key. Otherwise, it would not. Let's update our `run` function:
@@ -242,39 +242,39 @@ is divided between different entities. They are the readers, the generators,
 and the writers.
 
 A **reader** is responsible for reading the raw files from the disk. For each
-file, it parses its metadatas and transforms its content into the desired
+file, it parses its metadata and transforms its content into the desired
 target output format. Pelican ships with a bunch of readers and the most used
 one probably is the Markdown one. [Click here to see how it looks.](https://github.com/getpelican/pelican/blob/master/pelican/readers.py#L283)
-Beside its format, a reader does not have any clue about the document it is
+Besides its format, a reader does not have any clue about the document it is
 working with. A generator has.
 
 A **generator** receives inputs (including the readers' outputs) and transforms
 them into actual pages for your sites. Articles, pages, categories, tags,
 archives... It all happens here. The generator organizes the data that it got
 from the readers and updates the `context`. [Click here to take a look at the generator for the articles](https://github.com/getpelican/pelican/blob/master/pelican/generators.py#L277).
-When he is finished, the generator calls a writer.
+When it is finished, the generator calls a writer.
 
-A **writer**, as its name suggests, writes the output directory and transform the
+A **writer**, as its name suggests, writes to the output directory and transforms the
 in-memory documents that the generator crafted into actual files that
-ultimately constitutes your website. Pelican ships with a single writer,
+ultimately constitute your website. Pelican ships with a single writer,
 [see it here](https://github.com/getpelican/pelican/blob/master/pelican/writers.py#L19).
 
 Pelican's plugin API allows you to write custom readers, generators, and
 writers.
 
-Writing a **custom reader** allows you to integrate a new source format to
+Writing a **custom reader** allows you to integrate a new source format into
 Pelican. For example, you could be very fond of the [AsciiDoc](http://asciidoc.org/) syntax
 and develop a reader plugin so that you can write your posts in AsciiDoc.
-This is the perfect use case and such module actually [already exist](https://github.com/getpelican/pelican-plugins/tree/master/asciidoc_reader).
+This is the perfect use case and such a module actually [already exists](https://github.com/getpelican/pelican-plugins/tree/master/asciidoc_reader).
 Of course, the parsing can be delegated to a module. You are writing Python
 after all!
 
 Writing a **custom generator** is great if you want to create an entirely
-custom page for you site. A lot can be done by tweaking your theme and its
+custom page for your site. A lot can be done by tweaking your theme and its
 templates but sometimes, you feel that a generator is necessary, especially
 if you need to implement a lot of logic. See the next section to know more.
 
-Writing a **custom writer** is not a very common task. Most plugins
+Writing a **custom writer** is not a very common task. Most plugin
 developers end up doing the writing part directly into the generator, which
 does not seem to be a bad practice.
 
@@ -282,7 +282,7 @@ does not seem to be a bad practice.
 
 Let's write another plugin. This one is going to be a custom generator. Our
 aim is to generate a JavaScript "index" for our site. Basically, I want to
-have some kind of *introspection* that allows me to write client side
+have some kind of *introspection* that allows me to write client-side
 code like this:
 
 ```js
@@ -296,15 +296,15 @@ const results = sorted.slice(0, 5);
 
 I use this piece of code in my [404](/pelican-plugin) (note the missing *s*
 in the link's URL) page in order to automatically fix some broken links. I
-have a complete article coming on this topic but here was this script does:
+have a complete article coming on this topic but here is what this script does:
 
 1. Retrieve the slug that the user requested
 2. For each page of the site, compute the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) between
-  its slug, and the one the user required
+  its slug, and the one the user requested
 3. Sort the results
 4. Extract the top 5 results, at most
 
-How does this script now about all the slugs of my site and their associated
+How does this script know about all the slugs of my site and their associated
 titles? What is this `API` object? Here is how it looks:
 
 ![API output](/assets/pelican-plugins/api.png)
@@ -325,7 +325,7 @@ def register():
 ```
 
 The `get_generators` function will be called when Pelican collects the
-generator and `APIGenerator` will be returned. This class is a Pelican
+generators and `APIGenerator` will be returned. This class is a Pelican
 generator. What does it look like?
 
 ```python
@@ -349,8 +349,8 @@ The constructor receives quite a few parameters. Here they are:
 * `settings` (dictionary), all the global site settings. Mostly parsed from
   `pelicanconf.py`.
 * `path` (string), absolute path to the content directory.
-* `theme` (string) absolute path to active theme directory.
-* `output_path` (string) absolute path to the output directory.
+* `theme` (string), absolute path to active theme directory.
+* `output_path` (string), absolute path to the output directory.
 
 The two parameters we are interested in are `context`, in order to go through
 the articles and pages, and `output_path`, in order to know where to write
@@ -369,7 +369,7 @@ other module that was based on the API, we would surely do it though.
 
 Finally, let's define the `generate_output` method. Note that we don't use
 the `writer` that we get as a parameter as it is mostly made for the
-articles/pages generators and use templates. In our case, it is much simpler
+articles/pages generators and uses templates. In our case, it is much simpler
 to directly implement the writing logic.
 
 ```python
@@ -420,9 +420,9 @@ Our generator is now complete!
 
 ## Wrapping up
 
-This the end of this guide. You might want to take at look at [this series](http://adamcot.com/posts/2018/02/building-pelican-plugins-i/)
+This is the end of this guide. You might want to take a look at [this series](http://adamcot.com/posts/2018/02/building-pelican-plugins-i/)
 that goes through the development of a teaser image plugin next.
 
 The best learning resource for Pelican modules definitely is the Pelican source
 code itself. It is totally readable and is always up to date. Reading other
-people's modules also help a ton.
+people's modules also helps a ton.

@@ -1,5 +1,5 @@
 ---
-title: "[FRENCH] Piscine Securité POC 2019"
+title: "[FRENCH] Piscine Sécurité POC 2019"
 slug: piscine-poc-2019
 date: 2019-02-13
 ---

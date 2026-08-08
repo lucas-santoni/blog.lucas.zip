@@ -14,13 +14,13 @@ Les points à évoquer lors de la présentation :
   des vulnérabilités dans les binaires
 * GDB : l'importance du débogueur
 * GDB : inspecter la mémoire (`x/`, `p`) et le boutisme
-* GDB : les points d'arrêts
-* `python -c` et l'importance de gêrer son shell
+* GDB : les points d'arrêt
+* `python -c` et l'importance de gérer son shell
 * démonstration d'un crash, dans GDB
 * bien mettre l'accent sur l'écrasement d'EIP
 
 Et on termine avec des explications sur comment travailler en machine
-virtuelle : les permissions restraintes, `/tmp`, les binaires *setuid*...
+virtuelle : les permissions restreintes, `/tmp`, les binaires *setuid*...
 
 Beaucoup de réponses sont en fait valides mais la réponse attendue est la
 suivante... En débordant du tampon initialement alloué, on peut écrire la
@@ -53,7 +53,7 @@ int main(void) {
 }
 ```
 Un tampon de 10 mais une écriture de 14... La variable à écraser se trouve
-juste au dessus du tampon donc :
+juste au-dessus du tampon donc :
 
 ```
 ex00@debian:~$ python -c 'print "A" * 14' | ./ex00
@@ -87,8 +87,8 @@ int main(void) {
 ```
 
 Même exercice que le précédent mais la valeur à écrire n'est plus arbitraire.
-Pas la peine de calculer les offets ou quoi, on écrit simplement la valeur
-demander en boucle, on tombera juste grace au padding :
+Pas la peine de calculer les offsets ou quoi, on écrit simplement la valeur
+demandée en boucle, on tombera juste grâce au padding :
 
 ```
 ex00b@debian:~$ (python -c "print '\xef\xbe\xad\xde' * 200"; cat -) | ./ex00b
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 
 Débordement classique.
 
-Epreuve de Zenk-Security donc pas de correction publique.
+Épreuve de Zenk-Security donc pas de correction publique.
 
 Flag : `3MnmpyMyVmUZKX9KXOXjHpGdytKrZ1dd`.
 
@@ -277,7 +277,7 @@ int main(int ac, char **argv) {
 }
 ```
 
-On a une race condition entre le moment ou le `realpath` est vérifié et le
+On a une race condition entre le moment où le `realpath` est vérifié et le
 moment où le fichier est bel et bien lu. On peut utiliser un lien symbolique
 variant aussi vite que possible entre : un fichier bidon que l'on peut lire
 mais avec un contenu qui ne nous intéresse pas, et `/home/ex05/.passwd`.
@@ -295,8 +295,8 @@ while true; do ./ex04 /tmp/geo/random 2> /dev/null; done
 0WPRihGwXg6X7qactvwjZ5QVOGK6zt16
 ```
 
-La vulnérabilité repose sur le fait que la sécurité a été implémenté (mal,
-qui le plus) dans la logique de l'application et non en terme de permissions.
+La vulnérabilité repose sur le fait que la sécurité a été implémentée (mal,
+qui plus est) dans la logique de l'application et non en termes de permissions.
 
 
 ## Exercice 05
@@ -320,7 +320,7 @@ On ne peut pas mettre le shellcode dans la pile car pas exécutable. On
 va donc faire un *ret2libc*.
 
 On se prend l'adresse de `system()`, l'adresse de `"/bin/sh"`... On trouve
-à taton l'offset qu'il faut pour écraser EIP puis :
+à tâtons l'offset qu'il faut pour écraser EIP puis :
 
 
 ```

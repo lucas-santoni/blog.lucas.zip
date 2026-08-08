@@ -29,10 +29,10 @@ en servir pour prouver telle ou telle chose.
 En forensique, on :
 
 * Analyse des formats de fichiers inconnus
-* Ecrit des scripts et programme pour automatiser l'analyse
+* Écrit des scripts et programmes pour automatiser l'analyse
 * Analyse des dumps de mémoire vive
 * Met en relation des évènements pour élaborer un scénario (d'attaque par exemple)
-* Surement d'autres trucs
+* Sûrement d'autres trucs
 
 Le forensique n'a pas vraiment été touché par le 'tout en Python' ou le 'tout
 en Javascript'. C'est un domaine où on manipule des offsets et où on aime bien
@@ -43,7 +43,7 @@ Un outil de forensique très populaire
 est [Volatility](https://www.volatilityfoundation.org/). C'est un framework
 Python pour l'analyse de dump RAM. Il marche super bien mais on galère à
 retenir les commandes donc je vous donne tout de suite une cheatsheet avec
-tout ce qui faut : [cliquez ici](https://downloads.volatilityfoundation.org/releases/2.4/CheatSheet_v2.4.pdf).
+tout ce qu'il faut : [cliquez ici](https://downloads.volatilityfoundation.org/releases/2.4/CheatSheet_v2.4.pdf).
 
 La plupart des épreuves de forensique que vous trouvez sur internet sont bien
 entendu simulées. Il est assez rare de tomber sur le dernier format de fichier
@@ -53,7 +53,7 @@ affaire criminelle.
 
 ## Exercice 00
 
-Faison un peu d'analyse mémoire. C'est amusant, ça ne demande pas beaucoup
+Faisons un peu d'analyse mémoire. C'est amusant, ça ne demande pas beaucoup
 d'effort, et ça revient souvent en CTF ! Pour tous les exercices suivants, vous
 allez travailler sur [le fichier `dump_ram` fourni](https://cdn.geographer.fr/forensics_00_dump_ram.zip).
 
@@ -63,7 +63,7 @@ a été infecté par un logiciel malveillant (le boulet...). Nous allons
 mener l'enquête et essayer de comprendre ce qui se passe dans cette VM !
 
 **IMPORTANT ! Ce fichier est tiré du OtterCTF et il est la propriété
-de Asaf Eitani ! Mais je le trouvais cool alors je l'ai emprunté...**
+d'Asaf Eitani ! Mais je le trouvais cool alors je l'ai emprunté...**
 
 Installez Volatility puis trouvez le profil adapté pour ce dump.
 
@@ -81,8 +81,8 @@ l'ordinateur ainsi que le mot de passe de Rick.
 
 ## Exercice 02
 
-Nous en savons désormais un peu plus. Un collègue souhaiterai jeter un oeil
-au traffic réseau de cette machine virtuelle au moment de l'incident...
+Nous en savons désormais un peu plus. Un collègue souhaiterait jeter un œil
+au trafic réseau de cette machine virtuelle au moment de l'incident...
 
 Quelle est l'adresse IP de la machine sur le réseau local ?
 
@@ -92,12 +92,12 @@ Quelle est l'adresse IP de la machine sur le réseau local ?
 Ce n'est pas certain, mais on peut supposer que le malware qui a
 infecté la machine communique avec un serveur distant.
 
-Si tel est le cas, quel est l'IP de ce serveur distant ?
+Si tel est le cas, quelle est l'IP de ce serveur distant ?
 
 
 ## Exercice 04
 
-Jetons plutôt un oeil à la liste des processus en cours d'exécution.
+Jetons plutôt un œil à la liste des processus en cours d'exécution.
 
 Un de ces processus devrait attirer votre attention, lequel ? Un indice :
 soyez attentif aux liens de parenté des processus. Il est rare que
@@ -111,7 +111,7 @@ d'exécution. En effet, en RAM, le contenu chiffré est souvent en clair... :p
 
 ## Exercice 05
 
-Commencez par obtenir des informations sur le logiciel malveillant. A quel
+Commencez par obtenir des informations sur le logiciel malveillant. À quelle
 famille appartient-il ? Est-il déjà répertorié ?
 
 
@@ -128,7 +128,7 @@ espion !
 ## Exercice 07
 
 Nous aimerions comprendre comment ce malware est arrivé là... Je me souviens
-avoir vu du client Bittorent dans le liste des processus en cours. Le collègue
+avoir vu un client BitTorrent dans la liste des processus en cours. Le collègue
 qui a regardé les logs réseau confirme ceci (merci à lui !). Rick devait encore
 être en train de récupérer des séries pour glander au bureau... Essayez d'en
 savoir plus !
@@ -147,7 +147,7 @@ ce boulet...
 
 Retrouvez la clé de chiffrement utilisée pour prendre les fichiers de Rick
 en otage. Un indice : il me semble que `.NET` fait des choses étranges
-avec les chaines de caractères.
+avec les chaînes de caractères.
 
 
 ## Exercice 09
@@ -159,11 +159,11 @@ Enfin, déchiffrez les fichiers de Rick !
 
 ## Exercice 10
 
-Je suis toujours étonné de tout ce qu'on faire avec un dump RAM. Sans même
+Je suis toujours étonné de tout ce qu'on peut faire avec un dump RAM. Sans même
 toucher à la machine virtuelle, nous avons pu reconstruire tout le scénario
 de l'infection, obtenir la preuve que Rick est un boulet et trouver un moyen
 de déchiffrer ses fichiers.
 
-Pour finir, faites le point sur la journée, dites nous ce que vous avez aimé,
+Pour finir, faites le point sur la journée, dites-nous ce que vous avez aimé,
 pas aimé, tous vos retours, ce que vous voulez... Et envoyez un petit
 mail à <lucas.santoni@epitech.eu>.

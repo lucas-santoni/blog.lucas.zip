@@ -53,8 +53,8 @@ int main(){
 }
 ```
 
-There is a comment that tells us how the binary was compiled. It is a 32-bit,
-with no PIE and stack protection disable. We have no information regarding
+There is a comment that tells us how the binary was compiled. It is a 32-bit binary,
+with no PIE and stack protection disabled. We have no information regarding
 ASLR.
 
 The `get_audition_info` function is the vulnerable one. Indeed, `gets` is
@@ -141,7 +141,7 @@ The first thing that came to my mind is the [`IFS` trick](https://book.hacktrick
 nash> cat${IFS}flag.txt`
 ```
 Unfortunately, `IFS` is not set, and the `{}` are also stripped. A few
-Google searchs later, I found another payload:
+Google searches later, I found another payload:
 
 ```
 nash> `<flag.txt`
@@ -173,7 +173,7 @@ The bug is as follows:
 * You buy an item (let's say a tarantula, as it is worth a lot)
 * Your inventory is now full
 * You sell the tarantula
-* It is not removed from you inventory, but you get the bells
+* It is not removed from your inventory, but you get the bells
 * You sell the tarantula
 * It is not removed from your inventory, but you get the bells
 * ...

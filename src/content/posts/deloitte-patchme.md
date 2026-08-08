@@ -19,7 +19,7 @@ Let's load it into IDA and take a look at the imports...
 
 ![IDA Imports](/assets/patchme/ida_imports.png)
 
-We can see various functions that allows to interact with the system:
+We can see various functions that allow us to interact with the system:
 `RegOpenKeyExA`, `GetSystemTime`, `ReadFile`... We also have
 `IsDebuggerPresent` that we should keep in mind if we decide to do some
 debugging.
@@ -61,7 +61,7 @@ we can analyse it.
 
 All the decrypted calls follow the same logic. Some external operation (for
 example, checking if a file exists) is performed. If it fails, a fake and
-incorrect key is used to update some piece of global memory (which ultimaletly
+incorrect key is used to update some piece of global memory (which ultimately
 becomes the flag). However, if it succeeds, the piece of memory is updated
 correctly.
 
@@ -82,7 +82,7 @@ operations succeeded, when none of them actually did.
 
 Once we passed the calls, the `Strstr` function is used to check if the
 global memory chunk contains `CTF{`, which should be the case if all the calls
-went smooth.
+went smoothly.
 
 We can then resume execution and:
 

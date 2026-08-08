@@ -4,9 +4,9 @@ slug: js-minimum-time
 date: 2018-12-10
 ---
 
-Un ami m'a demandé si il était possible de forcer une fonction asynchrone à
+Un ami m'a demandé s'il était possible de forcer une fonction asynchrone à
 mettre au moins une certaine période de temps à s'exécuter. Par fonction
-asynchrone, j'entends fonction retounant une `Promise`.
+asynchrone, j'entends fonction retournant une `Promise`.
 
 Commençons par écrire une fonction asynchrone de test :
 
@@ -25,7 +25,7 @@ compris entre :
 
 On va wrapper l'appel à la fonction `request` pour faire notre cuisine.
 
-La durée maximale se gêre facilement, c'est simplement un `.then()`/`.catch()`
+La durée maximale se gère facilement, c'est simplement un `.then()`/`.catch()`
 classique :
 
 ```js

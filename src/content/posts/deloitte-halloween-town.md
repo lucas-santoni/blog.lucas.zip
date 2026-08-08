@@ -6,7 +6,7 @@ date: "2019-06-11T02:00:00"
 
 *Halloween Town* 🎃 was a task labelled cryptography and worth 135 points.
 It was actually mostly steganography/guessing. The task remained unsolved for
-the most part of the competition, until the staff decided to release hints.
+most of the competition, until the staff decided to release hints.
 
 ![Task Description](/assets/halloween-town/intro.png)
 
@@ -52,10 +52,10 @@ Create Date                     : 1993:10:31 08:02:04
 root@3853909ffedf:/macOS/halloween#
 ```
 
-I got stuck here and stoped working on this challenge. A few hours later, the
-staff recommended to use
+I got stuck here and stopped working on this challenge. A few hours later, the
+staff recommended using
 [StegCracker](https://github.com/Paradoxis/StegCracker). This is mostly a
-wrapper around `steghide`, with the ability to perform dictionnary attacks.
+wrapper around `steghide`, with the ability to perform dictionary attacks.
 
 Let's try with `rockyou.txt`:
 

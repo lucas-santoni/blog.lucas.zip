@@ -31,19 +31,19 @@ et il est aujourd'hui absolument partout : dans nos navigateurs, dans nos
 serveurs web, dans nos appareils mobiles, dans nos applications de bureau...
 
 Mais il est aussi dans nos CTFs ! Et on le retrouve dans plusieurs
-catégories : web, bien sur, mais aussi crypto, forensique, malware,
-mobile, etc. Le JavaScript peut bien sur être le sujet de l'épreuve en
-elle-même, mais il peut également être simplement le moyen d'intéragir
+catégories : web, bien sûr, mais aussi crypto, forensique, malware,
+mobile, etc. Le JavaScript peut bien sûr être le sujet de l'épreuve en
+elle-même, mais il peut également être simplement le moyen d'interagir
 avec l'épreuve (comme on l'a vu lors [du dernier stream
 H25](https://www.youtube.com/watch?v=tzFHvqaYnoM)).
 
 Le problème, c'est que beaucoup de joueurs de CTFs ne connaissent pas
-*vraiment* le JavaScript. C'est à dire : beaucoup de joueurs sont
-capables d'inférer ce que fait un bout de code en se ratachant à des
+*vraiment* le JavaScript. C'est-à-dire : beaucoup de joueurs sont
+capables d'inférer ce que fait un bout de code en se rattachant à des
 mots clés, à des noms de méthode, ou à des constructions de
-programmation orientée objet qui leurs sont familiers parce que
-similaires à ce qui se fait dans d'autres langages. Le bat blesse quand
-il s'agit d'écrire du code, et plus seulement en lire. Ou bien,
+programmation orientée objet qui leur sont familiers parce que
+similaires à ce qui se fait dans d'autres langages. Là où le bât blesse,
+c'est quand il s'agit d'écrire du code, et plus seulement d'en lire. Ou bien,
 lorsque le code étudié présente des fonctionnalités avancées de
 JavaScript, en particulier celles relatives à la programmation
 asynchrone.
@@ -233,17 +233,17 @@ dans les deux environnements.
 En revanche, le contexte sera différent. Un bout de code JavaScript
 exécuté dans le navigateur peut accéder à l'objet `document`, qui
 représente la page web. Node.js ne peut accéder à cet objet car il ne
-fait pas sens dans son contexte. En revanche, Node.js fourni le module
-`fs` qui est une API pour intéragir avec le système de fichier. Le
+fait pas sens dans son contexte. En revanche, Node.js fournit le module
+`fs` qui est une API pour interagir avec le système de fichiers. Le
 navigateur ne propose pas cette API, car il n'a pas accès au système de
-fichier (c'est [en train
+fichiers (c'est [en train
 d'évoluer](https://developer.mozilla.org/en-US/docs/Web/API/FileSystem)
 ceci dit).
 
 En fonction de l'environnement, les connaissances requises pour gérer
 une épreuve peuvent être très différentes. Une épreuve qui se passe dans
 le navigateur pourra demander d'être à l'aise avec les manipulations
-du DOM tandis qu'une épreuve serveur demandera de connaitre le
+du DOM tandis qu'une épreuve serveur demandera de connaître le
 fonctionnement de la librairie [Express](https://expressjs.com/fr/).
 
 
@@ -267,10 +267,10 @@ for (i = 0; i < some_string.length; i++) {
 }
 ```
 
-On remarque:
+On remarque :
 
-- La méthode `charCodeAt(i)` qui, lorsque appliquée sur une chaîne de
-  caractère, nous renvoie la valeur numérique du i<sup>ème</sup> caractère de
+- La méthode `charCodeAt(i)` qui, lorsqu'appliquée sur une chaîne de
+  caractères, nous renvoie la valeur numérique du i<sup>ème</sup> caractère de
   la chaîne.
 - La fonction `alert`, uniquement disponible dans le navigateur, qui
   permet de rapidement afficher un message. La fonction est utile pour du
@@ -293,10 +293,10 @@ l'opération inverse de `charCodeAt(i)`. On obtient alors le caractère
 1) correspondant au nombre `i`.
 
 Utilisateurs de Python, attention, JavaScript permet l'opérateur `+`
-sur des chaînes de caractère mais il ne permet pas la multiplication. On
-utilise pour ça la méthode statique `String.repeat()`.
+sur des chaînes de caractères mais il ne permet pas la multiplication. On
+utilise pour ça la méthode `repeat()`.
 
-On commence à comprendre que JavaScript fourni de très nombreux
+On commence à comprendre que JavaScript fournit de très nombreux
 utilitaires. Le langage dispose également d'un écosystème imposant. Il
 est très rare de ne pas trouver une dépendance permettant de répondre à
 son problème.
@@ -315,7 +315,7 @@ pas plus rapidement qu'un code non-minifié. Il est simplement plus
 rapide à télécharger.*
 
 Dans le contexte d'un CTF, la minification devient une forme
-d'obfuscation. Le code suivant:
+d'obfuscation. Le code suivant :
 
 ```javascript
 const obj = {
@@ -344,20 +344,20 @@ un outil tel que
 [l'outil de formatage de Chrome](https://developers.google.com/web/tools/chrome-devtools/javascript/reference#format).
 
 Mais il existe aussi des outils proposant une obfuscation beaucoup plus
-franche. Par exemple, avec [JavaScript Obfucator](https://obfuscator.io/), notre code initial devient:
+franche. Par exemple, avec [JavaScript Obfuscator](https://obfuscator.io/), notre code initial devient :
 
 ```javascript
 const _0x1616=['lastname','firstname','Geo','Le\x20Berlingot'];(function(_0x177eb0,_0x1616a6){const _0x1e9abe=function(_0x204014){while(--_0x204014){_0x177eb0['push'](_0x177eb0['shift']());}};_0x1e9abe(++_0x1616a6);}(_0x1616,0xc6));const _0x1e9a=function(_0x177eb0,_0x1616a6){_0x177eb0=_0x177eb0-0x0;let _0x1e9abe=_0x1616[_0x177eb0];return _0x1e9abe;};const obj={'firstname':_0x1e9a('0x0'),'lastname':_0x1e9a('0x1')};function getFullName(_0xb6014e){return _0xb6014e[_0x1e9a('0x3')]+'\x20'+_0xb6014e[_0x1e9a('0x2')];}console['log'](getFullName(obj));
 ```
 
 Et on a quelque chose qui est déjà beaucoup moins lisible. La
-méthodologie varie en fonction du temps que l'on peut investir et le
+méthodologie varie en fonction du temps que l'on peut investir et du
 type d'obfuscation mais dans le cas général, on peut commencer par
 faire passer le code dans un outil de déobfuscation tel que
 [de4js](https://lelinhtinh.github.io/de4js/) et ensuite terminer à la
 main. On va chercher principalement à :
 
-- Renommer les noms de variables et functions
+- Renommer les noms de variables et fonctions
 - Extraire les différents éléments, notamment les chaînes de
   caractères, que les obfuscateurs ont tendance à regrouper dans des tableaux
 - Retirer le code inutile
@@ -370,7 +370,7 @@ d'une épreuve des qualifications de la Nuit Du Hack 2018.
 ### Encodages
 
 JavaScript donne accès, même sans dépendances, à plusieurs encodages dont les
-challenges ont tendance à abuser. Si on ne les connait pas, ils peuvent donner
+challenges ont tendance à abuser. Si on ne les connaît pas, ils peuvent donner
 l'impression qu'on doit gérer un chiffrement complexe ou une bizarrerie
 JavaScript alors qu'un simple appel de fonction suffit. On a :
 
@@ -384,7 +384,7 @@ Attention également à la fonction [`eval`](https://developer.mozilla.org/fr/do
 
 ### Quelques writeups
 
-Les writeups suivant couvrent bien le spectre d'épreuves qu'on peut rencontrer.
+Les writeups suivants couvrent bien le spectre d'épreuves qu'on peut rencontrer.
 
 - [JS SAFE 2.0 - Google CTF 2018, par LiveOverflow](https://www.youtube.com/watch?v=8yWUaqEcXr4)
 - [JS Kiddie - picoCTF 2019, par radekk](https://medium.com/@radekk/picoctf-2019-writeup-for-js-kiddie-7af4f0a20838)
@@ -394,10 +394,10 @@ Les writeups suivant couvrent bien le spectre d'épreuves qu'on peut rencontrer.
 
 ## Concurrence
 
-JavaScript inplémente une boucle d'évènement (en anglais: *event loop*), qui
-l'ammène à ne pas être bloquant. En Python, lorsqu'on fait une requête HTTP
-avec le module `request`, il est impossible (du moins, sans efforts) d'exécuter
-plus de code pendant que cette requête a lieu.  On dit alors que l'appel Python
+JavaScript implémente une boucle d'évènement (en anglais: *event loop*), qui
+l'amène à ne pas être bloquant. En Python, lorsqu'on fait une requête HTTP
+avec le module `requests`, il est impossible (du moins, sans efforts) d'exécuter
+plus de code pendant que cette requête a lieu. On dit alors que l'appel Python
 est bloquant, car il monopolise le *runtime* et ne "rend pas la main".
 
 **Attention ! Si vous découvrez la concurrence, il est très important que vous
@@ -512,7 +512,7 @@ request.get('https://geographer.fr/')
 ```
 
 Beaucoup mieux ! On remarque deux méthodes : `then` et `catch`, et
-l'objet sur lequel elles sont appliquées n'apparait pas clairement. Il
+l'objet sur lequel elles sont appliquées n'apparaît pas clairement. Il
 s'agit en fait d'un objet `Promise` qui vient enrober les valeurs de
 retour des appels asynchrones. Pour mieux comprendre, étudions ce code
 qui implémente une fonction retournant une promesse :
@@ -539,7 +539,7 @@ writeFilePromise('/tmp/hello.txt', 'Hello!')
 On obtient donc une fonction `writeFilePromise` qui se substitue à
 `fs.writeFile`. Cette nouvelle fonction ne prend pas de callback en paramètre
 mais retourne immédiatement une variable `Promise`. La fonction à exécuter est
-passée en paramètre au constructeur `Promise`.  Ce constructeur reçoit deux
+passée en paramètre au constructeur `Promise`. Ce constructeur reçoit deux
 autres fonctions en paramètre : `resolve`, et `reject`. La première sera
 appelée lorsqu'il faut transférer une valeur de retour qui n'est pas une
 erreur. La seconde sera appelée afin de transférer une erreur.
@@ -558,15 +558,15 @@ lorsque c'est `resolve` qui a été appelé dans le callback de promesse (donc,
 lorsqu'il n'y a pas eu d'erreur). La méthode `catch` est appelée lorsque c'est
 `reject` qui a été appelé dans le callback de promesse. Les méthodes `then` et
 `catch` admettent des fonctions en paramètre. Ces fonctions reçoivent
-elles-mêmes en paramètres les valeurs qui ont été passés à `resolve` et
+elles-mêmes en paramètres les valeurs qui ont été passées à `resolve` et
 `reject`.
 
-Enfin, on peut noter qu'il est possible d'enchainer les promesses,
+Enfin, on peut noter qu'il est possible d'enchaîner les promesses,
 comme on a pu le voir plus haut. On se retrouve alors avec une
-construction très lisible qu'on appelle une chaîne de promesse. De ce
+construction très lisible qu'on appelle une chaîne de promesses. De ce
 fait découle la possibilité de ne placer qu'un seul `catch`, à la fin
 de la chaîne. Celui-ci couvre les erreurs de l'intégralité de la
-chaîne, ce qui allège considérablement le code (mais ammène d'autres
+chaîne, ce qui allège considérablement le code (mais amène d'autres
 problèmes, malheureusement c'est hors-sujet).
 
 
@@ -600,18 +600,18 @@ que la promesse n'est pas résolue. D'autre part, il permet d'extraire
 le résultat de l'objet `Promise` (ce que l'on recevait auparavant dans
 le callback côté `then`) lorsqu'il n'y a pas d'erreur.
 
-Il semble il y avoir un problème avec ce code : le cas d'erreur n'est
-pas gêré. C'est vrai : on aurait pu utiliser un `try`/`catch` afin de
-récupérer une eventuelle erreur. Mais on peut aussi profiter d'une
+Il semble y avoir un problème avec ce code : le cas d'erreur n'est
+pas géré. C'est vrai : on aurait pu utiliser un `try`/`catch` afin de
+récupérer une éventuelle erreur. Mais on peut aussi profiter d'une
 autre propriété intéressante des promesses. Si une promesse n'est pas
-gêrée dans son scope courant, elle est remontée au scope parent.
-L'erreur sera donc gêrée au niveau du `main().catch()`. On comprend
+gérée dans son scope courant, elle est remontée au scope parent.
+L'erreur sera donc gérée au niveau du `main().catch()`. On comprend
 alors qu'une fonction marquée `async` retourne une `Promise`.
 
 
 ### Un crawler concurrent
 
-Pour conclure notre petite balade dans le monde féérique de la
+Pour conclure notre petite balade dans le monde féerique de la
 concurrence, nous allons nous faire un petit crawler qui visite des
 pages web et nous liste toutes celles contenant le mot "JavaScript".
 
@@ -665,7 +665,7 @@ for e in list(filter(lambda r: r['result'], results)):
 
 Bien entendu, il est absurde de comparer une implémentation concurrente
 JavaScript avec une implémentation non-concurrente Python. Nous allons donc les
-comparer:
+comparer :
 
 ```
 $ time node crawler.js > /dev/null

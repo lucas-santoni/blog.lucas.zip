@@ -24,7 +24,7 @@ sélectionnés pour le semestre courant. En première année, les projets sont �
 95% du C.
 
 Beaucoup d'étudiants n'ont pas fait de C avant leur entrée en première année
-et les lâcher dans la nature serait assez aberrant quand on connait le prix
+et les lâcher dans la nature serait assez aberrant quand on connaît le prix
 de l'école. Ainsi, des "labs" ont été créés. Pour la programmation, ils sont
 au nombre de deux :
 
@@ -54,18 +54,18 @@ ceux qu'on appelle les pingouins (lab, banquise, pingouin ? Ouais, ouais...).
 
 Je ne sais pas vraiment pourquoi et comment le LabAnquise est apparu à Epitech
 mais dans les faits, c'est un lab existant sur Paris et dans certaines régions,
-**par des premières années, pour des première années**.
+**par des premières années, pour des premières années**.
 
 L'objectif du lab et de tous ses pingouins est d'apporter **du soutien en
 langage C** aux étudiants de leur promo.
 
 Vers février, les pingouins de l'année passée organisent des **entretiens**
 pour les candidats volontaires afin de repérer **des étudiants solides, déjà à
-l'aise dans leur cursus**, qui pourraient faire des bons pingouins pour l'année
+l'aise dans leur cursus**, qui pourraient faire de bons pingouins pour l'année
 en cours.
 
 **Une vingtaine** d'étudiants (pour **une promo d'environ 450** sur Paris) en
-sortent pingouins. S'en suit une petite pizza party au cours de laquelle on
+sortent pingouins. S'ensuit une petite pizza party au cours de laquelle on
 élit le chef pingouin (rapidement surnommé "papa pingouin") et le lab peut
 démarrer ses activités.
 
@@ -73,7 +73,7 @@ démarrer ses activités.
 
 En discutant avec les équipes des années passées, je me suis rendu compte que
 ce lab était assez inactif depuis plusieurs années. Quelques petites sessions
-de soutien de temps à autres, pas vraiment préparées. J'ai tout de suite trouvé
+de soutien de temps à autre, pas vraiment préparées. J'ai tout de suite trouvé
 ça dommage. En effet, j'ai remarqué que parmi les pingouins, beaucoup avaient
 déjà pris **l'habitude d'aider les autres** et jouissaient d'une certaine
 **position de leaders** dans leurs salles respectives. Le LabAnquise était
@@ -89,8 +89,8 @@ qu'ils ont le potentiel de transmettre est tout simplement énorme**.
 **Le LabAnquise n'a pas vraiment de légitimité. Il n'a pas de statut, pas de
 budget, n'est pas représenté lors des réunions liées à la pédagogie de
 l'école**. Or, je pense que les pingouins ont besoin d'une certaine légitimité
-pour mener à bien leur travaux. Les étudiants à qui l'on s'adresse ne doivent
-pas être méfiants à notre égard. Au contraire, **si ils éprouvent de
+pour mener à bien leurs travaux. Les étudiants à qui l'on s'adresse ne doivent
+pas être méfiants à notre égard. Au contraire, **s'ils éprouvent de
 l'admiration ou du respect pour les pingouins, ils seront beaucoup plus enclins
 à écouter ce qu'ils ont à leur dire et à reproduire ce qu'ils leur montrent**.
 Je pense **qu'un étudiant doit envier un pingouin**, envier son statut et que
@@ -101,7 +101,7 @@ sweats Epitech avec logo et pseudonymes (merci encore à [Main
 Gauche](https://www.main-gauche.com/) qu'on a littéralement harcelé pour avoir
 des réductions), module sur l'intranet de l'école pour nos activités,
 utilisation récurrente d'une même salle pour donner l'illusion qu'on a
-des locaux... Nous nous sommes rapidement ancré dans le paysage d'Epitech
+des locaux... Nous nous sommes rapidement ancrés dans le paysage d'Epitech
 Paris et les étudiants ont vite pris l'habitude de venir solliciter
 l'aide des pingouins.
 
@@ -125,7 +125,7 @@ l'année.
 
 ![Statistiques fondamentaux](/assets/pingouins/graph_basic.png)
 
-*Lecture : 36% de la population étudiée ne se sent alors pas l'aise avec la
+*Lecture : 36% de la population étudiée ne se sent alors pas à l'aise avec la
 notion de tableau en langage C.*
 
 Nous avons ici les cinq fondamentaux étudiés en piscine. Sans surprise, **les
@@ -136,7 +136,7 @@ tableaux, certes).
 J'imagine que les étudiants ayant répondu à ce sondage voulaient **indiquer aux
 pingouins qu'ils ne devaient pas hésiter à faire des sujets très accessibles,
 reprenant même les notions les plus élémentaires**. L'équipe
-pédagogique nous as confirmé que même plusieurs mois après le début de l'année,
+pédagogique nous a confirmé que même plusieurs mois après le début de l'année,
 il existe encore une grosse population d'étudiants en difficulté qui apprécie
 ce genre de contenu.
 
@@ -199,7 +199,7 @@ telle que transmise par l'équipe pédagogique et le LabAstek/Koalab :
   - Ne jamais perdre patience
   - Ne jamais affirmer une chose dont on doute soi-même
 
-Le contact avec les étudiants à été excellent tout au long de l'année et nous
+Le contact avec les étudiants a été excellent tout au long de l'année et nous
 avons eu des retours très positifs sur chacun de nos ateliers. **Les membres de
 l'équipe pédagogique ont également été de supers interlocuteurs qui nous ont
 fait confiance.**
@@ -208,7 +208,7 @@ fait confiance.**
 
 La position de chef du LabAnquise est assez amusante. **C'est un chef
 illégitime à la tête d'un lab illégitime**. Après tout, c'est un première année
-comme les autres, pourquoi est ce qu'ils le respecteraient ?
+comme les autres, pourquoi est-ce qu'ils le respecteraient ?
 
 Le travail du chef pingouin est de s'assurer que les activités se déroulent
 sans accroc et qu'il n'existe pas de tension entre les pingouins ou avec les
@@ -217,7 +217,7 @@ sans accroc et qu'il n'existe pas de tension entre les pingouins ou avec les
 Les membres du LabAnquise n'ont pas choisi de travailler ensemble, certains ne
 s'apprécient pas. **Ces tensions ne doivent pas sortir du lab car elles
 entraînent une perte importante de crédibilité.** Les tensions avec les
-étudiants sont tout aussi inaceptables, il s'agit d'une **pure perte de
+étudiants sont tout aussi inacceptables, il s'agit d'une **pure perte de
 temps**, pour eux comme pour nous.
 
 Le titre de chef pingouin ne confère aucun pouvoir pouvant renforcer son
@@ -240,7 +240,7 @@ d'être une rockstar de C pour bien représenter le LabAnquise. **Les étudiants
 sélectionnés sont à l'aise avec les concepts étudiés en première année et ont
 prouvé lors de l'entretien qu'ils sont capables de les exposer clairement.** On
 retrouve souvent quelques pingouins chez les asteks juniors de l'année
-suivante. Qu'est ce qui sépare les pingouins qu'ils étaient des asteks qu'ils
+suivante. Qu'est-ce qui sépare les pingouins qu'ils étaient des asteks qu'ils
 sont devenus ? 6 mois de stage pendant lesquels ils n'ont sûrement pas fait de
 C ? **Les bons étudiants se démarquent très très vite et autant qu'ils
 soient au plus vite mobilisés.**
@@ -252,7 +252,7 @@ formation en bonne et due forme ferait d'eux des asteks, ce qu'ils ne sont pas.
 Beaucoup d'étudiants n'osent pas franchir les portes de la pédagogie et
 interpeller un astek en première année. Ces étudiants peuvent toujours se
 tourner vers un pingouin, **un type de leur salle qu'ils croisent tous les
-jours** depuis le début de l'année et avec qui ils ont surement déjà échangé.
+jours** depuis le début de l'année et avec qui ils ont sûrement déjà échangé.
 
 Certes, cela pose des problèmes. Les pingouins font des erreurs : ils disent
 des choses fausses, ils donnent des réponses trop rapidement... **Ces problèmes
@@ -275,6 +275,6 @@ leur mission ne leur rapporte pour ainsi dire rien est gage de leur motivation.
 
 Cette dernière partie a certainement des allures de droit de réponse. Je pense
 en effet que le LabAnquise a un rôle à jouer dans l'école et que l'énergie
-qu'on emploie à le critiquer serait mieux investit à l'améliorer.
+qu'on emploie à le critiquer serait mieux investie à l'améliorer.
 
 _Merci à Clara pour son aide._

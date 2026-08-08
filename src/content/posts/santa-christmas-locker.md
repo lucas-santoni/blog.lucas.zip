@@ -99,13 +99,13 @@ finally:
 
 We can see that the encryption process uses an LFSR logic.
 
-An LFSR (for **L**inear **F**eedback **S**hift **R**egisters) can, in this
-implementation, be described as :
+An LFSR (for **L**inear **F**eedback **S**hift **R**egister) can, in this
+implementation, be described as:
 
-* A 32 bits register (see `lfsr_size` variable). The choice of 32 bits is convenient because it is the size of an integer.
+* A 32-bit register (see `lfsr_size` variable). The choice of 32 bits is convenient because it is the size of an integer.
 * Its initial state (initial value of the 32 bits), as defined by the user in `argv[1]`
 * A bunch of operations are made with the state of the LFSR (`self.state = (self.state >> 1) | newbit`)
-* The output of those operations become the next state of the register and is used in the next cycles
+* The output of those operations becomes the next state of the register and is used in the next cycles
 
 Here, each state is used to generate a byte, called stream (with the method
 `get_key_stream`) that will then be used to XOR a byte of the input file.
@@ -130,7 +130,7 @@ by XORing the byte `%` with the first encrypted byte.
 The issue here is that there are multiple initial states of the LFSR that can
 generate this initial stream.
 
-So what we can do is try every possibilities of initial states which generate
+So what we can do is try every possible initial state that generates
 the correct stream for the first 4 bytes of the pdf. If an initial state can
 be valid during four cycles, we can assume that it will be valid for all the
 rest of the file.
@@ -189,6 +189,6 @@ Which outputs:
 ```
 
 We can now launch the `shift_encrypt.py` script with this value and get the
-original PDF file, in which we can see :
+original PDF file, in which we can see:
 
 ![FLAG](/assets/santa/locker/flag.png)

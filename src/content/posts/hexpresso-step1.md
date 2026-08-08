@@ -52,7 +52,7 @@ This line is important:
 if (u_u.charCodeAt(i) + flag.charCodeAt(i) + i * 42 != game[i]) {
 ```
 
-Its a simple equation (pseudocode):
+It's a simple equation (pseudocode):
 
 ```javascript
 u_u[i] + flag[i] + i * 42 = game[i]

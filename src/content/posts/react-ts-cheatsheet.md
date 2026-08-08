@@ -7,7 +7,7 @@ date: 2019-11-05
 Here is the
 [ESLint configuration](https://gist.github.com/Geospace/2a5fdbe7054afc3d210f60f12c5a5b03)
 I'm using. TypeScript (TS) is about actually putting types so the use of `any`,
-missing parameter types and missing return function types are forbidden.
+missing parameter types and missing function return types are forbidden.
 
 I'm using Create React App, with the following packages:
 
@@ -18,7 +18,7 @@ I'm using Create React App, with the following packages:
 ```
 
 
-## Function component, without logic nor props
+## Function component, with neither logic nor props
 
 This is the simplest case. Our component is a function that doesn't take
 anything and only returns a block of JSX.
@@ -83,10 +83,10 @@ const Component: React.FunctionComponent<Props> = ({ message }: Props): JSX.Elem
 );
 ```
 
-Because the configuration I use requires to annotate all the parameters and
+Because the configuration I use requires me to annotate all the parameters and
 return values, **the type signature is now duplicated**. Anyway, I think it's
 better to put the annotations on the left and let the compiler deduce the
-type on the right hand side. Moreover, these type names may change in the future
+type on the right-hand side. Moreover, these type names may change in the future
 so I will avoid **tying my code** to them.
 
 The names `React.SFC` (Stateless Function(al ?) Component) and
@@ -154,9 +154,9 @@ class Component extends React.Component<Props> {
 ```
 
 
-## Dealing with Higher Order Components
+## Dealing with Higher-Order Components
 
-An Higher Order Component (HOC) is all about injecting props into a component
+A Higher-Order Component (HOC) is all about injecting props into a component
 so we will have to add a few annotations. Here is an example with
 [React Router](https://reacttraining.com/react-router/web/guides/quick-start):
 
@@ -209,7 +209,7 @@ class Component extends React.Component<AllProps, State> {
 export default withRouter(Component);
 ```
 
-Juste like in JavaScript (JS), we wrap our component definition with
+Just like in JavaScript (JS), we wrap our component definition with
 `withRouter`. Then, we use type composition in order to create a new `AllProps`
 type which is our `Props` **and** the ones exported by React Router. This
 allows us to access `this.props.location` without any problem.

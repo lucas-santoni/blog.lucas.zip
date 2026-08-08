@@ -5,7 +5,7 @@ date: "2019-06-11T03:00:00"
 ---
 
 *g0dmode's Pizza Shop* 🍕 was a task labelled web and worth 300 points. It is
-a standard Python command injection. I felt like it was worth way too much
+a standard Python command injection. I felt like it was worth way too many
 points for the difficulty.
 
 ![Task Description](/assets/pizza-god/intro.png)
@@ -62,7 +62,7 @@ like so:
 promo_code = ord('') #')
 ```
 
-My guess turned to be correct. So I decided to inject some reverse shell
+My guess turned out to be correct. So I decided to inject some reverse shell
 payload. A friend told me to take a look at
 [this website](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
 

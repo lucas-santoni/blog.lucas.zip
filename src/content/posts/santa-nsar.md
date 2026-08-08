@@ -109,7 +109,7 @@ lang     c++
 ...
 ```
 
-It's an ELF 64 bits binary coded in C++ for the x86 architecture. It's now
+It's an ELF 64-bit binary coded in C++ for the x86 architecture. It's now
 time to launch IDA.
 
 The main function of the program consists of the multiple input prompts we
@@ -128,7 +128,7 @@ std::deque<std::fpos<__mbstate_t>,std::allocator<std::fpos<__mbstate_t>>>::deque
 std::deque<std::fpos<__mbstate_t>,std::allocator<std::fpos<__mbstate_t>>>::deque(&QUEUE_DOUBLE_E_2);
 ```
 
-We can divide the rest of the function in three main parts...
+We can divide the rest of the function into three main parts...
 
 ## Creation of the nsar header
 
@@ -183,7 +183,7 @@ For each file:
 3. Save the current position in the output buffer in the first deque `QUEUE_DOUBLE_E_1` 
 4. Write an integer (4 bytes) to the output file
 
-We can know start to tell the format of the header:
+We can now start to tell the format of the header:
 
 ```
 NSAR + 0x0 * 12 + filename1 + 0x0 + 4bytesInteger + filename2 + 0x0 + 4bytesInteger + ... 
@@ -255,7 +255,7 @@ Some explanations:
 *What does `gzwrite` do ?*
 
 At first I thought that it wouldn't compress anything because we use
-`gzwrite` to write one byte at the time. To check if my assumption was
+`gzwrite` to write one byte at a time. To check if my assumption was
 correct, I created a new NSAR archive containing only a `toast.pdf` file.
 Thanks to what we've learnt so far, we can tell the length of the
 corresponding archive header: `len("NSAR") + 12 + len("toast.pdf") + 1 + 4 = 30`
@@ -270,7 +270,7 @@ corresponding archive header: `len("NSAR") + 12 + len("toast.pdf") + 1 + 4 = 30`
 We can see that the body of the NSAR file starts with `1f 8b 08` which are
 the first bytes of the gzip file format.
 
-So it appear that `gzwrite` is using a buffer to store all the written
+So it appears that `gzwrite` is using a buffer to store all the written
 input and wait for `gzclose` to compress it and write it to the output
 file.
 
@@ -299,7 +299,7 @@ while ( (unsigned __int8)std::operator!=(&beg, &endd) )
 integer after a filename in NSAR header), go to it in the output file and pop
 the value from the deque.
 2. take the first value of the SECOND deque (which points to the beginning of
-the corresponding file content before compression) and stores it in the
+the corresponding file content before compression) and store it in the
 current position in the output buffer.
 
 And tada! We now know how the NSAR file format works:
@@ -353,7 +353,7 @@ def get_fileinfos(content: bytes) -> Tuple[str, int]:
     return filename, offset
 ```
 
-We can now open the file and read all header:
+We can now open the file and read the whole header:
 
 ```python
 with open("/tmp/archive.nsar", "rb") as f:
@@ -373,7 +373,7 @@ while True:
 ```
 
 We now have a dictionary `files` containing all archived files, their offset
-and their length in uncompressed body.
+and their length in the uncompressed body.
 
 ### Uncompress the body
 
@@ -393,8 +393,8 @@ content = content[:header_size] + c
 
 ### Getting the key
 
-We know that the body is XORed repetively with a key given by the chall
-creator. And we also know that if `a ^ b = c`, then `a ^ c = b`
+We know that the body is XORed repetitively with a key given by the chall
+creator. And we also know that if `a ^ b = c`, then `a ^ c = b`.
 
 Thanks to that property, we will be able to retrieve the key because we know
 a part of the plaintext that has been encrypted: the first bytes of the
@@ -402,7 +402,7 @@ header of the png format for example.
 
 To get the key, we will XOR the first bytes of the encrypted png files with
 the first bytes of png header. We will then be able to retrieve parts of the
-keys (as it is a repetitive xor) and finally get the complete key.
+key (as it is a repetitive xor) and finally get the complete key.
 
 Here is a function to check the part of key used at the beginning of an
 encrypted png:
@@ -448,7 +448,7 @@ Possible part of key cr37_KEYs_iS_^
 Possible part of key My_sUp3Rcr37_X
 ```
 
-We can know assemble the complete key used for encryption: `Th1s_iS_My_sUp3R_Secr37_KEY`.
+We can now assemble the complete key used for encryption: `Th1s_iS_My_sUp3R_Secr37_KEY`.
 
 ### Extract files
 

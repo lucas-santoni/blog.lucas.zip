@@ -4,7 +4,7 @@ slug: hexpresso-fic-6
 date: "2019-12-20T06:00:00"
 ---
 
-The sixth step is a WEB application that allows us to fetch an URL.
+The sixth step is a web application that allows us to fetch a URL.
 
 ![Introduction](/assets/hexpresso-fic-quals/step6/intro.png)
 
@@ -26,13 +26,13 @@ itself, right? This challenge really looks like a standard SSRF anyways...
 ![Not so easy](/assets/hexpresso-fic-quals/step6/not_so_easy.png)
 
 *Note: we must add a GET parameter because the script appends
-`:80/` at the end of the URL. We could deal with it but its more convenient
+`:80/` at the end of the URL. We could deal with it but it's more convenient
 to totally absorb it.*
 
 It seems that `0.0.0.0` is reachable. We should now be coming from `127.0.0.1`
 but there is something else. We are missing the `GOSESSION` cookie.
 
-I tried to trick the applicaion for some time but the problem is clear: we
+I tried to trick the application for some time but the problem is clear: we
 have to control the body of the query that the URL fetcher performs in order to
 add the cookie.
 
@@ -40,18 +40,18 @@ At this point, I was very sad and did not know what to do. I was about to
 give up when my teammate [Plean](https://twitter.com/plean702) sent me
 [this link](https://github.com/golang/go/issues/30794).
 
-[CVE-2019-9741](https://nvd.nist.gov/vuln/detail/CVE-2019-9741) is a CRFL
+[CVE-2019-9741](https://nvd.nist.gov/vuln/detail/CVE-2019-9741) is a CRLF
 injection, in the `net/http` package of Go (version 1.11). It is exactly
-what we need as it allows to write the body of the query.
+what we need as it allows us to write the body of the query.
 
-I tweaked the example payload of the GitHub (see the link above) issue and
+I tweaked the example payload of the GitHub issue (see the link above) and
 came up with this:
 
 ```
 0.0.0.0/secret?b%3d%20HTTP/1.1%0d%0aCookie:%20GOSESSION%3dabc
 ```
 
-A bit more readble:
+A bit more readable:
 
 ```
 0.0.0.0/secret?b= HTTP/1.1\r

@@ -11,7 +11,7 @@ anglo-saxonne *binary exploitation*, souvent abrégée *exploit* ou même
 Le principe est simple... Vous savez que lorsqu'on écrit du code, on introduit
 bien souvent des bugs. Ces bugs ont des causes tout à fait différentes mais
 le résultat est presque toujours le même : une opération indésirable en
-mémoire. Ecrire quelques octets de trop, lire un pointeur nul... Voilà de
+mémoire. Écrire quelques octets de trop, lire un pointeur nul... Voilà de
 quoi faire terminer prématurément le programme !
 
 Ces erreurs de programmation sont très fréquentes quand on programme dans
@@ -29,7 +29,7 @@ potentielle. Admettons une écriture de 50 octets dans un tampon prévu pour en
 accueillir... 20 ? Admettons aussi que les 50 octets écrits proviennent d'une
 entrée utilisateur. Nous laissons donc l'utilisateur écrire 30 octets
 arbitraires en mémoire. Les érudits appellent ça une primitive d'écriture et
-c'est bien souvent suffisant pour faire crasher un shell à un programme
+c'est bien souvent suffisant pour faire cracher un shell à un programme
 développé dans le seul but d'afficher des photos. Vous comprendrez mieux
 après la démo.
 
@@ -50,7 +50,7 @@ Vous serez ensuite en mesure de répondre à la question suivante... Quand on
 ## Exercice 00
 
 Cet exercice ainsi que tous les suivants se passent sur une machine distante.
-Pous vous connecter :
+Pour vous connecter :
 
 ```
 ssh ex00@louane.geographer.fr
@@ -67,7 +67,7 @@ Pour vous aider, vous pouvez répondre aux questions suivantes :
 
 * quelle est la taille du tampon alloué pour l'entrée utilisateur ?
 * combien d'octets sont en fait écrits à l'adresse de ce tampon ?
-* qu'est ce qui se trouve sur les quatre octets suivants la fin de l'espace
+* qu'est-ce qui se trouve sur les quatre octets suivant la fin de l'espace
   alloué pour le tampon ?
 
 

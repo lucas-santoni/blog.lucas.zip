@@ -19,8 +19,8 @@ Here are my writeups:
 * [g0dmode’s Pizza Shop 🍕](/deloitte-godmod-pizza)
 
 I played with a bunch of friends also from EPITECH (my school in France)
-and we managed to end up at the second place. Really looking forward for
-the final round, we want that 3.000£.
+and we managed to end up in second place. Really looking forward to
+the final round, we want that £3,000.
 
 ![Final Scores](/assets/deloitte/score.png)
 

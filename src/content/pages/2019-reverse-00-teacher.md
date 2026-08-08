@@ -3,7 +3,7 @@ title: Une journée de rétro-ingénierie (00)
 slug: 2019-reverse-00-teacher
 ---
 
-Si on est sur un public qui a déjà fait un de reverse ou qui, du moins,
+Si on est sur un public qui a déjà fait un peu de reverse ou qui, du moins,
 connaît les enjeux du bas niveau et n'a pas peur d'un listing assembleur,
 on peut se passer d'une intro et aller tout de suite à la démo.
 
@@ -18,7 +18,7 @@ Il faut aussi insister sur le fait que l'assembleur peut s'apprendre sur le tas
 mais qu'il est important de poser des questions aux assistants ou faire des
 recherches Google. Pour ceux qui veulent en savoir plus, j'aime bien
 [Le langage assembleur](https://www.editions-eni.fr/livre/le-langage-assembleur-maitrisez-le-code-des-processeurs-de-la-famille-x86-9782746065086)
-de Olivier CAUET. Attention, peut être un peu cher pour ce que c'est mais c'est
+d'Olivier CAUET. Attention, peut-être un peu cher pour ce que c'est mais c'est
 cool de l'avoir dans la collection.
 
 Parmi les exercices, il y a des binaires compilés avec `clang` pour le 32
@@ -43,7 +43,7 @@ pas bon.**
 ## Exercice 00
 
 On installe GDB, peu importe la distribution Linux il devrait être dans les
-dépots. Pour Peda, on suit simplement le [GitHub](https://github.com/longld/peda).
+dépôts. Pour Peda, on suit simplement le [GitHub](https://github.com/longld/peda).
 
 Une fois GDB installé, on part sur une petite démonstration. On peut faire
 la démo sur l'exercice 01. Il faut leur montrer :
@@ -127,7 +127,7 @@ Prologue :
 0x080484f4 <+4>:	sub    esp,0x34
 ```
 
-On a donc `0x34`, soit 52 octets réservés. 
+On a donc `0x34`, soit 52 octets réservés.
 
 La boucle :
 
@@ -172,7 +172,7 @@ gdb-peda$ x/s 0x0804a008
 0x804a008:	"avec_effet_de_serre"
 ```
 
-On a `EBP-0x14` qui vaut `0xffffd714`. A cette adresse se trouve le pointeur
+On a `EBP-0x14` qui vaut `0xffffd714`. À cette adresse se trouve le pointeur
 vers notre flag (avant parcours ici) : `0x0804a008`.
 
 Ce pointeur est par exemple déréférencé en `main+179` :
@@ -233,11 +233,11 @@ comme une chaîne de caractères mais comme un `uint64_t` que nous traitons
 en deux `uint32_t`.
 
 La fonction `soap` prend deux valeurs non signées sur 4 octets en paramètre.
-Ces deux valeurs sont parcourues octets par octets. Les octets sont XORés deux
+Ces deux valeurs sont parcourues octet par octet. Les octets sont XORés deux
 à deux. Le résultat de ce XOR est retourné. La destination du résultat n'est
 pas importante si l'étudiant ne l'évoque pas.
 
-On a beaucoup des déréférenciations, le `xor`, une boucle, rien de particulier.
+On a beaucoup de déréférencements, le `xor`, une boucle, rien de particulier.
 
 ```
 0x08048460 <+0>:	push   ebp
@@ -401,7 +401,7 @@ gdb-peda$ x/20i 0x804845b
 ```
 
 On retombe sur un prologue de fonction, on voit un check sur le nombre
-d'aguments... On est au bon endroit !
+d'arguments... On est au bon endroit !
 
 Un peu plus bas dans le listing du `main` :
 
@@ -573,7 +573,7 @@ Breakpoint 1, main.test (flag=..., input=...) at /home/oursin/go/src/re/main.go:
 10	/home/oursin/go/src/re/main.go: No such file or directory.
 ```
 
-Il en faut pas plus... On repère la chaîne `RmFpdGVzRHVHb0JhbmRlRGVCYXRhcmRz`
+Il n'en faut pas plus... On repère la chaîne `RmFpdGVzRHVHb0JhbmRlRGVCYXRhcmRz`
 sur la pile. Et on récupère le flag :
 
 ```
@@ -594,8 +594,8 @@ hors GDB
 * morceau de code chiffré (XOR), déchiffré à l'exécution
 * binaire strippé
 
-De part la construction du binaire, on ne va pas aller chercher
-`__libc_start_main@plt` nous même pour repérer la fonction `main` comme on l'a
+De par la construction du binaire, on ne va pas aller chercher
+`__libc_start_main@plt` nous-mêmes pour repérer la fonction `main` comme on l'a
 fait précédemment. On va plutôt utiliser la technique du `backtrace` qui est
 plus "automatique". On commence par `ltrace` le binaire pour espérer retrouver
 une fonction connue :
@@ -656,7 +656,7 @@ gdb-peda$ x/20i $rip
    0x555555555414:	call   0x555555555030 <getenv@plt>
 ```
 
-A partir de là, on peut commencer à se balader dans le code, regarder les
+À partir de là, on peut commencer à se balader dans le code, regarder les
 routines...
 
 La fonction qui nous intéresse est la dernière à être appelée par `main` :
@@ -708,7 +708,7 @@ gdb-peda$ x/70i 0x5555555552d7
 
 On a deux boucles qui viennent XOR notre bout de code chiffré. La première
 peut être ignorée étant donné que la variable globale utilisée comme clé
-est en fait la valeur de retour de `getenv()`. Etant donné que nous avons
+est en fait la valeur de retour de `getenv()`. Étant donné que nous avons
 `unset LINES` et `COLUMNS`, sa valeur devrait être `0`, ce qui ne modifie pas
 le code.
 
@@ -809,7 +809,7 @@ RBX: 0x32 ('2')
 ```
 
 La clé commence à `0x32` puis est incrémentée de `0x03` à chaque fois. Il
-nous manque plus que les octets XORés :
+ne nous manque plus que les octets XORés :
 
 ```
 gdb-peda$ b * 0x55555555811d
