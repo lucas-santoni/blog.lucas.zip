@@ -255,9 +255,15 @@ li {
    colour were all saying the same thing; a hairline and a wide gutter say it
    once. It is the gap, not the weight of the rule, that sets the block apart —
    and journal entries quote whole paragraphs, which read badly in italic. */
+/* Padded on both sides, not just behind the rule: inset on the left alone, the
+   block stayed flush with the right edge of the column and read as lopsided —
+   most visibly on narrow screens, where the gutter is a large share of the
+   measure. The right padding has no rule to sit behind; it is there to make the
+   quote an inset block rather than a shifted one. */
 .content blockquote {
   margin: 2em 0;
   padding-left: 1.6em;
+  padding-right: 1.6em;
   border-left: 1px solid var(--color-faded-max);
 }
 
