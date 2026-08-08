@@ -10,6 +10,7 @@ import {
   KIND_LABEL,
   MAX_RATING,
   PLACEHOLDER,
+  STAR_TRACK,
   SCHEMA_CREATOR_PROP,
   SCHEMA_CREATOR_TYPE,
   SCHEMA_TYPE,
@@ -18,7 +19,8 @@ import {
   hostOf,
   isMedia,
   plain,
-  stars,
+  ratingLabel,
+  ratingPercent,
   unknownCreator,
 } from '../../utils/journal'
 
@@ -135,16 +137,23 @@ const jsonLd = media
       {media && (
         <div class="journal-headline-foot">
           {media.rating ? (
-            /* role="img" so the aria-label is honoured — on a bare <p> or
-               <span> the accessible name is prohibited and screen readers
-               would announce the star glyphs instead. */
+            /* Two stacked star rows: a faded track and a filled overlay
+               clipped to the score, so a half star is an actual half rather
+               than a glyph the font may not have. role="img" so the label is
+               honoured — on a bare span the accessible name is prohibited. */
             <p class="journal-stars">
               <span
+                class="journal-stars-box"
                 role="img"
-                title={`${media.rating} sur ${MAX_RATING}`}
-                aria-label={`Noté ${media.rating} sur ${MAX_RATING}`}
+                title={ratingLabel(media.rating)}
+                aria-label={`Noté ${ratingLabel(media.rating)}`}
               >
-                {stars(media.rating)}
+                <span class="journal-stars-track" aria-hidden="true">{STAR_TRACK}</span>
+                <span
+                  class="journal-stars-fill"
+                  aria-hidden="true"
+                  style={`width:${ratingPercent(media.rating)}%`}
+                >{STAR_TRACK}</span>
               </span>
             </p>
           ) : (

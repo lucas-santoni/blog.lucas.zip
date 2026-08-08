@@ -49,7 +49,9 @@ const journalBase = {
 const journalMedia = {
   creator: z.string().nullish(),
   year: z.number().int().nullish(),
-  rating: z.number().int().min(1).max(5).nullish(),
+  // Half stars allowed: 1, 1.5, 2 … 5. Rendered as a CSS fill rather than a
+  // glyph, because no Unicode half-star renders reliably in this font stack.
+  rating: z.number().min(1).max(5).multipleOf(0.5).nullish(),
   // Deliberately not nullish: a blank `status:` should fail loudly rather
   // than render as "null" next to the stars.
   status: z.enum(['finished', 'abandoned', 'ongoing']).default('finished'),

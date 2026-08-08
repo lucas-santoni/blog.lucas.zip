@@ -138,10 +138,28 @@ half-filled scaffold builds as written. Blanking a required field (`title`,
 The body may be empty: an entry can be pure metadata.
 
 **Covers are mandatory** for every kind except `thought` — omitting one is a
-build error. Download them by hand into `public/assets/journal/<slug>.jpg`,
-kept small (~400px wide is plenty at display size — there is no image
-pipeline, files are served as-is). Note that cover art is not yours to
-relicense — see the carve-out at the top of `LICENSE-CONTENT`.
+build error. Download them by hand into `public/assets/journal/<slug>.jpg`.
+
+Resize to **500px wide**: the poster stencil displays at 150 CSS px, so that
+is a little over 3× and stays sharp on a retina screen, at roughly 50–150 KB
+per file. There is no image pipeline — files are served exactly as they sit
+on disk — so anything larger is bandwidth spent on pixels nobody sees.
+
+```sh
+sips --resampleWidth 500 -s format jpeg -s formatOptions 82 cover.jpg
+```
+
+If the book is in Kavita, the **epub's own cover** is the best source: same
+edition, and typically 1200–2400px before resizing. Kavita's `series-cover`
+API returns a downscaled thumbnail (~281px) that looks soft at display size —
+extract from the file instead:
+
+```sh
+unzip -p "$EPUB" OEBPS/Images/cover.jpg > cover.jpg   # path varies per epub
+```
+
+Note that cover art is not yours to relicense — see the carve-out at the top
+of `LICENSE-CONTENT`.
 
 Each kind has a fixed cover shape, so the page layout never depends on the
 proportions of whatever artwork you found:

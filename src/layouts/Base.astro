@@ -159,11 +159,10 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
     <div class="footer">
       <ul>
         <li><a href={GITHUB_URL}>GitHub</a></li>
-        {/* The Journal link is withheld until there is something to read
-            there. The Blog link still shows on journal pages so anyone who
-            reaches one has a way back. Restore by turning this back into a
-            ternary that offers /journal elsewhere. */}
-        {isJournal && <li><a href="/posts">Blog</a></li>}
+        {/* Each section offers the other. */}
+        {isJournal
+          ? <li><a href="/posts">Blog</a></li>
+          : <li><a href="/journal">Journal</a></li>}
         <li><a href="/resume">Resume</a></li>
         <li><a href="/about">About</a></li>
         <li><a href={isJournal ? '/journal/rss.xml' : '/rss.xml'}>RSS</a></li>
