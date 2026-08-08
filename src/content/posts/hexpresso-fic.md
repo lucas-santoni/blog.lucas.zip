@@ -6,8 +6,8 @@ date: "2019-12-19T00:00:00"
 
 The FIC (*Forum International de la Cybersécurité*) is an event that takes
 place in Lille, France every year. This year, the French CTF team [Hexpresso](https://www.hexpresso.fr/)
-organizes the CTF. These guys have a pretty strong high fun/low guessing
-policy so I thought I will compete with my friends from Team Ropkek.
+organized the CTF. These guys have a pretty strong high fun/low guessing
+policy so I thought I would compete with my friends from Team Ropkek.
 
 ![Hopes](/assets/hexpresso-fic-quals/intro/hopes.png)
 
@@ -48,7 +48,7 @@ FINAL   -> [uniq hit : 16]
 +----------------------------------------------------------------------------+
 ```
 
-Well, technically, XeR was first but he won't compete the finals and I want
+Well, technically, XeR was first but he won't compete in the finals and I want
 to flex.
 
 Here are my writeups:
@@ -66,4 +66,4 @@ challenge of this qualification round), please take a look at
 written by my teammate Shiro.
 
 I'm excited for the finals. The other teams look very musclées so I'm scared
-but its ok.
+but it's ok.

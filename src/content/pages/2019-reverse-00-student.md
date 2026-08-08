@@ -4,7 +4,7 @@ slug: 2019-reverse-00-student
 ---
 
 Cette journée est une introduction au *reverse*, ou **rétro-ingénierie**
-(voire même ingénierie à reculon si vous êtes ce genre de personne) en
+(voire même ingénierie à reculons si vous êtes ce genre de personne) en
 français. J'utiliserai le terme anglais reverse tout au long de ce document,
 on va pas se prendre la tête.
 
@@ -33,14 +33,14 @@ ce que ça donne une fois compilé
 * simplement se faire plaisir, c'est cool le reverse, ça fait travailler le
 cerveau et ça élimine les gueules de bois
 
-Il n'y a pas vraiment de langage de programmation à connaitre... Le Python
+Il n'y a pas vraiment de langage de programmation à connaître... Le Python
 peut aider pour du scripting et le C rend service quand on veut faire des
 tests un peu plus bas niveau mais ça peut toujours se remplacer. D'une manière
-générale, connaitre le langage de programmation qui a servi à produire le
+générale, connaître le langage de programmation qui a servi à produire le
 binaire que l'on veut reverse est une très bonne chose.
 
 Quand on fait du reverse, on se retrouve face à un listing assembleur. On peut
-donc se dire que c'est une bonne idée de connaitre ce langage. J'aime pas
+donc se dire que c'est une bonne idée de connaître ce langage. J'aime pas
 vraiment considérer l'assembleur du reverse comme un langage de programmation.
 Le listing que l'on voit est simplement une représentation plus humaine du
 programme compilé. Il n'y a aucune différence entre la suite d'octets que l'on
@@ -58,10 +58,10 @@ et très fastidieux mais ça permet d'avancer au début et au bout de quelques
 fois, on peut tout faire de tête.
 * Mémorisez et recherchez les "patterns" de
 [control flow](https://en.wikipedia.org/wiki/Control_flow) : conditions,
-boucles, sauts, appels de fonction... Ce sont à ces endroits là qu'il y a de
+boucles, sauts, appels de fonction... C'est à ces endroits-là qu'il y a de
 l'action !
 
-**Attention : Nous attendons des réponses complêtes et exhaustives de votre
+**Attention : Nous attendons des réponses complètes et exhaustives de votre
 part. Que vous trouviez le mot de passe d'un exercice ne nous intéresse
 en réalité pas vraiment... Ce sont les questions qui attireront votre attention
 sur les notions importantes et qui vous permettront de progresser.**
@@ -76,14 +76,14 @@ Installez GDB puis installez [PEDA](https://github.com/longld/peda).
 
 Au passage, un peu de vocabulaire :
 
-* un débogueur est un logiciel qui vient se mettre au dessus d'un autre binaire
+* un débogueur est un logiciel qui vient se mettre au-dessus d'un autre binaire
 afin de monitorer son exécution et permettre de mettre le programme en pause,
-placer des points d'arrêts, inspecter le contenu des registres ou de la
-mémoire... (exemple: GDB)
+placer des points d'arrêt, inspecter le contenu des registres ou de la
+mémoire... (exemple : GDB)
 * un désassembleur est un logiciel qui, à partir d'un binaire compilé, vient
-nous générer un listing assembleur (exemple: `objdump -D`)
-* un décompilateur est un logiciel qui, à partir d'une binaire compilé, vient
-nous générer un pseudo-code, souvent proche du C (exemple: Hex-Rays Decompiler,
+nous générer un listing assembleur (exemple : `objdump -D`)
+* un décompilateur est un logiciel qui, à partir d'un binaire compilé, vient
+nous générer un pseudo-code, souvent proche du C (exemple : Hex-Rays Decompiler,
 parfois surnommé *F5 dans IDA*)
 
 GDB a beaucoup de commandes, gardez
@@ -111,7 +111,7 @@ Ce binaire demande un mot de passe... On appelle ça un *crackme* ou un
 *reverseme*. C'est un logiciel qui a été développé dans le seul but de produire
 un exercice de reverse.
 
-Quel est le mot de passe demandé ? Avez vous vraiment besoin de GDB pour le
+Quel est le mot de passe demandé ? Avez-vous vraiment besoin de GDB pour le
 trouver ?
 
 Indice : I wanna be tracer !
@@ -163,7 +163,7 @@ symboles, nous avons par exemple :
 * des noms de variables
 * des bouts du code source original
 
-Sans les symboles, le débogage est plus compliqué. Surtout, le "démarage" est
+Sans les symboles, le débogage est plus compliqué. Surtout, le "démarrage" est
 plus compliqué car on ne peut pas lâcher un `disas main` et commencer à se
 repérer à partir de là.
 
@@ -171,10 +171,10 @@ Utilisez `readelf` ou GDB pour récupérer le point d'entrée du programme.
 Existe-t-il un lien entre le point d'entrée du programme et l'adresse de la
 fonction main ?
 
-Répondez ensuite aux questions suivante :
+Répondez ensuite aux questions suivantes :
 
 * donnez l'adresse de la fonction `main`
-* trouvez l'adresse à laquelle est stockée le flag
+* trouvez l'adresse à laquelle est stocké le flag
 * trouvez le mot de passe demandé
 
 
@@ -182,7 +182,7 @@ Répondez ensuite aux questions suivante :
 
 Téléchargez le fichier [bin06](/assets/reverse-00/ex06/bin06).
 
-Ce binaire a l'air différent... Peut être que la commande `file` pourrait nous
+Ce binaire a l'air différent... Peut-être que la commande `file` pourrait nous
 donner plus d'informations ?
 
 Trouvez le mot de passe demandé.
@@ -193,7 +193,7 @@ très bonne chose !
 
 ## Exercice 07
 
-*Cet exercice est une création de **Oursin**, merci à lui !*.
+*Cet exercice est une création de **Oursin**, merci à lui !*
 
 Téléchargez le fichier [bin07](/assets/reverse-00/ex07/bin07).
 
@@ -216,7 +216,7 @@ Téléchargez le fichier [bin08](/assets/reverse-00/ex08/siglol).
 
 Trouvez le mot de passe demandé.
 
-Cet exercice est plus dur que les autres. Vous n'aurez surement pas le temps de
+Cet exercice est plus dur que les autres. Vous n'aurez sûrement pas le temps de
 le faire pendant la journée. N'hésitez pas à y revenir plus tard et poser des
 questions à <sylvain.lefevre@epitech.eu> !
 

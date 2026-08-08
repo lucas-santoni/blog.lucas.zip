@@ -9,16 +9,16 @@ sonder un peu le niveau de la salle.
 
 **Les étudiants doivent avoir un Linux ou un macOS sous la main (si y'en
 a qui se sentent de faire du Volatility sous Windows pourquoi pas mais
-je m'y risquerai pas).**
+je m'y risquerais pas).**
 
 **Les étudiants doivent avoir une machine virtuelle sous Windows disponible.
-Les machines physiques sont à proscrire, il va y avoir de reverse de logiciel
+Les machines physiques sont à proscrire, il va y avoir du reverse de logiciel
 malveillant.**
 
 
 ## Exercice 00
 
-Volatility peut être installé via quelques packet managers (Aur, Brew)
+Volatility peut être installé via quelques package managers (Aur, Brew)
 mais une solution moins aléatoire est de récupérer toute l'archive du projet
 et de lancer le `vol.py` manuellement.
 
@@ -33,7 +33,7 @@ Pour trouver le profil, on utilise la commande `imageinfo` qui nous donne :
 * Win2008R2SP1x64
 * Win7SP1x64\_23418
 
-Le premier fera l'affaire. C'est le moment moment pour expliquer la structure
+Le premier fera l'affaire. C'est le moment pour expliquer la structure
 d'une commande Volatility. On met toujours le fichier sur lequel on travaille
 et le profil. Puis on ajoute un verbe qui prend éventuellement des arguments.
 
@@ -55,7 +55,7 @@ Virtual            Physical           Name
 [...]
 ```
 
-On peut par la suite aller chercher le clé qui nous intéresse dans cette *hive* avec
+On peut par la suite aller chercher la clé qui nous intéresse dans cette *hive* avec
 la commande `printkey` :
 
 ```
@@ -110,7 +110,7 @@ dépendances Python n'est alors pas le bon.**
 **En cas de problème de nom sur `construct`, installer la version
 `construct==2.5.5-reupload` du module.**
 
-Le plugin `mimikatz` (fondé sur les recherches ayant permi de réaliser le
+Le plugin `mimikatz` (fondé sur les recherches ayant permis de réaliser le
 projet du même nom qui vaut le coup d'être introduit) permet d'aller pêcher le
 mot de passe en clair :
 
@@ -192,7 +192,7 @@ Writing vmware-tray.ex [  3720] to 3720.dmp
 Il faut bien insister sur le fait que l'empreinte mémoire du processus est
 tout aussi intéressante que le processus en lui même. On peut récupérer
 très facilement des clés en clair, des adresses de paiement, des noms de
-domaine, des URL de C&C, ect.
+domaine, des URL de C&C, etc.
 
 
 ## Exercice 05
@@ -215,14 +215,14 @@ Loader-Private
 C:\Users\Tyler\Desktop\hidden-tear-master\hidden-tear\hidden-tear\obj\Debug\VapeHacksLoader.pdb
 ```
 
-On trigger sur `VapeHacksLoader`. Une recherche Google nous ammène sur $
-ucyLocker. Je connais pas le malware mais on dirait du commercial, surement un
+On trigger sur `VapeHacksLoader`. Une recherche Google nous amène sur
+$ucyLocker. Je connais pas le malware mais on dirait du commercial, sûrement un
 ransomware clé en main.
 
-La dernière chaîne affichée passe par ce qui semble être un dépot versionné (en
+La dernière chaîne affichée passe par ce qui semble être un dépôt versionné (en
 raison du suffixe `-master`). Une recherche Google sur `hidden-tear-master`
-nous renvoie sur [ce dépot GitHub](https://github.com/goliate/hidden-tear).
-C'est un ransomware libre avec lequel on peut jouer un peu. C'est surement ça
+nous renvoie sur [ce dépôt GitHub](https://github.com/goliate/hidden-tear).
+C'est un ransomware libre avec lequel on peut jouer un peu. C'est sûrement ça
 qui a été utilisé pour construire l'épreuve.
 
 
@@ -266,9 +266,9 @@ tant mieux. Pour ceux qui ne le savent pas encore, on peut leur en parler
 maintenant mais je mets un indice plus tard lié à ça quand ça devient
 indispensable.
 
-L'expression régulière qu'on passe à `ag` vient de [cette rêgle Yara](https://github.com/JusticeRage/Manalyze/blob/master/bin/yara_rules/bitcoin.yara).
+L'expression régulière qu'on passe à `ag` vient de [cette règle Yara](https://github.com/JusticeRage/Manalyze/blob/master/bin/yara_rules/bitcoin.yara).
 
-On peut en profiter pour faire une petite démo Yara ! On part de la rêgle de
+On peut en profiter pour faire une petite démo Yara ! On part de la règle de
 Didier Stevens, on se rajoute le mot clé `wide` pour indiquer que les
 caractères sont sur deux octets (toujours à cause de l'UTF-16) et ça passe :
 
@@ -296,7 +296,7 @@ Owner: Process vmware-tray.ex Pid 3720
 0x00ec52c6  50 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00   P.r.o.p.e.r.t.i.
 ```
 
-La rêgle :
+La règle :
 
 ```
 rule BitcoinAddress {
@@ -316,19 +316,19 @@ rule BitcoinAddress {
 Le malware s'est installé en trois étapes :
 
 * Un fichier torrent a été téléchargé depuis Chrome
-* Rick a ouvert le torrent et récupéré son soit disant épisode de Rick &
+* Rick a ouvert le torrent et récupéré son soi-disant épisode de Rick &
   Morty
 * Rick a double-cliqué sur l'exécutable qui se faisait passer pour une vidéo,
   cet exécutable drop le malware qui a chiffré son disque
 
 En réalité, je n'ai pas vérifié si `Rick & Morty` était vraiment un dropper
-mais à vu de nez...
+mais à vue de nez...
 
-A partir du moment où l'étudiant met tout ça dans le bon ordre, c'est correct.
+À partir du moment où l'étudiant met tout ça dans le bon ordre, c'est correct.
 
 Autrement, les flags attendus sont obtenus ainsi...
 
-On sait que du Bittorent tourne donc il doit bien y avoir du fichier `.torrent`
+On sait que du BitTorrent tourne donc il doit bien y avoir du fichier `.torrent`
 quelque part sur la machine :
 
 ```
@@ -340,7 +340,7 @@ Volatility Foundation Volatility Framework 2.6
 0x000000007dcbf6f0      2      0 RW-rwd \Device\HarddiskVolume1\Users\Rick\AppData\Roaming\BitTorrent\Rick And Morty season 1 download.exe.1.torrent
 ```
 
-**A partir de là, on va commencer à abuser de `grep`. Même si ça peut sembler
+**À partir de là, on va commencer à abuser de `grep`. Même si ça peut sembler
 assez bourrin, ça permet de plier rapidement pas mal d'épreuves en CTF...
 Il peut être intéressant de présenter quelques outils CLI améliorés tels
 que :**
@@ -421,11 +421,11 @@ end
 ```
 
 Ce script peut être proposé aux étudiants. Il prend un truc comme 40 secondes
-à être codé en live et il montre le temps qu'on peut gagner en maitrisant
+à être codé en live et il montre le temps qu'on peut gagner en maîtrisant
 un peu son shell. Le trick du `&` est sympa aussi : on lance en fait le
 processus en arrière plan. De ce fait, on peut tout de suite démarrer un
 nouveau processus et paralléliser le travail. Les processus en arrière plan
-peuvent être surveillés avec la commande `fg`.
+peuvent être listés avec la commande `jobs`.
 
 Tout roule :
 
@@ -488,7 +488,7 @@ tbl_1533411035475_7.0.9.40728_2033115181
 [...]
 ```
 
-Mémotechnique à filer aux étudiants : `-B`/`-A` pour **B**efore et **A**fter.
+Mnémotechnique à filer aux étudiants : `-B`/`-A` pour **B**efore et **A**fter.
 
 On repère `Hum@n_I5_Th3_Weak3s7_Link_In_Th3_Ch@inYear`.
 
@@ -500,7 +500,7 @@ baladant un peu on tombe sur une routine intéressante :
 
 ![dnSpy Routine](/assets/forensics-00/dnspy_routine.png)
 
-La fonction `CreatePassword` génère une chaine de caractère aléatoire.
+La fonction `CreatePassword` génère une chaîne de caractères aléatoire.
 C'est le mot de passe que l'on recherche. Le mot de passe généré est ensuite
 passé à la fonction `SendPassword` qui a le corps suivant :
 
@@ -508,7 +508,7 @@ passé à la fonction `SendPassword` qui a le corps suivant :
 
 On peut raisonnablement espérer que la valeur de retour de cette fonction
 se trouve dans notre dump de la mémoire du processus. On peut `grep` assez
-facilement étant donné que l'on connait le nom de la machine ainsi que le
+facilement étant donné que l'on connaît le nom de la machine ainsi que le
 nom de l'utilisateur courant :
 
 ```
@@ -539,7 +539,7 @@ vol.py -f OtterCTF.vmem --profile=Win7SP1x64 filescan | ag "desktop"
 [...]
 ```
 
-Le nom `Flag.txt` est assez évoquateur... On se le dump :
+Le nom `Flag.txt` est assez évocateur... On se le dump :
 
 ```
 vol.py -f OtterCTF.vmem --profile=Win7SP1x64 dumpfiles -Q 0x000000007e410890 -D .
@@ -549,7 +549,7 @@ DataSectionObject 0x7e410890   None   \Device\HarddiskVolume1\Users\Rick\Desktop
 ```
 
 En regardant un peu le code de `hidden-tear`, on voit que c'est de l'AES. Il
-y a un programme de déchiffrement dans le dépot donc on se le récupère.
+y a un programme de déchiffrement dans le dépôt donc on se le récupère.
 La fonction intéressante est `AES_Decrypt` :
 
 ```cs
@@ -598,13 +598,13 @@ déchiffrement ne passe que sur les fichiers avec cette extension :
 ![Extension .locked obligatoire !](/assets/forensics-00/locked_only.png)
 
 On peut valider dans dnSpy que l'utilisateur du ransomware n'a pas
-modifié de paramêtre lors du chiffrement :
+modifié de paramètre lors du chiffrement :
 
-![Foncton de chiffrement](/assets/forensics-00/encrypt.png)
+![Fonction de chiffrement](/assets/forensics-00/encrypt.png)
 
-On peut comparer avec le dépot du projet, c'est bien la fonction
+On peut comparer avec le dépôt du projet, c'est bien la fonction
 originale. Il faut insister sur ces vérifications qui peuvent donner
-l'impression qu'on est complêtement à côté de la solution alors qu'on
+l'impression qu'on est complètement à côté de la solution alors qu'on
 a juste oublié de récupérer une valeur de salt différente, par exemple.
 
 Tout roule :
@@ -616,4 +616,4 @@ Et on obtient le flag final : `CTF{Im_Th@_B3S7_RicK_0f_Th3m_4ll}`.
 
 ## Exercice 10
 
-Il faut insister pour les étudiants nous fassent un petit retour...
+Il faut insister pour que les étudiants nous fassent un petit retour...

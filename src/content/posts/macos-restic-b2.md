@@ -46,7 +46,7 @@ was aiming for, at least).
 
 This post walks the setup top to bottom. We start with the building blocks and
 run a backup by hand. Then we wire it into launchd so it runs every night.
-After that, we work on some _polish_: notifications, cosmetics...And finally,
+After that, we work on some _polish_: notifications, cosmetics... And finally,
 the repo layout. The code is on GitHub at
 [lucas-santoni/macos-backup-restic-b2](https://github.com/lucas-santoni/macos-backup-restic-b2).
 
@@ -662,7 +662,7 @@ yet. We build that next!
 
 ### The `.app` bundle, AMFI, and codesigning
 
-This is the most goofy-looking 🤪 part of the setup. A backup script ending up
+This is the goofiest-looking 🤪 part of the setup. A backup script ending up
 inside an `.app` bundle, codesigned, feels disproportionate to the task. I
 tried to avoid this as much as possible but after a lot of iterations, I
 actually don't think there is a way around it.
@@ -934,7 +934,7 @@ forget at 03:00. On a Mac that's awake at 02:30, backup finishes well under 30
 minutes and the schedule is fine. With DarkWake-fragmented execution, backup
 might still be running (suspended, mostly) at 03:00. Both restic and
 resticprofile use locks but the default behavior is "fail immediately if
-locked" which is not ideal if the laptop is asleep or if a backup takes
+locked", which is not ideal if the laptop is asleep or if a backup takes
 longer than usual for whatever reason.
 
 The fix is two directives, as there are two locks:

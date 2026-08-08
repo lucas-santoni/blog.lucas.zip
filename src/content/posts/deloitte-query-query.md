@@ -46,14 +46,14 @@ A simple `'` crashes the application, so this field is most likely injectable.
 
 ![Web Application](/assets/query-query/crash.png)
 
-Let's try to login as `user`. This particular username may not exist but
+Let's try to log in as `user`. This particular username may not exist but
 it will give us some information on how the application behaves:
 
 ```
 user' OR 1=1 --
 ```
 
-And we get logged as `TESTIING`.
+And we get logged in as `TESTIING`.
 
 ![TESTIING](/assets/query-query/testiing.png)
 
@@ -66,7 +66,7 @@ Let's try with a username that will most likely not exist:
 does_not_exist' OR 1=1 --
 ```
 
-We are logged as `TESTIING` again. Maybe the SQL query is very weird and still
+We are logged in as `TESTIING` again. Maybe the SQL query is very weird and still
 manages to get this user. Let's ignore this for now and carry on.
 
 According to the challenge description, the flag is the password of one of the
@@ -80,24 +80,24 @@ whocares' UNION SELECT 1, 2 --
 whocares' UNION SELECT 1, 2, 3 --
 ```
 
-All these payloads crashes the application.
+All these payloads crash the application.
 
 ```
 whocares' UNION SELECT 1, 2, 3, 4 --
 ```
 
-This payload does not crash the application and logs us as `2`.
+This payload does not crash the application and logs us in as `2`.
 
 ![Logged as 2](/assets/query-query/two.png)
 
-Let's replace the numbers by actual column names. We guess that the `id`
+Let's replace the numbers with actual column names. We guess that the `id`
 column exists and that the password column is named `password`.
 
 ```
 whocares' UNION SELECT id, password, id, id from users --
 ```
 
-We are now logged as `monkey28`, which is the password of `TESTIING`.
+We are now logged in as `monkey28`, which is the password of `TESTIING`.
 
 ![Logged as monkey](/assets/query-query/monkey.png)
 

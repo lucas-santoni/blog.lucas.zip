@@ -99,7 +99,7 @@ feels easy is the day you've stopped getting better.
 ## Seniority is not management
 
 A very obvious and expensive mistake I've made myself is to promote great
-engineers to a management position. "He's been here five years, He's senior,
+engineers to a management position. "He's been here five years, he's senior,
 let's give him a team." **It's a great way to lose a strong engineer and
 manufacture a struggling manager in a single move...**
 
@@ -125,8 +125,8 @@ The difference is the kind of leadership:
   They lead because people choose to follow their judgment, not because they
   have to.
 
-Fortunately, most well structured companies operate on some version of this
-dual track framework. But when your startup is small and everyone does a bit of
+Fortunately, most well-structured companies operate on some version of this
+dual-track framework. But when your startup is small and everyone does a bit of
 everything, it's easy to confuse seniority and management.
 
 So seniority does NOT mean management. But, and this is the nuance that

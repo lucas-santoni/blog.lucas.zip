@@ -12,7 +12,7 @@ la sécurité web :
 * le navigateur Chrome embarque des protections contre les XSS/CSRF qui sont
   pénibles quand on veut justement en exploiter une
 
-On peut aussi troller un peu sur PHP, ça fait jamais de mal. Ca vaut le coup
+On peut aussi troller un peu sur PHP, ça fait jamais de mal. Ça vaut le coup
 de parler [de la fin de PHP5](https://www.youtube.com/watch?v=yx2ks03d4mE).
 On en profite pour faire de la pub pour
 [Snuffleupagus](https://github.com/nbs-system/snuffleupagus), c'est gagné.
@@ -39,7 +39,7 @@ On part du principe que la redirection se fait côté serveur.
 ## Exercice 01
 
 `GET`, `POST`, `PUT` et `DELETE` sont les quatre verbes HTTP que l'on
-retrouve traditionnellment dans le `REST` :
+retrouve traditionnellement dans le `REST` :
 
 * `GET` pour récupérer une ressource auprès du serveur
 * `POST` pour mettre à jour une ressource, parfois créer
@@ -80,17 +80,17 @@ ce qui est hors du scope de la journée, donc bof.
 
 ## Exercice 02
 
-Epreuve Root-Me donc pas de correction publique.
+Épreuve Root-Me donc pas de correction publique.
 
 Il ne faut jamais faire de sécurité côté client car on expose le mécanisme de
 sécurité. Aussi fort qu'il soit, ce n'est qu'une question de temps avant
 qu'il soit cassé. Le morceau de JavaScript le plus obfusqué du monde finira
-toujours pas être nettoyé et compris.
+toujours par être nettoyé et compris.
 
 
 ## Exercice 03
 
-Epreuve Root-Me donc pas de correction publique.
+Épreuve Root-Me donc pas de correction publique.
 
 Nous avons une XSS à partir du moment où nous sommes en mesure d'injecter
 dans la page du contenu interprétable par le navigateur. Dans le cas d'école,
@@ -108,7 +108,7 @@ est ensuite envoyé à l'utilisateur en espérant qu'il clique dessus.
 
 ## Exercice 04
 
-Epreuve Root-Me donc pas de correction publique.
+Épreuve Root-Me donc pas de correction publique.
 
 Dans l'ordre :
 
@@ -145,22 +145,22 @@ Quelques moyens permettant de profiter d'une CSRF :
 
 ## Exercice 05
 
-Epreuve WebSec donc pas de correction publique.
+Épreuve WebSec donc pas de correction publique.
 
 L'indice fait référence au *type juggling* de PHP.
 
 
 ## Exercice 06
 
-Epreuve WebSec donc pas de correction publique.
+Épreuve WebSec donc pas de correction publique.
 
-L'indice chercher à faire comprendre que valider la nature d'un fichier en
+L'indice cherche à faire comprendre que valider la nature d'un fichier en
 se fondant uniquement sur quelques octets n'est pas vraiment une bonne idée.
 
 
 ## Exercice 07
 
-Epreuve WebSec donc pas de correction publique.
+Épreuve WebSec donc pas de correction publique.
 
 L'indice fait référence à une *race condition*.
 

@@ -35,12 +35,12 @@ We now know that `main` is `FUN_00101570`:
 
 ![Encrypt File](/assets/hexpresso-fic-quals/step4/encrypt_file.png)
 
-This function retrieves the current time via `time(NULL)` and call the actual
+This function retrieves the current time via `time(NULL)` and calls the actual
 encryption routine (`FUN_00101220`). Let's see:
 
 ![Routine](/assets/hexpresso-fic-quals/step4/routine.png)
 
-Nothing special, it is a basically a XOR. The key is generated from the
+Nothing special, it is basically a XOR. The key is generated from the
 current time and the name of the file to be encrypted.
 
 Let's recap what we know:

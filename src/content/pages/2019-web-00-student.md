@@ -8,7 +8,7 @@ regroupe généralement toutes les attaques que l'on peut infliger aux
 sites web et autres applications que l'on consomme à travers un navigateur.
 
 Il s'agit certainement de la branche la plus populaire de la sécurité
-informatique. Les média grand public en parlent régulièrement, les entreprises
+informatique. Les médias grand public en parlent régulièrement, les entreprises
 y mettent des sommes folles... Et ce n'est pas près de s'arrêter ! De plus en
 plus de choses se passent sur le web. De nouveaux frameworks, de nouveaux
 langages et de nouvelles technologies émergent tous les ans, chacun avec son
@@ -27,7 +27,7 @@ Les compétences requises en sécurité web sont, entre autres :
 Côté client, le langage roi est JavaScript. Nous verrons quelques
 vulnérabilités *client-side* au cours de cette journée.
 
-Côté serveur, on a une pluralité beaucoup plus imporante : PHP, JavaScript,
+Côté serveur, on a une pluralité beaucoup plus importante : PHP, JavaScript,
 Python, Go, C++... On retrouve également des langages de base de données.
 
 D'une manière générale, comprendre le langage dans lequel est écrit
@@ -38,7 +38,7 @@ pour les épreuves serveur. Nous cherchions un langage très utilisé en
 production mais présentant, par design, de nombreuses vulnérabilités. Un
 langage très permissif qui vous permettrait de laisser libre cours à votre
 créativité. Un langage regroupant toute la faune et la flore des problèmes de
-sécurité dans les applications web. Nous parlons bien sur de PHP.
+sécurité dans les applications web. Nous parlons bien sûr de PHP.
 
 
 ## Exercice 00
@@ -49,12 +49,12 @@ appuie sur le bouton "Se Connecter" d'un site web. L'utilisateur constate que
 la page se recharge. Une fois le chargement terminé, il est connecté, et sur
 sa page de profil.
 
-Vous devez faire apparaitre les légendes suivantes :
+Vous devez faire apparaître les légendes suivantes :
 
 * début de la requête vers le serveur web
 * début de la requête vers la base de données
 * utilisateur/navigateur
-* fin de la requête vers le serveur WEB
+* fin de la requête vers le serveur web
 * traitement de PHP
 * fin de la requête vers la base de données
 * côté serveur
@@ -72,10 +72,10 @@ Continuons nos recherches sur le HTTP...
 
 Répondez aux questions suivantes :
 
-* quels sont les caractéristiques des
+* quelles sont les caractéristiques des
   requêtes `GET`, `POST`, `PUT` et `DELETE` ?
-* prenons une requête `POST`, qu'est ce que le `Content-Type` ?
-* par quel(s) moyen(s) standards peut on communiquer de la donnée au serveur
+* prenons une requête `POST`, qu'est-ce que le `Content-Type` ?
+* par quel(s) moyen(s) standards peut-on communiquer de la donnée au serveur
   dans le cas d'une requête `GET` ?
 * déchiffrez `3%20%2B%202%20%3D%205%20est%20une%20%C3%A9galit%C3%A9%20vraie`,
   quelle est l'utilité de cette représentation ?
@@ -91,7 +91,7 @@ Vous devez affronter [cette épreuve](https://www.root-me.org/fr/Challenges/Web-
 
 Pour vous aider, répondez aux questions suivantes :
 
-* cette application implémente-elle sa sécurité côté client ou côté serveur ?
+* cette application implémente-t-elle sa sécurité côté client ou côté serveur ?
 * dans quel fichier cette sécurité est-elle implémentée ?
 * comment sont stockés le nom d'utilisateur et le mot de passe ?
 
@@ -112,7 +112,7 @@ Voici des questions pour vous aider :
 * comment pouvez-vous vous envoyer ce que vous souhaitez recevoir ?
 
 Expliquez le principe d'une XSS. Expliquez la différence entre une XSS
-**réfléchie** et une XSS **stockée**. Y'a-t-il des interactions avec le serveur
+**réfléchie** et une XSS **stockée**. Y a-t-il des interactions avec le serveur
 dans le cadre d'une XSS ?
 
 
@@ -136,7 +136,7 @@ Expliquez le principe d'une CSRF. Donnez un exemple de mécanisme permettant
 de s'en protéger.
 
 
-## Exercie 05
+## Exercice 05
 
 Assez de sécurité côté client... Vous avez compris le principe : qui dit
 point d'entrée mal filtré, dit vulnérabilité. Il ne faut jamais faire
@@ -145,9 +145,9 @@ JavaScript là où bon lui semble.
 
 Passons côté serveur...
 
-Vous devez affronte l'épreuve numéro 17 de [WebSec](https://websec.fr/).
+Vous devez affronter l'épreuve numéro 17 de [WebSec](https://websec.fr/).
 
-Un indice : les adeptes de PHP sont souvent de très bon jongleurs...
+Un indice : les adeptes de PHP sont souvent de très bons jongleurs...
 
 
 ## Exercice 06
@@ -155,7 +155,7 @@ Un indice : les adeptes de PHP sont souvent de très bon jongleurs...
 Vous devez affronter l'épreuve numéro 08 de [WebSec](https://websec.fr/).
 
 Un indice : PHP est le genre de gars qui adore les emballages mais qui se
-soucie assez peu du cadeau en lui même...
+soucie assez peu du cadeau en lui-même...
 
 Un autre indice : au final, ça veut dire quoi "valide" ?
 

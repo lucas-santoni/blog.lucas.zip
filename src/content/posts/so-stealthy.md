@@ -9,17 +9,17 @@ d'équipes.
 
 ![Enoncé de l'épreuve](/assets/sostealthy/intro.png)
 
-Le scénario : une équipe réponse incident a fait une capture d'un réseau
+Le scénario : une équipe de réponse à incident a fait une capture d'un réseau
 infecté et c'est à nous de retrouver le **logiciel malveillant** qui a
 circulé.
 
 On commence par télécharger le fichier `suspicious.pcap` et on le charge
 dans Wireshark. Le fichier est trop volumineux pour qu'on se fasse chaque
 entrée à la main, du coup je scroll un peu au hasard et je fais des
-*Clique droit > Suivre > Flux TCP* de temps en temps mais rien ne me saute
+*Clic droit > Suivre > Flux TCP* de temps en temps mais rien ne me saute
 aux yeux, il va falloir des **filtres**...
 
-En scrollant, j'ai remarqué qu'il y avait des **connections HTTP**. Un filtre
+En scrollant, j'ai remarqué qu'il y avait des **connexions HTTP**. Un filtre
 qui marche assez bien quand on est dans un scénario d'infection est
 le suivant : `http contains function`. En effet, `function` est un mot clé
 permettant de déclarer une fonction en **Javascript** et ce **langage est
@@ -30,18 +30,18 @@ souvent utilisé comme vecteur d'infection**.
 On a deux entrées qui ressortent. La première ne nous intéresse pas du tout,
 c'est une page de warning genre "Attention, nous enregistrons vos cookies".
 Il se trouve que cette page embarque du Javascript de tracking, ce qui
-explique qu'on l'ai recupérée dans nos filets.
+explique qu'on l'ait récupérée dans nos filets.
 
-En revanche, quand on fait un *Clique droit > Suivre > Flux HTTP* sur la
+En revanche, quand on fait un *Clic droit > Suivre > Flux HTTP* sur la
 deuxième, on tombe sur **un gros bloc de Javascript un peu obfusqué** :
 
 ![Wireshark paquet intéressant](/assets/sostealthy/packet.png)
 
 _**Note** : On peut imaginer beaucoup d'autres variantes de ce filtre pour
 identifier du Javascript. Par exemple, le mot clé `function` n'est
-aujourd'hui plus du tout requis pour déclaré une fonction. Ainsi, il peut
-etre intéressant de matcher sur des éléments de syntaxe plus modernes comme
-`) => ` (bout de de déclaration en arrow function) ou bien `async`._
+aujourd'hui plus du tout requis pour déclarer une fonction. Ainsi, il peut
+être intéressant de matcher sur des éléments de syntaxe plus modernes comme
+`) => ` (bout de déclaration en arrow function) ou bien `async`._
 
 Voici le code brut, pas encore retravaillé :
 
@@ -237,15 +237,15 @@ try {
 }
 ```
 
-C'est une obfusquation assez "polie". Voici ce qu'il y a à corriger :
+C'est une obfuscation assez "polie". Voici ce qu'il y a à corriger :
 
   * La fonction `setversion` n'a pas de corps et n'est jamais appelée. On
   peut donc la retirer.
   * La fonction `debug` n'a pas de corps mais elle est appelée et prend
-  ce qui semble etre un message d'erreur en paramètre. Je lui ajoute
+  ce qui semble être un message d'erreur en paramètre. Je lui ajoute
   donc un corps affichant ce paramètre sur la sortie d'erreur. Dans le pire
   des cas, j'aurai un autre message d'erreur m'indiquant que l'objet pris
-  en paramètre ne peut etre automatiquement converti en `String`.
+  en paramètre ne peut être automatiquement converti en `String`.
   * Les noms de variable ne sont pas explicites. Je les renomme via les
   expressions régulières de Vim selon ma compréhension du code.
   * On peut aussi éventuellement corriger l'indentation et le formatage.
@@ -467,7 +467,7 @@ _**Note** : D'un point de vue méthodologique, **il n'est pas très malin
 de faire des modifications sur un code obfusqué avant de l'avoir exécuté
 au moins une fois** afin de valider son fonctionnement. En effet, on risque
 de casser le code en cherchant à le rendre plus lisible. Sauf que si on ne
-sait pas ce que ce code est censé faire, on a plus de **point de comparaison**
+sait pas ce que ce code est censé faire, on n'a plus de **point de comparaison**
 nous permettant de savoir si le code n'est pas fonctionnel dans l'absolu ou
 si c'est nous qui l'avons cassé._
 
@@ -478,10 +478,10 @@ car on ne sait pas **pour quel moteur Javascript a été écrit ce code** et don
 quels éléments syntaxiques il supporte. Il faut rendre le code explicite
 sans risquer d'altérer son fonctionnement._
 
-Il s'agit d'un **wrapper autour d'un composant Active X**. La grosse chaine de
+Il s'agit d'un **wrapper autour d'un composant Active X**. La grosse chaîne de
 caractères en **base64** est en fait le programme qui est décodé à la volée
 puis chargé et exécuté. Les appels à l'API Active X sont assez explicites.
-En revanche, j'ai été perturbé ces deux lignes là :
+En revanche, j'ai été perturbé par ces deux lignes-là :
 
 ```js
 // Call some method, we'll see that later
@@ -493,7 +493,7 @@ dynamicInvokation.Joh8achoo1aepahjeiy9();
 La variable `dynamicInvokation` représente ici le programme en cours
 d'exécution. **Deux méthodes avec des noms pas du tout explicites sont
 appelées** et pour l'instant il est assez difficile de prédire leur
-fonctionnement. On en reparlera plus tard. Il en va de meme pour la variable
+fonctionnement. On en reparlera plus tard. Il en va de même pour la variable
 `namespace`.
 
 J'ai ensuite essayé **d'exécuter le code**. En faisant quelques recherches, je
@@ -503,37 +503,37 @@ Windows et **j'autorise IE à exécuter tous les composants Active X**.
 
 Je charge le script via une page HTML et :
 
-![Le crackme apparait](/assets/sostealthy/please.png)
+![Le crackme apparaît](/assets/sostealthy/please.png)
 
-Une boite de dialogue qui nous demande un mot de passe... Il va donc falloir
-analyse le programme Active X. Voilà ce qu'on a lorsqu'on décode le base64 :
+Une boîte de dialogue qui nous demande un mot de passe... Il va donc falloir
+analyser le programme Active X. Voilà ce qu'on a lorsqu'on décode le base64 :
 
-![On reconnait du PE](/assets/sostealthy/pe.png)
+![On reconnaît du PE](/assets/sostealthy/pe.png)
 
-Le script `decode.js` ne fait qu'afficher l'ensemble des chaines base64, une
+Le script `decode.js` ne fait qu'afficher l'ensemble des chaînes base64, une
 fois concaténées.
 
-On reconnait **du PE** : `MZ`, `PE`, `This program cannot be run in DOS
+On reconnaît **du PE** : `MZ`, `PE`, `This program cannot be run in DOS
 mode.`...
 
 Je redirige la sortie vers un fichier mais `file` ne semble pas
 identifier le PE. Il détecte une police de caractères à la place. Le programme
-doit etre une sorte d'archive Active X.  J'utilise donc Foremost pour
+doit être une sorte d'archive Active X. J'utilise donc Foremost pour
 **extraire une DLL** :
 
 ![On extrait une DLL](/assets/sostealthy/extract.png)
 
 Je voulais charger la DLL dans IDA mais un pote m'a alors parlé de
 [dnSpy](https://github.com/0xd4d/dnSpy). C'est un outil pour analyser du
-.NET compilé et c'est plutot le feu.
+.NET compilé et c'est plutôt le feu.
 
 dnSpy est assez simple d'utilisation : on se balade dans les objets et
-les structures de données comme dans un explorateur de fichier. Aussi, super
+les structures de données comme dans un explorateur de fichiers. Aussi, super
 utile, **on peut aller chercher des cross references** et répondre super
 facilement à des questions genre : quelle fonction utilise cette variable ?
 Ou bien, quelle fonction initialise cette variable ? On en profite pour
-remarquer que le contenu de la variable que j'ai nommé `namespace` plus
-haute est alors présente de partout. ;)
+remarquer que le contenu de la variable que j'ai nommée `namespace` plus
+haut est alors présent partout. ;)
 
 On se balade un peu et on tombe rapidement sur la **routine de vérification**
 du mot de passe :
@@ -544,16 +544,16 @@ Admettons trois suites d'octets : A, B, C. A est passé en paramètre à la
 fonction.
 
 Pour chaque octet de la suite B, on récupère son homologue dans la suite A.
-On XOR les deux octets puis on compare le résulat à l'octet correspondant
+On XOR les deux octets puis on compare le résultat à l'octet correspondant
 dans la suite C. Si le résultat ne correspond pas, on se prend un message
 d'erreur. Sinon, on continue. Si on arrive à la fin de la routine, alors
 le mot de passe est correct.
 
-En bref, **c'est un bete XOR**. Le programme se sert de notre entrée (A) comme
+En bref, **c'est un bête XOR**. Le programme se sert de notre entrée (A) comme
 d'une clé et XOR de la donnée (B) avec. Si cette donnée correspond avec ce qui
 est attendu (C), on est bon.
 
-XOR est symétrique. Ainsi, **si on connait B et C, on peut retrouver A en les
+XOR est symétrique. Ainsi, **si on connaît B et C, on peut retrouver A en les
 XORant entre eux**.
 
 **C est facile à trouver**, il suffit de cliquer dessus dans dnSpy pour tomber
@@ -562,9 +562,9 @@ sur ce tableau :
 ![Tableau en dur](/assets/sostealthy/hardcoded.png)
 
 **Il ne nous reste plus qu'à trouver B**. Si on double clique dessus, on arrive
-sur **une référence** (référence/pointeur, je suis pas trop sur) et non un
-tableau en dur. B est donc construit **dynamiquement**.  DnSpy nous permet de
-trouver la fonction qui initialise B (*Clique droit sur une fonction >
+sur **une référence** (référence/pointeur, je suis pas trop sûr) et non un
+tableau en dur. B est donc construit **dynamiquement**. dnSpy nous permet de
+trouver la fonction qui initialise B (*Clic droit sur une fonction >
 Analyze*). Problème, **cette fonction n'est jamais appelée** dans le code :
 
 ![On analyse](/assets/sostealthy/analyze.png)
@@ -572,15 +572,15 @@ Analyze*). Problème, **cette fonction n'est jamais appelée** dans le code :
 Je récapitule. La routine de vérification `MeeBish...` utilise une variable
 appelée `Tai8Aip...` (B) qui est assignée dans la fonction `Aa6bi4...`.
 Cette fonction n'est jamais appelée (champ *Used by* vide). Regardons tout
-de meme sa définition :
+de même sa définition :
 
 ![Un simple setter](/assets/sostealthy/setter.png)
 
 La fonction est donc un simple setter qui récupère un paramètre pour en
-en extraire **les 22 derniers octets** et les assigner à B.
+extraire **les 22 derniers octets** et les assigner à B.
 
 La fonction n'est jamais appelée dans la DLL mais elle est appelée par le
-code Javascript que nous avons analysés précédemment ! Cette ligne, dont
+code Javascript que nous avons analysé précédemment ! Cette ligne, dont
 on ne comprenait pas trop l'utilité :
 
 ```js
@@ -590,7 +590,7 @@ dynamicInvokation.Aa6bi4uidan4shahSee9(bigBase64);
 
 Le nom de fonction correspond ! Et quel est le paramètre passé ? Le programme
 chiffré en base64... **La variable B correspond donc aux 22 derniers caractères
-du programme lui meme, une fois chiffré en base64**. Soit :
+du programme lui-même, une fois chiffré en base64**. Soit :
 
 ![Les octets convoités](/assets/sostealthy/bytes.png)
 

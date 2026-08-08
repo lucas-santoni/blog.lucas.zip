@@ -11,8 +11,8 @@ The second step is some network forensics.
 We are given a PCAP file. It is not too big, we can clearly observe three
 events (all the addresses are on `172.16.42.0`):
 
-* `.99` requests `/index.html` to `.222` (does not matter for the challenge)
-* `.99` requests `/dnstunnel.py` to `.222`
+* `.99` requests `/index.html` from `.222` (does not matter for the challenge)
+* `.99` requests `/dnstunnel.py` from `.222`
 * `.99` performs dozens of DNS queries
 
 Here is the Python script `dnstunnel.py`:
@@ -92,14 +92,14 @@ while cursor < len(data):
 Please, take a look at the comments on the script.
 
 We can understand that some secret payload has been sent using the DNS
-exfiltration technique. Its very simple: you just make a bunch of DNS
+exfiltration technique. It's very simple: you just make a bunch of DNS
 queries, embedding the data in the domain that is queried.
 
 The only real constraint of this technique is that the data has to be pure
 plaintext (as far as I know?) so you need some kind of encoding. The base64
 is often chosen but here it is base16.
 
-There is also a XOR operation... Each DNS query has its own key but really,
+There is also an XOR operation... Each DNS query has its own key but really,
 it is no big deal as the key is sent alongside the cipher.
 
 We will talk a bit more about the redundancy mechanism later. For now, we

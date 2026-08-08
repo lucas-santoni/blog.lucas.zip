@@ -31,8 +31,8 @@ Let's start by downloading and extracting the provided `.zip` file:
 ```
 
 The `.pyc` file is some Python bytecode. It is not human readable so let's
-use some [online Python decompiler](https://python-decompiler.com/) to retrive
-the actual code source of what looks to be a Python ransomware.
+use some [online Python decompiler](https://python-decompiler.com/) to retrieve
+the actual source code of what looks to be a Python ransomware.
 
 ## The Ransomware
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 ```
 
 The way the ransomware works is pretty simple. It has a list of usernames
-defined in `TARGET`. If the victim is one of them, it encrypts his files and
+defined in `TARGET`. If the victim is one of them, it encrypts their files and
 asks for a ransom.
 
 Let's focus on the encryption process:
@@ -123,10 +123,10 @@ def lock_file(path):
 We can observe multiple interesting things:
 
 1. The key used for encryption is the MD5 hash value of the victim username.
-We can also see the declaration of an AES cipher in EBC mode ( `AES.new(key, 1)`)
+We can also see the declaration of an AES cipher in ECB mode ( `AES.new(key, 1)`)
 2. We can see that a variable `IV` is defined. An Initialization vector is used
 in AES CBC mode which means that this function is implementing its own AES CBC
-encryption. The IV is set to a random 16 bytes value.
+encryption. The IV is set to a random 16-byte value.
 3. There is a request to what should be a C&C (useless for our case)
 4. The encryption algorithm: for each 16 bytes block of the file to encrypt,
 we xor it with the IV and we encrypt the result with the AES ECB cipher defined
@@ -140,15 +140,15 @@ This algorithm is beautifully represented in this Wikipedia schema:
 ## The problem
 
 We can uncipher every block in the `.hack` file except the first one, as it
-is the IV that was initialized to a random 16 bytes value.
+is the IV that was initialized to a random 16-byte value.
 
-But luckily we can bypass this! We know that we want to retrieve a JPG files. Thus, we could try to guess the first plaintext block based on the standard header of the JPG format. Let's try with:
+But luckily we can bypass this! We know that we want to retrieve a JPG file. Thus, we could try to guess the first plaintext block based on the standard header of the JPG format. Let's try with:
 
 ```
 \xff\xd8\xe0\x00\x10\x4a\x46\x49\x46\x00\x01\x01\x01\x00\x48\x00
 ```
-An other problem is that we should try all targeted usernames as key. But
-let's make some guess and consider that the key is `Jack Sheerack` (because
+Another problem is that we should try all targeted usernames as keys. But
+let's make a guess and consider that the key is `Jack Sheerack` (because
 of the challenge name). We will check the unciphered files generated with
 this key first.
 
@@ -207,8 +207,8 @@ Version: ImageMagick 6.9.10-67 Q16 x86_64 2019-10-04 https://imagemagick.org
 identify: Corrupt JPEG data: 18 extraneous bytes before marker 0xfe `/tmp/out-Jack Sheerack.jpg' @ warning/jpeg.c/JPEGWarningHandler/389.
 ```
 
-Thats a good thing! Our JPG is corrupted. How is that a good thing? Well now
-we know that it is almost valid ! If I try the same thing on a generated file
+That's a good thing! Our JPG is corrupted. How is that a good thing? Well now
+we know that it is almost valid! If I try the same thing on a generated file
 with the key `Jack Ma`, `identify` simply doesn't work:
 
 ```

@@ -8,20 +8,20 @@ reverse, nous pouvons commencer à tâter des binaires un peu plus imposants et
 qui n'ont pas pour seul objectif de vous exposer une routine de vérification.
 
 N'hésitez pas à passer plus de temps sur les exercices de la journée
-précédente. Une fois ces bases maitrisées, vous êtes autonomes dans le
+précédente. Une fois ces bases maîtrisées, vous êtes autonomes dans le
 milieu du reverse. C'est désormais à vous d'aller chercher de la documentation
 plus spécifique, de vous renseigner sur de nouvelles techniques, etc.
 
 Même si c'est pas toujours super légal, vous pouvez vous attaquer à des
-binaires commerciaux (logiciels, jeux vidéos...), ils embarquent souvent des
-mécanismes de protections intéressants à reverse. Il y a parfois de grosses
+binaires commerciaux (logiciels, jeux vidéo...), ils embarquent souvent des
+mécanismes de protection intéressants à reverse. Il y a parfois de grosses
 surprises mais la logique est certainement la suivante : plus la date de
 commercialisation est ancienne, plus les protections seront faciles à reverse.
 
 **Note : reverse du binaire commercial, c'est cool, et je suis le premier à
 aimer ça. Tant qu'on le fait dans son coin, j'imagine qu'on ne fait de mal à
 personne. Mais mettre en ligne une release pirate sur un tracker, c'est moins
-cool. Si vous lisez cette page, c'est surement que vous bossez dans l'info.
+cool. Si vous lisez cette page, c'est sûrement que vous bossez dans l'info.
 Vous savez donc que les logiciels prennent un temps fou à être écrits,
 édités... Et que les développeurs ont aussi besoin de manger à la fin du
 mois. 🍗**
@@ -29,17 +29,17 @@ mois. 🍗**
 
 ## Exercice 00
 
-Nous allons justement nous attaquer à un vieux jeu pour ordinateur: *Heroes of
+Nous allons justement nous attaquer à un vieux jeu pour ordinateur : *Heroes of
 Might and Magic III*. Il est disponible sous Windows, macOS, Linux... Vous
 n'avez fait que du Linux dans cette série, jusqu'à maintenant. Il est
 temps de voir un peu autre chose...
 
 Tout ce que vous avez appris sur l'assembleur, les patterns de code, les
-mécanismes liés au fonction, etc. Tout cela est toujours valable sous Windows.
+mécanismes liés aux fonctions, etc. Tout cela est toujours valable sous Windows.
 Il existe de nombreuses autres spécificités mais vous êtes déjà opérationnel.
 
-Le plus gros changement que vous aller tout de suite remarquer est le passage
-de la LibC à l'API Win32. Vous avez surement déjà du voir des références à
+Le plus gros changement que vous allez tout de suite remarquer est le passage
+de la LibC à l'API Win32. Vous avez sûrement déjà dû voir des références à
 `Kernel32.dll`, `User32.dll` ou même `GDI32.dll`. Ces trois fichiers sont plus
 ou moins votre `libc.so` sous Windows. Ils permettent aux développeurs
 d'accéder à un ensemble normalisé et standard (du moins, du point de vue de
@@ -54,7 +54,7 @@ Le MSDN sera votre documentation de référence pour cette API.
 
 Grande nouvelle ! Vous êtes maintenant encouragés à utiliser IDA Pro ! GDB
 c'est cool mais c'est un peu pour les enfants. Rentrez dans la cour des
-grands, installez IDA et lachez des gros F5.
+grands, installez IDA et lâchez des gros F5.
 
 Installez IDA puis soyez attentif pendant la démonstration.
 
@@ -62,7 +62,7 @@ Installez IDA puis soyez attentif pendant la démonstration.
 ## Exercice 01
 
 La licence *Heroes of Might and Magic* appartenait à l'origine à 3DO. Suite à
-la fallite de cette entreprise, c'est Ubisoft qui la récupère. Le dernier (VII)
+la faillite de cette entreprise, c'est Ubisoft qui la récupère. Le dernier (VII)
 opus sorti date de 2015. La série est considérée comme morte depuis 2016,
 Ubisoft ayant annoncé avoir rompu avec Limbic Entertainment, l'entreprise qui a
 développé les opus VI et VII.
@@ -73,20 +73,20 @@ en ligne.
 
 Il existe plusieurs releases de l'épisode III : le jeu simple, le jeu et une
 ou plusieurs extensions, une *Complete Edition* avec toutes les extensions,
-un version HD officielle, une version HD patchée officieusement, une version
+une version HD officielle, une version HD patchée officieusement, une version
 GoG...
 
-La version HD officielle est récente et présente des mécanismes de protections
+La version HD officielle est récente et présente des mécanismes de protection
 solides. Nous n'allons pas nous y intéresser. La version HD patchée ainsi que
 la version GoG sont toutes les deux dépourvues de protection donc nous
 n'allons pas y toucher non plus. Nous allons nous concentrer sur la version
 "originale" qui présente le même mécanisme de protection, peu importe le
-nombre d'extensions avec laquelle elle est livrée.
+nombre d'extensions avec lequel elle est livrée.
 
 ![Illustration](/assets/reverse-01/illustration.jpg)
 
 Vous pouvez télécharger ici une [Complete Edition](https://cdn.geographer.fr/heroes_3.zip), qui correspond au jeu
-originale, plus toutes ces extensions. La version physique de cette édition
+original, plus toutes ses extensions. La version physique de cette édition
 se présentait sous la forme d'une boîte contenant 3 CDs :
 
 * le jeu original, intitulé *Heroes of Might and Magic III: Restoration of
@@ -138,7 +138,7 @@ l'environnement de référence !
 
 Votre objectif : trouver le bon mot de passe.
 
-Indice : aucun, débrouillez vous ! :p
+Indice : aucun, débrouillez-vous ! :p
 
 
 ## Exercice 03

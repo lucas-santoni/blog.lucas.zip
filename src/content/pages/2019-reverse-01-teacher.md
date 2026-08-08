@@ -69,7 +69,7 @@ Les deux fonctions sont utilisées dans une même routine : `sub_50C1C0`.
 `GetDriveTypeA` est également utilisée dans `__validdrive` mais cette dernière
 fonction ne nous intéresse pas, malgré son nom aguicheur.
 
-Regardons un peu le code de `sub_50C1C0` (que nous appelerons maintenant
+Regardons un peu le code de `sub_50C1C0` (que nous appellerons maintenant
 `checkForCD`).
 
 ```c
@@ -185,7 +185,7 @@ font sauter sur `LABEL_29`. Si on ne valide aucune condition, on finit par
 obtenir `0` comme valeur de retour, ce qui ressemble à un succès.
 
 Si on saute sur `LABEL_29`, on a alors d'autres vérifications qui sont
-effectuées. Quoiqu'il arrive, on retourne alors `2`.
+effectuées. Quoi qu'il arrive, on retourne alors `2`.
 
 Bien que `0` semble clairement indiquer un succès, nous allons regarder la
 fonction parente (celle qui appelle celle-ci) afin de donner un contexte à
@@ -270,7 +270,7 @@ la valeur de `result`. On pourrait étudier la logique de ce `if` pour éviter
 de se faire écraser (on part du principe que `0` indique toujours un succès)
 mais il est plus simple de carrément sauter tout ce code pour l'instant.
 
-On va donc appliquer les patch suivant :
+On va donc appliquer les patchs suivants :
 
 * on va remplacer le `call checkForCD` par un `mov eax, 0x0`, ainsi on
   s'assure un `result` de `0`
@@ -300,7 +300,7 @@ a en fait plusieurs cas :
 D'où les différentes valeurs.
 
 
-# Exercice 02
+## Exercice 02
 
 Je touche pas à ça !
 

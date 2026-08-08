@@ -60,7 +60,7 @@ The rest of the file is just a list of numbers between `0` and `255`. Each one
 of these numbers is a pixel of the image.
 
 The scripts presented in this article take advantage of the fact that the image
-we are given only has one pixel per line. It is not the case of most PGM files.
+we are given only has one pixel per line. It is not the case for most PGM files.
 
 ```
 $ sed -n 4,15p alphajet.pgm
@@ -82,17 +82,17 @@ $ sed -n 4,15p alphajet.pgm
 ## Solving the task
 
 I did not manage to solve the task during the CTF even though I spent some time
-playing with the file (see the end of the article for more). On the day after,
-a friend told me that some pixels looked off and that is could be a LSB.
+playing with the file (see the end of the article for more). The day after,
+a friend told me that some pixels looked off and that it could be an LSB.
 
-*Note: LSB stands for Least Significant Bit. It is a very common steganograpy
+*Note: LSB stands for Least Significant Bit. It is a very common steganography
 technique. Please, see this
 [great article](https://www.boiteaklou.fr/Steganography-Least-Significant-Bit.html) if
 you want to know more.*
 
-After some scripting, I find that the LSB is always set, which does not
-allow any room for hidden data. So I think I would try to extract the most
-significant bits (MSB) instead. Here the Python script I use:
+After some scripting, I found that the LSB is always set, which does not
+allow any room for hidden data. So I thought I would try to extract the most
+significant bits (MSB) instead. Here is the Python script I used:
 
 ```python
 #! /usr/bin/env python3
@@ -236,7 +236,7 @@ It looks like the image is fading in:
 
 ![Threshold](/assets/alphajet/threshold.gif)
 
-It looks great, although I can't think about any practical use for this... :')
+It looks great, although I can't think of any practical use for this... :')
 
 **The layers**
 
@@ -245,8 +245,8 @@ with such a small color contrast that one could not see it with the naked eye.
 So I thought I would extract all the "layers" of the image. A layer being all
 the pixels of a certain color.
 
-According to the max value parameter of the picture, there is at most 254
-layers. In practice, there is actually 255 (1 to 255).
+According to the max value parameter of the picture, there are at most 254
+layers. In practice, there are actually 255 (1 to 255).
 
 Here is a script to extract such layers:
 
@@ -313,7 +313,7 @@ if __name__ == "__main__":
   main()
 ```
 
-The tolerance allows to grab the adjacent colors and get different results.
+The tolerance allows us to grab the adjacent colors and get different results.
 With tolerance 1:
 
 ![Tolerance 1](/assets/alphajet/layers_1.gif)
@@ -328,8 +328,8 @@ With tolerance 70:
 
 **Negative mode**
 
-We can create a negative version of the image by substracting each pixel value
-to the maximum one:
+We can create a negative version of the image by subtracting each pixel value
+from the maximum one:
 
 ```python
 #! /usr/bin/env python3

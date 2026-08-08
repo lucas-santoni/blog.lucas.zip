@@ -8,7 +8,7 @@ The fifth step is a Python jail that we must escape.
 
 ![Introduction](/assets/hexpresso-fic-quals/step5/intro.png)
 
-We are provided a few files allowing to connect to the challenge:
+We are provided a few files allowing us to connect to the challenge:
 
 ```
 $ socat stdio openssl-connect:ctf.hexpresso.fr:2323,cert=client.pem,cafile=server.crt,verify=0
@@ -43,7 +43,7 @@ so we are in a Python 3.6 runtime at least
 * Our input is put into single quotes and forwarded to `eval`
 * We are in a function `get_input`
 * `get_input` is called in main
-* There is a `flag` variable in the `main` function that looks to hold the flag
+* There is a `flag` variable in the `main` function that seems to hold the flag
 
 We can inject Python using a standard closing/comment payload such as:
 
@@ -59,7 +59,7 @@ In that example, the following is evaluated:
 'vroum' and print('Hello') #'
 ```
 
-As `'vroum'` is a truthy, the other side of the `and` gets to be evaluated
+As `'vroum'` is truthy, the other side of the `and` gets to be evaluated
 and our `print` is executed.
 
 I used [inspect](https://docs.python.org/3/library/inspect.html) in order
@@ -96,7 +96,7 @@ def get_flag():
     return flag
 ```
 
-Too bad for us... The flag is retrieved and then emmediately removed
+Too bad for us... The flag is retrieved and then immediately removed
 from the environment at the start of the script. We'll have to go back a couple
 of scopes in order to reach the `flag` variable and print its content.
 

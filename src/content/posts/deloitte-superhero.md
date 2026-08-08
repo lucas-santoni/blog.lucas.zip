@@ -32,7 +32,7 @@ Nmap scan report for ec2-3-9-190-45.eu-west-2.compute.amazonaws.com (3.9.190.45)
 Nmap done: 1 IP address (1 host up) scanned in 1.27 seconds
 ```
 
-We notice something unusal: `EtherNetIP-1` on port `2222`. This is a fairly
+We notice something unusual: `EtherNetIP-1` on port `2222`. This is a fairly
 popular SSH port. Let's try:
 
 ```
