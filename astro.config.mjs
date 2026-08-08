@@ -4,7 +4,7 @@ import vercel from '@astrojs/vercel'
 
 const SITE = 'https://blog.lucas.zip'
 
-const EXCLUDE_SLUGS = new Set(['404', 'posts', 'internet-error', 'quotes-test'])
+const EXCLUDE_SLUGS = new Set(['404', 'posts', 'internet-error'])
 const CHANGE_FREQUENCIES = { resume: 'yearly' }
 const PRIORITIES = { 'hexpresso-fic': 0.6 }
 
