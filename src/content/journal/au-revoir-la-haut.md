@@ -51,7 +51,7 @@ Le meilleur personnage du roman, c'est Merlin :
 > rien, se leva et quitta le restaurant. Tout le monde fut pris de court, une
 > vraie bousculade, il fallut en hâte avaler sa dernière bouchée, vider son
 > verre, demander l'addition, vérifier la note, payer, on renversa des chaises,
-> on courut à la porte. Quand il arrivèrent dehors, Merlin était en train de
+> on courut à la porte. Quand ils arrivèrent dehors, Merlin était en train de
 > pisser sur la roue de la voiture. Avant de se rendre à la gare, il fallut
 > repasser au cimetière ramasser la sacoche de Merlin et ses registres. Son
 > train partant quarante minutes plus tard, pas question de rester plus
