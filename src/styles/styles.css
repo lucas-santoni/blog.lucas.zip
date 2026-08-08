@@ -652,28 +652,41 @@ li {
   }
 
   /* Date and kind share the first row, the title takes the next one.
-     `display: contents` drops the <dd> box so its children become flex items
-     of the row alongside the <dt>, which is what lets the title be pushed to
-     a line of its own with flex-basis. */
-  .journal-row {
-    display: flex;
-    flex-wrap: wrap;
+     A grid on the <dl> rather than a flex row per entry: flex can only align
+     items within their own row, so the ragged date widths ("7 août 2026" vs
+     "24 juillet 2026") pushed every kind label to a different x. Hoisting the
+     tracks to the list makes `max-content` measure the widest date across all
+     entries, so the whole column lines up.
+
+     `display: contents` on both the row and the <dd> drops their boxes, which
+     is what promotes the date, kind and title to grid items of that shared
+     list-level grid. */
+  .journal-list {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
     align-items: baseline;
-    gap: 0 0.5em;
+    column-gap: 0.5em;
+  }
+
+  .journal-row,
+  .journal-row dd {
+    display: contents;
   }
 
   .journal-row dt {
     width: auto;
     float: none;
+    text-align: left;
     margin-bottom: 0;
   }
 
-  .journal-row dd {
-    display: contents;
-  }
-
-  .journal-row .journal-title {
-    flex-basis: 100%;
+  /* Spanning both tracks is what forces the title onto its own line. The
+     margin separates entries: `display: contents` erased the row box that
+     used to carry it, and a grid row-gap would space the two lines of a
+     single entry just as much as it spaces neighbouring entries. */
+  .journal-title-cell {
+    grid-column: 1 / -1;
+    margin-bottom: 0.9em;
   }
 
   /* Narrow screens squeeze the metadata into more lines, so its height stops
