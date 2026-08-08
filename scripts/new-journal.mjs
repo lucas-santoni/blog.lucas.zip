@@ -38,9 +38,12 @@ if (!slug) {
 
 const today = new Date().toISOString().slice(0, 10)
 
-// The cover path is pre-filled by convention even though the file does not
-// exist yet — drop the image in, or delete the line. Nothing validates it, so
-// a forgotten download can never break a deploy.
+// `cover` is required for every media kind, so the path is pre-filled rather
+// than left for you to add — deleting the line is a build error. The file it
+// points at need not exist yet: nothing checks the path against the
+// filesystem, so a forgotten download shows a broken image instead of failing
+// a deploy.
+//
 // Every optional field is written as a bare key, which YAML parses as null
 // and the schema accepts. An empty string would not do: `link` must match
 // ^https?:// once it is a string at all.

@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import { formatDateFr } from '../../utils/formatDate'
 import { smartTitleBreak } from '../../utils/smartTitleBreak'
-import { KIND_LABEL } from '../../utils/journal'
+import { KIND_LABEL, isMedia } from '../../utils/journal'
 
 const entries = (await getCollection('journal')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
@@ -36,11 +36,14 @@ const title = 'Journal';
               <span class="journal-kind" data-kind={entry.data.kind}>
                 {KIND_LABEL[entry.data.kind]}
               </span>
-              <a
-                class="journal-title"
-                href={`/journal/${entry.data.slug}`}
-                set:html={smartTitleBreak(entry.data.title)}
-              />
+              {/* One anchor around both, so the whole "title · creator" run
+                  is the click target and wraps as a single piece of text. */}
+              <a class="journal-title-cell" href={`/journal/${entry.data.slug}`}>
+                <span class="journal-title" set:html={smartTitleBreak(entry.data.title)} />
+                {isMedia(entry.data) && entry.data.creator && (
+                  <span class="journal-creator">{entry.data.creator}</span>
+                )}
+              </a>
             </dd>
           </div>
         ))

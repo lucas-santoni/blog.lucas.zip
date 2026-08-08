@@ -420,8 +420,20 @@ li {
 
 /* min-width lets a long title wrap inside its own box instead of pushing
    the row onto extra flex lines and orphaning the kind label. */
-.journal-title {
+.journal-title-cell {
   min-width: 0;
+}
+
+/* The `*` reset sets color on every element, which stops the anchor's colour
+   reaching its children — so the whole run has to be told explicitly, or the
+   creator half would drop out of the link colour. */
+.journal-title-cell,
+.journal-title-cell * {
+  color: var(--color-primary);
+}
+
+.journal-creator::before {
+  content: ' · ';
 }
 
 /* Sits between the date and the title, as its own aligned column. */
@@ -523,9 +535,24 @@ li {
    colour, family and bottom margin all come from there. Only the alignment
    override below is journal-specific. */
 
-.journal-stars {
+/* A faded five-star track with a filled copy clipped on top, so a half score
+   fills half a star. No Unicode half-star renders reliably in this font
+   stack, and 'star'.repeat(3.5) would silently truncate. */
+.journal-stars-box {
+  position: relative;
+  display: inline-block;
   white-space: nowrap;
-  letter-spacing: 0.08em;
+}
+
+.journal-stars-track {
+  color: var(--color-faded-max);
+}
+
+.journal-stars-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
   color: var(--color-title);
 }
 

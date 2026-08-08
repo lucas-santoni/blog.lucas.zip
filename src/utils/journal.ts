@@ -165,8 +165,37 @@ export const SCHEMA_CREATOR_TYPE: Record<MediaKind, string> = {
 
 export const MAX_RATING = 5
 
-export function stars(rating: number): string {
-  return '★'.repeat(rating) + '☆'.repeat(MAX_RATING - rating)
+/** The glyph row, always five stars — the fill below decides how many read
+ *  as earned. `'★'.repeat(3.5)` would silently truncate to three. */
+export const STAR_TRACK = '★'.repeat(MAX_RATING)
+
+/* A half star cut at exactly 50% is geometrically right — the glyph's ink is
+   centred in its advance (measured: centre at 0.4995). It reads as *more*
+   than half anyway, because the left side of a five-pointed star carries a
+   whole arm plus part of the top point. Cutting slightly early corrects the
+   perception rather than the geometry. */
+const OPTICAL_HALF = 0.44
+
+/** Width of the filled overlay, so 3.5 stops halfway through the fourth star. */
+export function ratingPercent(rating: number): number {
+  const whole = Math.floor(rating)
+  const filled = rating === whole ? whole : whole + OPTICAL_HALF
+  return (filled / MAX_RATING) * 100
+}
+
+/** "3,5" — French writes decimals with a comma. */
+export function ratingNumber(rating: number): string {
+  return String(rating).replace('.', ',')
+}
+
+/** For plain-text contexts (meta description, RSS) where a CSS fill cannot
+ *  reach and a half-star glyph would not render. */
+export function ratingText(rating: number): string {
+  return `${ratingNumber(rating)}/${MAX_RATING}`
+}
+
+export function ratingLabel(rating: number): string {
+  return `${ratingNumber(rating)} sur ${MAX_RATING}`
 }
 
 export function hostOf(link: string): string {
@@ -215,7 +244,7 @@ export function summarySentence(data: JournalData): string | null {
   if (data.status !== 'finished') parts.push(STATUS_SENTENCE[data.status])
   if (data.link) parts.push(`En savoir plus sur ${hostOf(data.link)}.`)
   if (data.rating) {
-    parts.push(`Je mettrais ${stars(data.rating)} à ${demonstrative(noun)} ${noun}.`)
+    parts.push(`Je mettrais ${ratingText(data.rating)} à ${demonstrative(noun)} ${noun}.`)
   }
 
   return parts.join(' ')
