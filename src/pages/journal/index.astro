@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { formatDateFr } from '../../utils/formatDate'
+import { smartTitleBreak } from '../../utils/smartTitleBreak'
+import { KIND_LABEL } from '../../utils/journal'
+
+const entries = (await getCollection('journal')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+)
+
+const title = 'Journal';
+---
+
+<Base
+  title={title}
+  slug="journal"
+  description="Des notes sur ce que je lis, joue, regarde et écoute, avec quelques pensées en vrac."
+  feed={{ href: '/journal/rss.xml', title: 'Journal' }}
+  lang="fr"
+>
+  <div class="listing content">
+    <h1>{title}</h1>
+
+    <p>
+      Des notes sur ce que je lis, joue, regarde et écoute, avec quelques
+      pensées en vrac. Écrit surtout pour mes amis et moi.
+    </p>
+
+    <dl>
+      {
+        entries.map((entry) => (
+          <div class="listing-entry journal-row">
+            <dt>{formatDateFr(entry.data.date)}</dt>
+            <dd>
+              <span class="journal-kind" data-kind={entry.data.kind}>
+                {KIND_LABEL[entry.data.kind]}
+              </span>
+              <a
+                class="journal-title"
+                href={`/journal/${entry.data.slug}`}
+                set:html={smartTitleBreak(entry.data.title)}
+              />
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {entries.length === 0 && <p><i>Rien pour l’instant.</i></p>}
+
+    <p><a href="/">← Retour à l’accueil</a></p>
+  </div>
+</Base>

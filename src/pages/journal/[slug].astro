@@ -1,0 +1,183 @@
+---
+import { getCollection, render } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { AUTHOR, SITE_URL, SITENAME } from '../../config'
+import { formatDateFr } from '../../utils/formatDate'
+import { smartTitleBreak } from '../../utils/smartTitleBreak'
+import {
+  CREATOR_LABEL,
+  KIND_FORMAT,
+  KIND_LABEL,
+  MAX_RATING,
+  PLACEHOLDER,
+  SCHEMA_CREATOR_PROP,
+  SCHEMA_CREATOR_TYPE,
+  SCHEMA_TYPE,
+  dateLine,
+  deriveDescription,
+  hostOf,
+  isMedia,
+  plain,
+  stars,
+  unknownCreator,
+} from '../../utils/journal'
+
+export async function getStaticPaths() {
+  const entries = await getCollection('journal')
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+
+const data = entry.data
+const body = entry.body ?? ''
+const hasBody = body.trim().length > 0
+
+const title = data.title
+const plainTitle = title.replace(/<[^>]+>/g, '')
+const displayTitle = smartTitleBreak(title)
+const url = `${SITE_URL}/journal/${data.slug}`
+const description = deriveDescription(data, body)
+
+const media = isMedia(data) ? data : null
+const cover = media?.cover
+
+// Every media entry is a Review of the work, rated or not — `reviewRating` is
+// simply omitted when there is no rating. Typing an unrated entry as a
+// BlogPosting instead would claim the work as something written here, and
+// hand the publisher's cover art over as the post's own image.
+const jsonLd = media
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Review',
+      itemReviewed: {
+        '@type': SCHEMA_TYPE[media.kind],
+        name: plainTitle,
+        ...(media.creator && {
+          [SCHEMA_CREATOR_PROP[media.kind]]: {
+            '@type': SCHEMA_CREATOR_TYPE[media.kind],
+            name: plain(media.creator),
+          },
+        }),
+        ...(media.year && { datePublished: String(media.year) }),
+        ...(media.link && { sameAs: media.link }),
+        image: `${SITE_URL}/${media.cover}`,
+      },
+      ...(media.rating && {
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: media.rating,
+          bestRating: MAX_RATING,
+          worstRating: 1,
+        },
+      }),
+      author: { '@type': 'Person', name: AUTHOR },
+      publisher: { '@type': 'Person', name: SITENAME },
+      datePublished: data.date.toISOString(),
+      inLanguage: 'fr',
+      url,
+      ...(description && { description }),
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: plainTitle,
+      datePublished: data.date.toISOString(),
+      author: { '@type': 'Person', name: AUTHOR },
+      publisher: { '@type': 'Person', name: SITENAME },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      inLanguage: 'fr',
+      url,
+      ...(description && { description }),
+    };
+---
+
+<Base
+  title={title}
+  description={description}
+  cover={cover ?? undefined}
+  slug={`journal/${data.slug}`}
+  date={data.date}
+  ogType="article"
+  jsonLd={jsonLd}
+  feed={{ href: '/journal/rss.xml', title: 'Journal' }}
+  lang="fr"
+>
+  {/* Fixed stencils per format mean the masthead has a predictable height,
+      so the body can start cleanly below it instead of wrapping around a
+      cover of unknown size. */}
+  <div class="journal-masthead">
+    {cover && media && (
+      <img
+        class="journal-cover"
+        data-format={KIND_FORMAT[media.kind]}
+        src={`/${cover}`}
+        alt={`Couverture de ${plainTitle}`}
+        loading="lazy"
+      />
+    )}
+
+    {/* Two groups: the first pins to the top alongside the cover, the second
+        is pushed to the bottom so the metadata ends level with the artwork. */}
+    <div class="journal-headline">
+      <div>
+        <p class="journal-kind-line" data-kind={data.kind}>{KIND_LABEL[data.kind]}</p>
+        <h1 class="article-title journal-title-block" set:html={displayTitle} />
+        <p class="article-meta journal-date">{dateLine(data, formatDateFr(data.date))}</p>
+      </div>
+
+      {/* Always three lines, so every media masthead is the same height.
+          Anything absent shows a faded stand-in instead of collapsing. */}
+      {media && (
+        <div class="journal-headline-foot">
+          {media.rating ? (
+            /* role="img" so the aria-label is honoured — on a bare <p> or
+               <span> the accessible name is prohibited and screen readers
+               would announce the star glyphs instead. */
+            <p class="journal-stars">
+              <span
+                role="img"
+                title={`${media.rating} sur ${MAX_RATING}`}
+                aria-label={`Noté ${media.rating} sur ${MAX_RATING}`}
+              >
+                {stars(media.rating)}
+              </span>
+            </p>
+          ) : (
+            <p class="journal-stars journal-placeholder">{PLACEHOLDER.rating}</p>
+          )}
+
+          <p class="journal-meta">
+            {media.creator ? (
+              <span title={CREATOR_LABEL[media.kind]}>{media.creator}</span>
+            ) : (
+              <span class="journal-placeholder">{unknownCreator(media.kind)}</span>
+            )}
+            {media.year ? (
+              <span>{media.year}</span>
+            ) : (
+              <span class="journal-placeholder">{PLACEHOLDER.year}</span>
+            )}
+          </p>
+
+          {media.link ? (
+            <p class="journal-link">
+              <a href={media.link} rel="noopener">↗ {hostOf(media.link)}</a>
+            </p>
+          ) : (
+            <p class="journal-link journal-placeholder">{PLACEHOLDER.link}</p>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div class="content">
+    {hasBody && <Content />}
+    <p><a href="/journal">← Retour au journal</a></p>
+  </div>
+</Base>

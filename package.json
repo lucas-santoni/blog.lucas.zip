@@ -8,6 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "new": "node scripts/new-post.mjs",
+    "journal": "node scripts/new-journal.mjs",
     "lint": "eslint ."
   },
   "dependencies": {
