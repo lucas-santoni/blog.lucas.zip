@@ -454,12 +454,17 @@ li {
   content: ' · ';
 }
 
-/* Sits between the date and the title, as its own aligned column. */
+/* Sits between the date and the title, as its own aligned column.
+
+   No font-size of its own, so it matches the date exactly. The two share a
+   baseline, and at 0.85em the label's cap height fell visibly short of the
+   date's, which read as a vertical misalignment rather than as a smaller
+   label — most obvious on narrow screens, where the label sits immediately
+   after the date. The colour alone marks it as secondary. */
 .journal-kind {
   flex-shrink: 0;
   width: 5.6em;
   color: var(--kind-accent, var(--color-faded));
-  font-size: 0.85em;
 }
 
 /* Journal entry --------------------------------------------------------- */
