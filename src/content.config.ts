@@ -144,6 +144,12 @@ const journal = defineCollection({
         // chance rather than a show that was visited.
         venue: z.string().nullish(),
         link: externalLink,
+        // A paragraph of context per group, keyed by the group's name — what
+        // the show was, or why the works below it are by someone else. Kept
+        // out of the works themselves: it belongs to the run, not to any one
+        // painting, and hanging it off the first work would make reordering
+        // the run silently move the text.
+        groupNotes: z.record(z.string(), z.string()).nullish(),
         // No `rating`, `status` or `cover`: an art entry is a display case,
         // not a review, and its share image is derived from the first work.
         works: z.array(artWork(image)).min(1),

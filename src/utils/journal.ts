@@ -283,6 +283,7 @@ export function listingSubtitle(data: JournalData): string | null {
 /** A run of consecutive works sharing a `group`, rendered as one mosaic. */
 export type ArtGroup = {
   title: string | null
+  note: string | null
   items: { work: ArtWork; index: number }[]
 }
 
@@ -304,7 +305,10 @@ export function groupWorks(data: ArtData): ArtGroup[] {
     const title = work.group ?? null
     const current = groups[groups.length - 1]
     if (current && current.title === title) current.items.push({ work, index })
-    else groups.push({ title, items: [{ work, index }] })
+    else {
+      const note = (title && data.groupNotes?.[title]) || null
+      groups.push({ title, note, items: [{ work, index }] })
+    }
   })
   return groups
 }

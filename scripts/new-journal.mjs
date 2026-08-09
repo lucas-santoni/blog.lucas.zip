@@ -59,9 +59,13 @@ link:
 // markdown: the mosaic lays works out from their real pixel dimensions, which
 // only Astro's image pipeline can supply. One example work is written out —
 // `works` needs at least one entry, so an empty list is a build error.
+// `group` splits the entry into several mosaics: consecutive works sharing a
+// value form one, under a heading, with an optional paragraph from
+// `groupNotes`. Left blank here, which is the single-mosaic case.
 const artFields = `artist:
 venue:
 link:
+groupNotes:
 works:
   - src: "./${slug}/premiere-oeuvre.jpg"
     title: "Titre de l’œuvre"
@@ -69,6 +73,7 @@ works:
     year:
     medium:
     credit:
+    group:
 `
 
 const kindFields = kind === 'thought' ? '' : kind === 'art' ? artFields : mediaFields

@@ -664,9 +664,24 @@ li {
   text-align: left;
 }
 
+/* Context for the run below — what the show was, or why these works are by
+   someone else. Breaks out to sit flush with the mosaic, but keeps a reading
+   measure: it is prose, and 76rem of it would be unreadable. */
+/* Left edge on the mosaic's, but only a reading measure wide — this is prose,
+   and 76rem of it would be unreadable. So rather than centring a box the way
+   the heading does, put the left edge where the wide block's left edge falls
+   (half the wide width left of centre) and let the text stop at 40em. */
+.art-group-note {
+  max-width: min(calc(100vw - 3rem), 40em);
+  margin: 0.9em 0 0 calc(50% - min(calc(100vw - 3rem), var(--art-wide)) / 2);
+  text-align: left;
+  color: var(--color-faded);
+}
+
 /* The mosaic already carries a generous top margin for the ungrouped case;
    under a heading it belongs closer. */
-.art-group-title + .art-mosaic {
+.art-group-title + .art-mosaic,
+.art-group-note + .art-mosaic {
   margin-top: 1em;
 }
 

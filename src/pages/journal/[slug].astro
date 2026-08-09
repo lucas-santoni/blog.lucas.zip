@@ -273,6 +273,7 @@ const jsonLd = media
         {groupWorks(art).map((group) => (
           <>
             {group.title && <h2 class="art-group-title">{group.title}</h2>}
+            {group.note && <p class="art-group-note">{group.note}</p>}
             <div class="art-mosaic" data-art-mosaic>
               {group.items.map(({ work, index }) => {
                 const ratio = work.src.width / work.src.height
