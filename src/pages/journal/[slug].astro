@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content'
+import { Image, getImage } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import { AUTHOR, SITE_URL, SITENAME } from '../../config'
 import { formatDateFr } from '../../utils/formatDate'
@@ -16,12 +17,17 @@ import {
   SCHEMA_TYPE,
   dateLine,
   deriveDescription,
+  groupWorks,
   hostOf,
+  isArt,
   isMedia,
   plain,
   ratingLabel,
   ratingPercent,
   unknownCreator,
+  workAlt,
+  workArtist,
+  workCaption,
 } from '../../utils/journal'
 
 export async function getStaticPaths() {
@@ -46,7 +52,31 @@ const url = `${SITE_URL}/journal/${data.slug}`
 const description = deriveDescription(data, body)
 
 const media = isMedia(data) ? data : null
-const cover = media?.cover
+const art = isArt(data) ? data : null
+
+/* Every work gets two renditions: one for the mosaic, emitted by <Image> with
+   a srcset, and this full-size one behind the tile's href. The href is what
+   the lightbox loads, and also what a click does with no JavaScript at all. */
+const MAX_FULL = 2400
+const stage = art
+  ? await Promise.all(
+      art.works.map((work) =>
+        getImage({
+          src: work.src,
+          width: Math.min(MAX_FULL, work.src.width),
+          format: 'webp',
+          quality: 82,
+        })
+      )
+    )
+  : []
+
+/* An art entry has no `cover` field — the first work stands in as the share
+   image, which is why the order in the frontmatter matters beyond the page. */
+const ogFirstWork = art ? await getImage({ src: art.works[0].src, width: 1200, format: 'jpeg' }) : null
+
+// Base prepends the site origin and a slash, so the leading slash goes.
+const cover = media?.cover ?? ogFirstWork?.src.replace(/^\//, '')
 
 // Every media entry is a Review of the work, rated or not — `reviewRating` is
 // simply omitted when there is no rating. Typing an unrated entry as a
@@ -84,18 +114,47 @@ const jsonLd = media
       url,
       ...(description && { description }),
     }
-  : {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: plainTitle,
-      datePublished: data.date.toISOString(),
-      author: { '@type': 'Person', name: AUTHOR },
-      publisher: { '@type': 'Person', name: SITENAME },
-      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-      inLanguage: 'fr',
-      url,
-      ...(description && { description }),
-    };
+  : art
+    ? {
+        /* An ImageGallery, not a BlogPosting: the page is a set of works, and
+           each one is attributed to the painter who made it rather than
+           passing the whole lot off as this site's own imagery. */
+        '@context': 'https://schema.org',
+        '@type': 'ImageGallery',
+        name: plainTitle,
+        datePublished: data.date.toISOString(),
+        author: { '@type': 'Person', name: AUTHOR },
+        publisher: { '@type': 'Person', name: SITENAME },
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        inLanguage: 'fr',
+        url,
+        ...(description && { description }),
+        ...(art.venue && { contentLocation: { '@type': 'Place', name: plain(art.venue) } }),
+        ...(art.link && { sameAs: art.link }),
+        associatedMedia: art.works.map((work, i) => {
+          const artist = workArtist(work, art)
+          return {
+            '@type': 'VisualArtwork',
+            name: plain(work.title),
+            ...(artist && { creator: { '@type': 'Person', name: plain(artist) } }),
+            ...(work.year && { dateCreated: String(work.year) }),
+            ...(work.medium && { artMedium: plain(work.medium) }),
+            image: `${SITE_URL}${stage[i].src}`,
+          }
+        }),
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: plainTitle,
+        datePublished: data.date.toISOString(),
+        author: { '@type': 'Person', name: AUTHOR },
+        publisher: { '@type': 'Person', name: SITENAME },
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        inLanguage: 'fr',
+        url,
+        ...(description && { description }),
+      };
 ---
 
 <Base
@@ -182,11 +241,194 @@ const jsonLd = media
           )}
         </div>
       )}
+
+      {/* An art entry shows no cover and no stars: the mosaic below is the
+          artwork, and an exhibition is not a work to be rated. Only the place
+          and the link remain, and the line disappears entirely without them. */}
+      {art && (art.venue || art.link) && (
+        <p class="journal-art-meta">
+          {art.venue && <span>{art.venue}</span>}
+          {art.link && (
+            <a href={art.link} rel="noopener">↗ {hostOf(art.link)}</a>
+          )}
+        </p>
+      )}
     </div>
   </div>
 
   <div class="content">
     {hasBody && <Content />}
+
+    {art && (
+      <>
+        {/* Justified rows: each tile's flex-grow and flex-basis are both
+            proportional to its aspect ratio, which is exactly the condition
+            for every tile on a row to settle at the same height. Proportions
+            are preserved, nothing is cropped, and it reflows on resize with
+            no JavaScript. */}
+        {/* One mosaic per run of works sharing a `group`, so an entry can hold
+            the exhibition and, say, the permanent collection seen the same
+            day, without running them together. An entry with no groups at all
+            is a single untitled run — the ordinary case. */}
+        {groupWorks(art).map((group) => (
+          <>
+            {group.title && <h2 class="art-group-title">{group.title}</h2>}
+            {group.note && <p class="art-group-note">{group.note}</p>}
+            <div class="art-mosaic" data-art-mosaic>
+              {group.items.map(({ work, index }) => {
+                const ratio = work.src.width / work.src.height
+                const caption = workCaption(work, art)
+                return (
+                  <a
+                    class="art-tile"
+                    style={`--art-ratio:${ratio.toFixed(4)}`}
+                    href={stage[index].src}
+                    data-index={index}
+                    data-caption={caption}
+                    data-credit={work.credit ?? ''}
+                    data-alt={workAlt(work, art)}
+                    aria-label={caption}
+                  >
+                    <Image
+                      src={work.src}
+                      alt={workAlt(work, art)}
+                      widths={[400, 640, 900, 1280]}
+                      sizes="(max-width: 34em) 100vw, (max-width: 60em) 46vw, 30vw"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                  </a>
+                )
+              })}
+              {/* Absorbs the leftover space on the final row. Without it the
+                  last one or two tiles stretch across the full width and dwarf
+                  every work above them. flex-basis:0 keeps it off its own
+                  line. */}
+              <span class="art-mosaic-filler" aria-hidden="true"></span>
+            </div>
+          </>
+        ))}
+
+        {/* Opened by script; until then every tile is a plain link to the
+            full-size image, so the page still works with no JavaScript. */}
+        <dialog class="art-lightbox" data-art-lightbox data-idle="false">
+          <figure class="art-stage">
+            <img class="art-stage-img" alt="" />
+            <figcaption class="art-stage-caption">
+              <span class="art-stage-label"></span>
+              <span class="art-stage-credit"></span>
+            </figcaption>
+          </figure>
+        </dialog>
+      </>
+    )}
+
     <p><a href="/journal">← Retour au journal</a></p>
   </div>
 </Base>
+
+{/* Progressive enhancement over the plain links above. Bundled on every
+    journal entry, but every lookup below returns null off an art page. */}
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-art-lightbox]')
+  // Every tile on the page, not one mosaic's worth: an entry may hold several
+  // groups, and the arrows should carry on across them rather than stop at a
+  // heading. Document order matches the frontmatter order.
+  const tiles = Array.from(document.querySelectorAll<HTMLAnchorElement>('.art-tile'))
+
+  if (tiles.length && dialog) {
+    const img = dialog.querySelector<HTMLImageElement>('.art-stage-img')!
+    const label = dialog.querySelector<HTMLElement>('.art-stage-label')!
+    const credit = dialog.querySelector<HTMLElement>('.art-stage-credit')!
+
+    // Long enough to read a label, short enough that the work is alone on
+    // screen while you are still looking at it.
+    const IDLE_MS = 3000
+    const SWIPE_PX = 45
+    // Must outlast the 0.25s opacity transition in the stylesheet.
+    const FADE_MS = 400
+
+    let index = 0
+    let idleTimer: ReturnType<typeof setTimeout> | undefined
+    let clearTimer: ReturnType<typeof setTimeout> | undefined
+
+    /** Show the caption, and start the countdown that fades it again. */
+    const wake = () => {
+      dialog.dataset.idle = 'false'
+      clearTimeout(idleTimer)
+      idleTimer = setTimeout(() => {
+        dialog.dataset.idle = 'true'
+      }, IDLE_MS)
+    }
+
+    const show = (i: number) => {
+      // Clamped rather than wrapped: reaching the last work should feel like
+      // reaching the end, not loop silently back to the first.
+      index = Math.max(0, Math.min(tiles.length - 1, i))
+      const tile = tiles[index]
+      img.src = tile.href
+      img.alt = tile.dataset.alt ?? ''
+      label.textContent = tile.dataset.caption ?? ''
+      credit.textContent = tile.dataset.credit ?? ''
+      wake()
+    }
+
+    tiles.forEach((tile, i) => {
+      tile.addEventListener('click', (event) => {
+        // Let a modified click open the raw image in a new tab as usual.
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return
+        event.preventDefault()
+        show(i)
+        dialog.showModal()
+      })
+    })
+
+    dialog.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement
+      // A tap on the work or its label brings the caption back — the touch
+      // equivalent of moving the mouse. Anywhere else is the veil, and the
+      // veil closes.
+      if (target === img || target.closest('.art-stage-caption')) wake()
+      else dialog.close()
+    })
+
+    dialog.addEventListener('mousemove', wake)
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        show(index + 1)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        show(index - 1)
+      }
+    })
+
+    let touchX: number | null = null
+    dialog.addEventListener('touchstart', (event) => {
+      touchX = event.changedTouches[0].clientX
+    }, { passive: true })
+
+    dialog.addEventListener('touchend', (event) => {
+      if (touchX === null) return
+      const dx = event.changedTouches[0].clientX - touchX
+      touchX = null
+      if (Math.abs(dx) < SWIPE_PX) return
+      show(dx < 0 ? index + 1 : index - 1)
+    }, { passive: true })
+
+    // Dropping the source stops a large image downloading in the background
+    // once it can no longer be seen — but only after the veil has finished
+    // fading. Clearing it on `close` emptied the stage instantly while the
+    // backdrop was still on screen, so the work vanished a beat before the
+    // fade and the whole thing read as a flash rather than a dissolve.
+    dialog.addEventListener('close', () => {
+      clearTimeout(idleTimer)
+      clearTimeout(clearTimer)
+      clearTimer = setTimeout(() => {
+        // Reopened in the meantime: the src belongs to the new work now.
+        if (!dialog.open) img.removeAttribute('src')
+      }, FADE_MS)
+    })
+  }
+</script>

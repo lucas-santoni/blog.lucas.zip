@@ -138,7 +138,10 @@ const ogImage = cover ? `${SITE_URL}/${cover}` : undefined;
   </head>
   <body class={bodyClass}>
     <div class="header">
-      <a class="site-title" href="/">lucas.zip</a>
+      {/* Inside the journal the masthead goes back to the journal, not to the
+          site index: the journal is its own place, with its own feed and its
+          own language, and "up" from an entry means the list of entries. */}
+      <a class="site-title" href={isJournal ? '/journal' : '/'}>lucas.zip</a>
       <button class="theme-toggle" type="button" aria-label="Toggle theme">
         <span class="theme-toggle-dark" aria-hidden="true">🌙</span>
         <span class="theme-toggle-light" aria-hidden="true">☀️</span>

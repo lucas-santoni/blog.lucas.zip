@@ -1,5 +1,9 @@
-import { defineCollection, z } from 'astro:content'
+import { defineCollection, z, type SchemaContext } from 'astro:content'
 import { glob } from 'astro/loaders'
+
+// Astro hands the schema factory an `image()` helper; naming its type lets the
+// artwork sub-schema below be pulled out into its own function.
+type ImageFn = SchemaContext['image']
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
@@ -43,6 +47,16 @@ const journalBase = {
   description: z.string().nullish(),
 }
 
+// An external link, so it must carry a scheme the browser can follow safely —
+// this also keeps `javascript:` out of a rendered href. Shared by the media
+// kinds and by `art`, which has none of the other media fields but still
+// points at an exhibition page.
+const externalLink = z
+  .string()
+  .trim()
+  .regex(/^https?:\/\//, 'must start with http:// or https://')
+  .nullish()
+
 // Fields that only make sense for a consumed work. A `thought` has none of
 // these, and `strictObject` below turns "rating on a thought" into a build
 // error rather than a silently dropped field.
@@ -69,28 +83,78 @@ const journalMedia = {
     .trim()
     .min(1)
     .regex(/^(?!\/)(?!https?:)/, 'must be a path under public/, with no leading slash'),
-  // An external link, so it must carry a scheme the browser can follow
-  // safely — this also keeps `javascript:` out of a rendered href.
-  link: z
-    .string()
-    .trim()
-    .regex(/^https?:\/\//, 'must start with http:// or https://')
-    .nullish(),
+  link: externalLink,
 }
 
 const mediaEntry = <K extends string>(kind: K) =>
   z.strictObject({ kind: z.literal(kind), ...journalBase, ...journalMedia })
 
+/**
+ * One artwork in an `art` entry.
+ *
+ * `src` goes through Astro's `image()` rather than being a bare path under
+ * public/ like every other cover on this site. The mosaic lays works out from
+ * their real proportions, so it needs the pixel dimensions at build time —
+ * `image()` is what supplies them, and it gets responsive renditions and
+ * modern formats along the way. The cost is that these files live in `src/`,
+ * next to the entry, instead of `public/assets/journal/`.
+ */
+const artWork = (image: ImageFn) =>
+  z.strictObject({
+    src: image(),
+    // Required: a work with no title has nothing to put in the caption and
+    // nothing usable in `alt`. An untitled work is written "Sans titre",
+    // which is itself information.
+    title: z.string().trim().min(1),
+    // Falls back to the entry's `artist`, so a monograph does not repeat the
+    // same name on all twenty works.
+    artist: z.string().nullish(),
+    // A string as well as a number, because paintings are often dated loosely
+    // and a cartel should say what the museum says: "vers 1862", "entre 1765
+    // et 1767". The media kinds keep a plain integer — a book has a year of
+    // publication, not an art historian's estimate.
+    year: z.union([z.number().int(), z.string().trim().min(1)]).nullish(),
+    medium: z.string().nullish(),
+    // Where the reproduction came from — museum, archive, photographer.
+    credit: z.string().nullish(),
+    // Splits an entry into several mosaics, each under its own heading —
+    // "Collection permanente" alongside the exhibition itself. Consecutive
+    // works sharing a value form one run; works without one form an untitled
+    // run, which is what a single-set entry is.
+    group: z.string().nullish(),
+  })
+
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
-  schema: z.discriminatedUnion('kind', [
-    mediaEntry('book'),
-    mediaEntry('podcast'),
-    mediaEntry('game'),
-    mediaEntry('music'),
-    mediaEntry('film'),
-    z.strictObject({ kind: z.literal('thought'), ...journalBase }),
-  ]),
+  schema: ({ image }) =>
+    z.discriminatedUnion('kind', [
+      mediaEntry('book'),
+      mediaEntry('podcast'),
+      mediaEntry('game'),
+      mediaEntry('music'),
+      mediaEntry('film'),
+      z.strictObject({ kind: z.literal('thought'), ...journalBase }),
+      z.strictObject({
+        kind: z.literal('art'),
+        ...journalBase,
+        // Default artist for the works below; also the name shown when the
+        // entry is about one painter rather than one exhibition.
+        artist: z.string().nullish(),
+        // "Petit Palais, Paris". Absent when the entry is a painter found by
+        // chance rather than a show that was visited.
+        venue: z.string().nullish(),
+        link: externalLink,
+        // A paragraph of context per group, keyed by the group's name — what
+        // the show was, or why the works below it are by someone else. Kept
+        // out of the works themselves: it belongs to the run, not to any one
+        // painting, and hanging it off the first work would make reordering
+        // the run silently move the text.
+        groupNotes: z.record(z.string(), z.string()).nullish(),
+        // No `rating`, `status` or `cover`: an art entry is a display case,
+        // not a review, and its share image is derived from the first work.
+        works: z.array(artWork(image)).min(1),
+      }),
+    ]),
 })
 
 export const collections = { posts, pages, journal }

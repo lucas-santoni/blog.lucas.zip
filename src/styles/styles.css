@@ -404,6 +404,12 @@ li {
   --kind-accent: rgb(85, 105, 125);
   --kind-bg: rgba(85, 105, 125, 0.1);
 }
+/* Teal: the one remaining slot that is neither blue (which would read as a
+   link) nor close to the six hues above. */
+[data-kind='art'] {
+  --kind-accent: rgb(20, 125, 135);
+  --kind-bg: rgba(20, 125, 135, 0.1);
+}
 
 :root[data-theme='dark'] [data-kind='book'] {
   --kind-accent: rgb(232, 152, 112);
@@ -428,6 +434,10 @@ li {
 :root[data-theme='dark'] [data-kind='thought'] {
   --kind-accent: rgb(160, 180, 200);
   --kind-bg: rgba(160, 180, 200, 0.14);
+}
+:root[data-theme='dark'] [data-kind='art'] {
+  --kind-accent: rgb(95, 205, 215);
+  --kind-bg: rgba(95, 205, 215, 0.14);
 }
 
 /* Journal listing ------------------------------------------------------- */
@@ -609,6 +619,297 @@ li {
   letter-spacing: normal;
 }
 
+/* Journal — art entries -------------------------------------------------- */
+
+:root {
+  /* How far an art entry may break out of the 40em reading column. Shared by
+     the mosaic and its headings, in rem so both resolve it identically —
+     these two elements do not share a font-size. */
+  --art-wide: 81rem;
+}
+
+/* Replaces the stars/creator/link block on an art entry. Same faded treatment
+   as .journal-meta, but it sits directly under the date rather than being
+   pushed to the bottom of a cover that is not there. */
+.journal-art-meta {
+  color: var(--color-faded);
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  text-align: left;
+}
+
+.journal-art-meta > * + *::before {
+  content: ' · ';
+  color: var(--color-faded);
+}
+
+/* Names a run of works inside an entry — "Collection permanente" beside the
+   exhibition itself. Deliberately quiet: it is a divider, not a title, and it
+   must not compete with the works underneath. Absent when an entry holds a
+   single set. */
+.art-group-title {
+  /* Breaks out exactly like the mosaic below it, so the label starts flush
+     with the first work rather than floating in from the reading column.
+     In rem, not em: this element sets its own font-size below, and an em
+     width would resolve against that and come out narrower than the mosaic. */
+  width: min(calc(100vw - 3rem), var(--art-wide));
+  margin: 3em 0 0 50%;
+  transform: translateX(-50%);
+  font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-faded);
+  text-align: left;
+}
+
+/* Context for the run below — what the show was, or why these works are by
+   someone else. Breaks out to sit flush with the mosaic, but keeps a reading
+   measure: it is prose, and 76rem of it would be unreadable. */
+/* Left edge on the mosaic's, but only a reading measure wide — this is prose,
+   and 76rem of it would be unreadable. So rather than centring a box the way
+   the heading does, put the left edge where the wide block's left edge falls
+   (half the wide width left of centre) and let the text stop at 40em. */
+.art-group-note {
+  max-width: min(calc(100vw - 3rem), 40em);
+  margin: 0.9em 0 0 calc(50% - min(calc(100vw - 3rem), var(--art-wide)) / 2);
+  text-align: left;
+  color: var(--color-faded);
+}
+
+/* The mosaic already carries a generous top margin for the ungrouped case;
+   under a heading it belongs closer. */
+.art-group-title + .art-mosaic,
+.art-group-note + .art-mosaic {
+  margin-top: 1em;
+}
+
+/* The mosaic.
+
+   Every tile gets flex-grow AND flex-basis proportional to its own aspect
+   ratio. On any given row that means each tile ends up at ratio x K for one
+   shared K, so every tile on the row lands at exactly height K — a justified
+   row, with true proportions and no cropping, from two CSS declarations and
+   no layout maths at build time. */
+.art-mosaic {
+  /* Target row height. Everything else scales from it. */
+  --art-row: 15rem;
+  display: flex;
+  flex-wrap: wrap;
+  /* Not stretch: a tile's height must come from its own image, or a rounding
+     difference within a row would scale one work to match its neighbour. */
+  align-items: flex-start;
+  gap: 0.5rem;
+  /* Breaks out of the 40em reading column. body is centred, so putting the
+     left edge at the container's midpoint and pulling back half this block's
+     own width centres it on the viewport, whatever padding is in between.
+     100vw counts the scrollbar, hence the margin subtracted from it. */
+  width: min(calc(100vw - 3rem), var(--art-wide));
+  margin: 2.4em 0 2.6em 50%;
+  transform: translateX(-50%);
+}
+
+/* No min-width. It looks like cheap insurance against a sliver, but it is the
+   one thing that can break this layout: a tall narrow panel whose natural
+   width falls under the floor gets clamped, and a clamped tile no longer
+   shares its row's height — three Pillement panels ended up with three
+   different bottom edges. The row height already guarantees a usable width,
+   because width is ratio x height and the height is the same for the row. */
+.art-tile {
+  display: block;
+  flex-grow: var(--art-ratio);
+  flex-basis: calc(var(--art-ratio) * var(--art-row));
+  line-height: 0;
+}
+
+/* Undoes the block-image treatment .content gives every img: the centring
+   margins would break the row, and the tile is the layout unit now. The
+   hairline stays — a pale sky against a pale page needs an edge — but the
+   6px radius goes: a painting has square corners, and rounding them crops
+   the canvas at each one. */
+.content .art-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: 1px solid var(--color-code-border);
+  border-radius: 0;
+}
+
+.art-tile:hover img,
+.art-tile:focus-visible img {
+  border-color: var(--color-faded);
+}
+
+/* Soaks up the slack on the final row. flex-basis:0 means it never causes a
+   wrap of its own, and the enormous grow leaves the real tiles sitting at
+   their natural height instead of stretching to fill the width. */
+.art-mosaic-filler {
+  flex-grow: 999999;
+  flex-basis: 0;
+  height: 0;
+}
+
+/* One work per row once two side by side would each be too small to read. */
+@media screen and (max-width: 34em) {
+  .art-tile {
+    flex-basis: 100%;
+    flex-grow: 0;
+  }
+}
+
+/* The lightbox.
+
+   A native <dialog>, so focus trapping, Escape, the backdrop and returning
+   focus to the tile all come from the browser rather than being re-implemented
+   here, badly. */
+.art-lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  /* Fades in and out at the same 0.25s the theme switch uses, so opening a
+     work feels like the rest of the site. `display` and `overlay` need
+     allow-discrete, or the dialog would vanish on close before the opacity
+     had anywhere to travel. */
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+}
+
+.art-lightbox[open] {
+  opacity: 1;
+}
+
+/* The state to animate *from* on open. Without it the dialog would simply
+   appear at full opacity. */
+@starting-style {
+  .art-lightbox[open] {
+    opacity: 0;
+  }
+}
+
+/* White in the light theme, black in the dark one: the page recedes and only
+   the work is lit. The veil fades on its own clock — it is a separate
+   pseudo-element and inherits none of the rules above. */
+.art-lightbox::backdrop {
+  background-color: rgba(255, 255, 255, 0.97);
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+}
+
+.art-lightbox[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .art-lightbox[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+:root[data-theme='dark'] .art-lightbox::backdrop {
+  background-color: rgba(0, 0, 0, 0.97);
+}
+
+/* The veil is the close target, so the page behind it must not scroll away
+   under the pointer. `scrollbar-gutter` keeps the scrollbar's width reserved
+   while it is hidden — without it the page widens by ~15px on open and snaps
+   back on close, and that snap happens mid-fade, which reads as a flash. */
+html:has(.art-lightbox[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* A column, with the caption in normal flow under the work rather than
+   overlaid on it: the label then sits where a museum puts it, and a long one
+   can never be clipped by the bottom of the screen. Fading it changes opacity
+   only, so nothing shifts when it goes. */
+.art-stage {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+/* Qualified by the dialog on purpose. The lightbox sits inside .content, and
+   `.content img` (0-1-1) outranks a lone `.art-stage-img` (0-1-0), so the
+   6px radius won and the work was displayed with clipped corners. */
+.art-lightbox .art-stage-img {
+  max-width: 100%;
+  /* The reserve is the caption's own height plus slack for a label that wraps
+     to two or three lines on a narrow screen, so the pair stays centred as one
+     block whatever the proportions of the work. */
+  max-height: calc(100vh - 10rem);
+  object-fit: contain;
+  cursor: default;
+  /* Square, like the tiles and like the canvas. */
+  border-radius: 0;
+}
+
+.art-stage-caption {
+  max-width: 42em;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+/* Only the text takes clicks, so the padding around it stays part of the
+   veil and still closes the lightbox. */
+.art-stage-caption > span {
+  pointer-events: auto;
+}
+
+.art-stage-credit {
+  display: block;
+  font-size: 0.8em;
+  color: var(--color-faded-max);
+}
+
+.art-stage-credit:empty {
+  display: none;
+}
+
+.art-lightbox[data-idle='true'] .art-stage-caption {
+  opacity: 0;
+}
+
+/* With reduced motion there is no fade to soften the disappearance, so the
+   caption simply stays put. */
+@media (prefers-reduced-motion: reduce) {
+  .art-stage-caption {
+    transition: none;
+  }
+
+  .art-lightbox[data-idle='true'] .art-stage-caption {
+    opacity: 1;
+  }
+
+  /* Open and close outright rather than fading. */
+  .art-lightbox,
+  .art-lightbox::backdrop {
+    transition: none;
+  }
+}
+
 .footer {
   border-top: 1px solid var(--color-footer-border);
   margin: 2em 0 1em 0;
@@ -636,6 +937,20 @@ li {
 
   .header {
     margin: 1.5em 0 1.5em 0;
+  }
+
+  /* Below this the page is already full width, so breaking the mosaic out of
+     the reading column buys nothing — and it actively misaligns, because
+     `100vw - 3rem` is narrower than the body's `100vw - 2em`, leaving the
+     works inset from the masthead above them. Let the block flow normally
+     and the two edges line up again. */
+  .art-mosaic,
+  .art-group-title,
+  .art-group-note {
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    transform: none;
   }
 
   .intro {

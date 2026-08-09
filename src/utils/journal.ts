@@ -3,17 +3,29 @@ import type { CollectionEntry } from 'astro:content'
 export type JournalEntry = CollectionEntry<'journal'>
 export type JournalData = JournalEntry['data']
 export type JournalKind = JournalData['kind']
-export type MediaKind = Exclude<JournalKind, 'thought'>
+// `art` is excluded alongside `thought`: it carries none of the media fields
+// (no rating, no status, no single cover), so every `Record<MediaKind, …>`
+// table below would otherwise demand a meaningless entry for it.
+export type MediaKind = Exclude<JournalKind, 'thought' | 'art'>
 export type MediaData = Extract<JournalData, { kind: MediaKind }>
+export type ArtData = Extract<JournalData, { kind: 'art' }>
+export type ArtWork = ArtData['works'][number]
 
 export function isMedia(data: JournalData): data is MediaData {
-  return data.kind !== 'thought'
+  return data.kind !== 'thought' && data.kind !== 'art'
+}
+
+export function isArt(data: JournalData): data is ArtData {
+  return data.kind === 'art'
 }
 
 // The journal is written in French, so everything exclusive to it reads in
 // French. Shared site chrome (header, footer) stays English on purpose.
 
 // Shown as the small label in the /journal listing.
+// `art` rather than `exposition`: the kind also covers a painter stumbled on
+// by chance, with no show attached. `peinture` would rule out a sculpture or a
+// photograph later.
 export const KIND_LABEL: Record<JournalKind, string> = {
   book: 'livre',
   podcast: 'podcast',
@@ -21,6 +33,7 @@ export const KIND_LABEL: Record<JournalKind, string> = {
   music: 'musique',
   film: 'film',
   thought: 'pensée',
+  art: 'art',
 }
 
 // The noun and the creator preposition used to build the opening sentence.
@@ -91,6 +104,9 @@ const DATE_VERB: Record<JournalKind, string> = {
   music: 'Écouté',
   film: 'Vu',
   thought: 'Écrit',
+  // "Visité" would be truer for an exhibition and wrong for the other half of
+  // what this kind covers.
+  art: 'Vu',
 }
 
 /**
@@ -114,18 +130,18 @@ const RELEASE_VERB: Record<MediaKind, string> = {
 }
 
 const STATUS_SENTENCE: Record<Exclude<MediaData['status'], 'finished'>, string> = {
-  abandoned: 'Je ne l’ai pas terminé.',
+  abandoned: "Je ne l'ai pas terminé.",
   ongoing: 'Je suis encore dessus.',
 }
 
 const VOWEL = /^[aeiouâàéèêëîïôûùü]/i
 
-// "de Ursula" → "d’Ursula", but "réalisé par Andrei" is untouched. `h` is
-// deliberately excluded: whether a name takes h muet ("d’Henri") or h aspiré
+// "de Ursula" → "d'Ursula", but "réalisé par Andrei" is untouched. `h` is
+// deliberately excluded: whether a name takes h muet ("d'Henri") or h aspiré
 // ("de Haruki") is unknowable from the string, and the un-elided form is the
 // safer default for the proper nouns this field holds.
 function joinCreator(preposition: string, creator: string): string {
-  if (preposition === 'de' && VOWEL.test(creator)) return `d’${creator}`
+  if (preposition === 'de' && VOWEL.test(creator)) return `d'${creator}`
   return `${preposition} ${creator}`
 }
 
@@ -250,6 +266,110 @@ export function summarySentence(data: JournalData): string | null {
   return parts.join(' ')
 }
 
+/**
+ * The faded half of a row in /journal, after the title.
+ *
+ * For an art entry that is the venue, not the artist: the title is usually the
+ * painter's name already, and "Károly Ferenczy · Károly Ferenczy" is absurd. A
+ * chance find with no venue simply has nothing here, which the listing already
+ * handles.
+ */
+export function listingSubtitle(data: JournalData): string | null {
+  if (isMedia(data)) return data.creator ?? null
+  if (isArt(data)) return data.venue ?? null
+  return null
+}
+
+/** A run of consecutive works sharing a `group`, rendered as one mosaic. */
+export type ArtGroup = {
+  title: string | null
+  note: string | null
+  items: { work: ArtWork; index: number }[]
+}
+
+/**
+ * Splits an entry's works into the mosaics to render.
+ *
+ * Runs are consecutive rather than gathered by name, so the frontmatter order
+ * stays the whole truth: a group is a stretch of the sequence, and nothing is
+ * silently reordered to sit beside a namesake further down. An entry with no
+ * `group` anywhere comes back as a single untitled run, which is exactly the
+ * one-mosaic case.
+ *
+ * `index` is the work's position in the flat list, which keeps it lined up
+ * with the full-size renditions and with the lightbox's numbering.
+ */
+export function groupWorks(data: ArtData): ArtGroup[] {
+  const groups: ArtGroup[] = []
+  data.works.forEach((work, index) => {
+    const title = work.group ?? null
+    const current = groups[groups.length - 1]
+    if (current && current.title === title) current.items.push({ work, index })
+    else {
+      const note = (title && data.groupNotes?.[title]) || null
+      groups.push({ title, note, items: [{ work, index }] })
+    }
+  })
+  return groups
+}
+
+/** The artist of one work: its own, else the entry-wide default. */
+export function workArtist(work: ArtWork, data: ArtData): string | null {
+  return work.artist ?? data.artist ?? null
+}
+
+/**
+ * The museum-label line shown under a work in the lightbox —
+ * "Orphée — Károly Ferenczy, 1894. Huile sur toile." Everything but the title
+ * is optional, so the punctuation is assembled rather than templated.
+ */
+export function workCaption(work: ArtWork, data: ArtData): string {
+  const artist = workArtist(work, data)
+  let line = plain(work.title)
+
+  const attribution = [artist, work.year ? String(work.year) : null].filter(Boolean)
+  if (attribution.length) line += ` — ${attribution.join(', ')}`
+  line += '.'
+
+  if (work.medium) line += ` ${plain(work.medium)}.`
+  return line
+}
+
+/**
+ * Alt text. The caption fades out and is decorative once read; this is the
+ * only place the work is named for a screen reader, so it repeats the same
+ * facts without the typographic dressing.
+ */
+export function workAlt(work: ArtWork, data: ArtData): string {
+  const parts = [plain(work.title), workArtist(work, data), work.year ? String(work.year) : null]
+  return parts.filter(Boolean).join(', ')
+}
+
+/**
+ * Describes an art entry in one French sentence, used for the share preview
+ * and the feed — "12 œuvres de Károly Ferenczy, vues au Petit Palais, Paris."
+ */
+export function artSentence(data: ArtData): string {
+  const n = data.works.length
+  let sentence = `${n} ${n > 1 ? 'œuvres' : 'œuvre'}`
+
+  // Named from the works actually present, not from the entry's default
+  // artist: a monograph that includes one contemporary should not describe
+  // itself as fifteen works by the one painter.
+  const artists = [...new Set(data.works.map((work) => workArtist(work, data)).filter(Boolean))]
+  if (artists.length === 1) sentence += ` de ${plain(artists[0]!)}`
+  else if (artists.length === 2) sentence += ` de ${plain(artists[0]!)} et ${plain(artists[1]!)}`
+  else if (artists.length > 2) {
+    sentence += ` de ${plain(artists[0]!)} et ${artists.length - 1} autres artistes`
+  }
+  sentence += '.'
+  // The venue is appended as its own fragment rather than folded in with a
+  // preposition: "au Petit Palais" is right but "au Galerie …" is not, and the
+  // gender of an arbitrary venue name cannot be guessed from the string.
+  if (data.venue) sentence += ` ${plain(data.venue)}.`
+  return sentence
+}
+
 const MAX_DESCRIPTION = 160
 
 // Roughest possible Markdown strip — enough to turn the opening of a note
@@ -293,5 +413,9 @@ export function deriveDescription(data: JournalData, body: string): string {
   const explicit = data.description && plain(data.description).trim()
   if (explicit) return explicit
   if (isMedia(data)) return summarySentence(data)!
+  // An art entry prefers the built sentence over its own prose: "12 œuvres de
+  // Károly Ferenczy" tells a reader what a shared link holds, where the first
+  // 160 characters of a personal reaction do not. Its body is also optional.
+  if (isArt(data)) return artSentence(data)
   return excerpt(body) || `${plain(data.title)} — une pensée.`
 }
