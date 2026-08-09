@@ -9,7 +9,7 @@ link: "https://www.petitpalais.paris.fr/expositions/karoly-ferenczy"
 groupNotes:
   "L’exposition": >-
     Le Petit Palais consacre à Károly Ferenczy (1862-1917) sa première
-    rétrospective française, près de cent quarante toiles qui suivent le
+    rétrospective française, près de cent quarante œuvres qui suivent le
     peintre de ses études à l’Académie Julian jusqu’à ses dernières années
     budapestoises. Tout ce qui suit est de lui, à une exception près : une
     toile de Béla Iványi-Grünwald, l’un de ses compagnons de la colonie de
