@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content'
 import Base from '../../layouts/Base.astro'
 import { formatDateFr } from '../../utils/formatDate'
 import { smartTitleBreak } from '../../utils/smartTitleBreak'
-import { KIND_LABEL, isMedia } from '../../utils/journal'
+import { KIND_LABEL, listingSubtitle } from '../../utils/journal'
 
 const entries = (await getCollection('journal')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime()
@@ -40,8 +40,8 @@ const title = 'Journal';
                   is the click target and wraps as a single piece of text. */}
               <a class="journal-title-cell" href={`/journal/${entry.data.slug}`}>
                 <span class="journal-title" set:html={smartTitleBreak(entry.data.title)} />
-                {isMedia(entry.data) && entry.data.creator && (
-                  <span class="journal-creator">{entry.data.creator}</span>
+                {listingSubtitle(entry.data) && (
+                  <span class="journal-creator">{listingSubtitle(entry.data)}</span>
                 )}
               </a>
             </dd>

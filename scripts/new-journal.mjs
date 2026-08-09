@@ -10,7 +10,7 @@ const JOURNAL = join(HERE, '..', 'src', 'content', 'journal')
 const POSTER_KINDS = ['book', 'film', 'game']
 const SQUARE_KINDS = ['music', 'podcast']
 const MEDIA_KINDS = [...POSTER_KINDS, ...SQUARE_KINDS]
-const KINDS = [...MEDIA_KINDS, 'thought']
+const KINDS = [...MEDIA_KINDS, 'thought', 'art']
 
 const [kind, ...titleParts] = process.argv.slice(2)
 const title = titleParts.join(' ').trim()
@@ -55,12 +55,30 @@ cover: "assets/journal/${slug}.jpg"
 link:
 `
 
+// Unlike every other kind, an art entry's images live in `src/`, beside the
+// markdown: the mosaic lays works out from their real pixel dimensions, which
+// only Astro's image pipeline can supply. One example work is written out —
+// `works` needs at least one entry, so an empty list is a build error.
+const artFields = `artist:
+venue:
+link:
+works:
+  - src: "./${slug}/premiere-oeuvre.jpg"
+    title: "Titre de l’œuvre"
+    artist:
+    year:
+    medium:
+    credit:
+`
+
+const kindFields = kind === 'thought' ? '' : kind === 'art' ? artFields : mediaFields
+
 const fm = `---
 kind: ${kind}
 title: ${JSON.stringify(title)}
 slug: ${JSON.stringify(slug)}
 date: ${today}
-${kind === 'thought' ? '' : mediaFields}---
+${kindFields}---
 
 `
 
@@ -72,7 +90,11 @@ if (existsSync(path)) {
 }
 writeFileSync(path, fm)
 console.log(`Created ${path}`)
-if (kind !== 'thought') {
+if (kind === 'art') {
+  mkdirSync(join(JOURNAL, slug), { recursive: true })
+  console.log(`Put the works in src/content/journal/${slug}/ and list them under works:`)
+  console.log('Any proportions — the mosaic reads them from the files. Cap the long side at 2400px.')
+} else if (kind !== 'thought') {
   const shape = POSTER_KINDS.includes(kind) ? 'poster, roughly 2:3' : 'square, roughly 1:1'
   console.log(`Cover REQUIRED at public/assets/journal/${slug}.jpg — ${shape}`)
 }
