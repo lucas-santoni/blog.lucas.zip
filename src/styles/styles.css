@@ -720,12 +720,49 @@ li {
   border: 0;
   background: transparent;
   overflow: hidden;
+  /* Fades in and out at the same 0.25s the theme switch uses, so opening a
+     work feels like the rest of the site. `display` and `overlay` need
+     allow-discrete, or the dialog would vanish on close before the opacity
+     had anywhere to travel. */
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+}
+
+.art-lightbox[open] {
+  opacity: 1;
+}
+
+/* The state to animate *from* on open. Without it the dialog would simply
+   appear at full opacity. */
+@starting-style {
+  .art-lightbox[open] {
+    opacity: 0;
+  }
 }
 
 /* White in the light theme, black in the dark one: the page recedes and only
-   the work is lit. */
+   the work is lit. The veil fades on its own clock — it is a separate
+   pseudo-element and inherits none of the rules above. */
 .art-lightbox::backdrop {
   background-color: rgba(255, 255, 255, 0.97);
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    display 0.25s allow-discrete,
+    overlay 0.25s allow-discrete;
+}
+
+.art-lightbox[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .art-lightbox[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 :root[data-theme='dark'] .art-lightbox::backdrop {
@@ -754,7 +791,10 @@ html:has(.art-lightbox[open]) {
   padding: 1.5rem;
 }
 
-.art-stage-img {
+/* Qualified by the dialog on purpose. The lightbox sits inside .content, and
+   `.content img` (0-1-1) outranks a lone `.art-stage-img` (0-1-0), so the
+   6px radius won and the work was displayed with clipped corners. */
+.art-lightbox .art-stage-img {
   max-width: 100%;
   /* The reserve is the caption's own height plus slack for a label that wraps
      to two or three lines on a narrow screen, so the pair stays centred as one
@@ -805,6 +845,12 @@ html:has(.art-lightbox[open]) {
 
   .art-lightbox[data-idle='true'] .art-stage-caption {
     opacity: 1;
+  }
+
+  /* Open and close outright rather than fading. */
+  .art-lightbox,
+  .art-lightbox::backdrop {
+    transition: none;
   }
 }
 

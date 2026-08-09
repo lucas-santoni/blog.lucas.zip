@@ -29,6 +29,7 @@ works:
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/jeunes-garcons-se-baignant.jpg"
     title: "Jeunes garçons se baignant"
+    year: 1902
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/deposition-de-croix.jpg"
@@ -47,7 +48,8 @@ works:
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/ruisseau.jpg"
-    title: "Ruisseau I"
+    title: "Ruisseau II"
+    year: 1907
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest — photo Dguendel (CC BY 4.0)"
   - src: "./karoly-ferenczy/fils-prodigue.jpg"
@@ -62,6 +64,7 @@ works:
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/paysage-nuageux-izvora.jpg"
     title: "Paysage nuageux (Izvora)"
+    year: 1905
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/au-sommet-de-la-colline.jpg"
@@ -71,6 +74,8 @@ works:
     credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/depart.jpg"
     title: "Départ"
+    year: 1892
+    medium: "Huile sur toile"
     credit: "Photographié au Petit Palais — artexpos.org"
   - src: "./karoly-ferenczy/au-milieu-des-sommets.jpg"
     title: "Au milieu des sommets"
