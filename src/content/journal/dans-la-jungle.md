@@ -25,5 +25,4 @@ années, on a assez d'éléments pour comprendre la personnalité, la psychologi
 d'Arnaud. On sait qu'il ne va pas changer. Une fois adulte, on ne change plus.
 Nos défauts et nos névroses sont une pente légèrement glissante sur laquelle
 nous sommes en permanence. Le mieux que l'on puisse faire, c'est s'agripper pour
-ralentir la chute et parfois même remonter de quelques mètres. Arnaud n'a pas dû
-beaucoup se débattre, parce qu'il est arrivé en bas très rapidement.
+ralentir la chute et parfois même remonter de quelques mètres.

@@ -33,3 +33,6 @@ sérieux et profond.
 > : même au Monopoly le mec est jamais allé en prison.
 
 Les passages comme celui-là sont vraiment difficiles, et il y en a beaucoup.
+
+Mais terminons sur une note positive : les personnages de Céline et Yves sont
+bien travaillés. J'ai aimé suivre leur relation et leurs réflexions.
