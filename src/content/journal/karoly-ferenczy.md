@@ -13,8 +13,7 @@ groupNotes:
     peintre de ses études à l’Académie Julian jusqu’à ses dernières années
     budapestoises. Tout ce qui suit est de lui, à une exception près : une
     toile de Béla Iványi-Grünwald, l’un de ses compagnons de la colonie de
-    Nagybánya, où Ferenczy s’installe en 1896 et qui devient le foyer de la
-    modernité hongroise.
+    Nagybánya, où Ferenczy s’installe en 1896.
   "Collection permanente": >-
     Les œuvres qui suivent ne font pas partie de l’exposition : ce sont des
     pièces de la collection permanente du Petit Palais, croisées le même jour
