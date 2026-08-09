@@ -113,6 +113,11 @@ const artWork = (image: ImageFn) =>
     medium: z.string().nullish(),
     // Where the reproduction came from — museum, archive, photographer.
     credit: z.string().nullish(),
+    // Splits an entry into several mosaics, each under its own heading —
+    // "Collection permanente" alongside the exhibition itself. Consecutive
+    // works sharing a value form one run; works without one form an untitled
+    // run, which is what a single-set entry is.
+    group: z.string().nullish(),
   })
 
 const journal = defineCollection({

@@ -621,6 +621,13 @@ li {
 
 /* Journal — art entries -------------------------------------------------- */
 
+:root {
+  /* How far an art entry may break out of the 40em reading column. Shared by
+     the mosaic and its headings, in rem so both resolve it identically —
+     these two elements do not share a font-size. */
+  --art-wide: 81rem;
+}
+
 /* Replaces the stars/creator/link block on an art entry. Same faded treatment
    as .journal-meta, but it sits directly under the date rather than being
    pushed to the bottom of a cover that is not there. */
@@ -634,6 +641,33 @@ li {
 .journal-art-meta > * + *::before {
   content: ' · ';
   color: var(--color-faded);
+}
+
+/* Names a run of works inside an entry — "Collection permanente" beside the
+   exhibition itself. Deliberately quiet: it is a divider, not a title, and it
+   must not compete with the works underneath. Absent when an entry holds a
+   single set. */
+.art-group-title {
+  /* Breaks out exactly like the mosaic below it, so the label starts flush
+     with the first work rather than floating in from the reading column.
+     In rem, not em: this element sets its own font-size below, and an em
+     width would resolve against that and come out narrower than the mosaic. */
+  width: min(calc(100vw - 3rem), var(--art-wide));
+  margin: 3em 0 0 50%;
+  transform: translateX(-50%);
+  font-family: 'Roboto Condensed', Arial, Helvetica, sans-serif;
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-faded);
+  text-align: left;
+}
+
+/* The mosaic already carries a generous top margin for the ungrouped case;
+   under a heading it belongs closer. */
+.art-group-title + .art-mosaic {
+  margin-top: 1em;
 }
 
 /* The mosaic.
@@ -656,7 +690,7 @@ li {
      left edge at the container's midpoint and pulling back half this block's
      own width centres it on the viewport, whatever padding is in between.
      100vw counts the scrollbar, hence the margin subtracted from it. */
-  width: min(calc(100vw - 3rem), 76em);
+  width: min(calc(100vw - 3rem), var(--art-wide));
   margin: 2.4em 0 2.6em 50%;
   transform: translateX(-50%);
 }

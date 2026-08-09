@@ -17,6 +17,7 @@ import {
   SCHEMA_TYPE,
   dateLine,
   deriveDescription,
+  groupWorks,
   hostOf,
   isArt,
   isMedia,
@@ -265,37 +266,47 @@ const jsonLd = media
             for every tile on a row to settle at the same height. Proportions
             are preserved, nothing is cropped, and it reflows on resize with
             no JavaScript. */}
-        <div class="art-mosaic" data-art-mosaic>
-          {art.works.map((work, i) => {
-            const ratio = work.src.width / work.src.height
-            const caption = workCaption(work, art)
-            return (
-              <a
-                class="art-tile"
-                style={`--art-ratio:${ratio.toFixed(4)}`}
-                href={stage[i].src}
-                data-index={i}
-                data-caption={caption}
-                data-credit={work.credit ?? ''}
-                data-alt={workAlt(work, art)}
-                aria-label={caption}
-              >
-                <Image
-                  src={work.src}
-                  alt={workAlt(work, art)}
-                  widths={[400, 640, 900, 1280]}
-                  sizes="(max-width: 34em) 100vw, (max-width: 60em) 46vw, 30vw"
-                  loading={i < 4 ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              </a>
-            )
-          })}
-          {/* Absorbs the leftover space on the final row. Without it the last
-              one or two tiles stretch across the full width and dwarf every
-              work above them. flex-basis:0 keeps it off its own line. */}
-          <span class="art-mosaic-filler" aria-hidden="true"></span>
-        </div>
+        {/* One mosaic per run of works sharing a `group`, so an entry can hold
+            the exhibition and, say, the permanent collection seen the same
+            day, without running them together. An entry with no groups at all
+            is a single untitled run — the ordinary case. */}
+        {groupWorks(art).map((group) => (
+          <>
+            {group.title && <h2 class="art-group-title">{group.title}</h2>}
+            <div class="art-mosaic" data-art-mosaic>
+              {group.items.map(({ work, index }) => {
+                const ratio = work.src.width / work.src.height
+                const caption = workCaption(work, art)
+                return (
+                  <a
+                    class="art-tile"
+                    style={`--art-ratio:${ratio.toFixed(4)}`}
+                    href={stage[index].src}
+                    data-index={index}
+                    data-caption={caption}
+                    data-credit={work.credit ?? ''}
+                    data-alt={workAlt(work, art)}
+                    aria-label={caption}
+                  >
+                    <Image
+                      src={work.src}
+                      alt={workAlt(work, art)}
+                      widths={[400, 640, 900, 1280]}
+                      sizes="(max-width: 34em) 100vw, (max-width: 60em) 46vw, 30vw"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                  </a>
+                )
+              })}
+              {/* Absorbs the leftover space on the final row. Without it the
+                  last one or two tiles stretch across the full width and dwarf
+                  every work above them. flex-basis:0 keeps it off its own
+                  line. */}
+              <span class="art-mosaic-filler" aria-hidden="true"></span>
+            </div>
+          </>
+        ))}
 
         {/* Opened by script; until then every tile is a plain link to the
             full-size image, so the page still works with no JavaScript. */}
@@ -318,11 +329,13 @@ const jsonLd = media
 {/* Progressive enhancement over the plain links above. Bundled on every
     journal entry, but every lookup below returns null off an art page. */}
 <script>
-  const mosaic = document.querySelector('[data-art-mosaic]')
   const dialog = document.querySelector<HTMLDialogElement>('[data-art-lightbox]')
+  // Every tile on the page, not one mosaic's worth: an entry may hold several
+  // groups, and the arrows should carry on across them rather than stop at a
+  // heading. Document order matches the frontmatter order.
+  const tiles = Array.from(document.querySelectorAll<HTMLAnchorElement>('.art-tile'))
 
-  if (mosaic && dialog) {
-    const tiles = Array.from(mosaic.querySelectorAll<HTMLAnchorElement>('.art-tile'))
+  if (tiles.length && dialog) {
     const img = dialog.querySelector<HTMLImageElement>('.art-stage-img')!
     const label = dialog.querySelector<HTMLElement>('.art-stage-label')!
     const credit = dialog.querySelector<HTMLElement>('.art-stage-credit')!

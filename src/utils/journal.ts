@@ -280,6 +280,35 @@ export function listingSubtitle(data: JournalData): string | null {
   return null
 }
 
+/** A run of consecutive works sharing a `group`, rendered as one mosaic. */
+export type ArtGroup = {
+  title: string | null
+  items: { work: ArtWork; index: number }[]
+}
+
+/**
+ * Splits an entry's works into the mosaics to render.
+ *
+ * Runs are consecutive rather than gathered by name, so the frontmatter order
+ * stays the whole truth: a group is a stretch of the sequence, and nothing is
+ * silently reordered to sit beside a namesake further down. An entry with no
+ * `group` anywhere comes back as a single untitled run, which is exactly the
+ * one-mosaic case.
+ *
+ * `index` is the work's position in the flat list, which keeps it lined up
+ * with the full-size renditions and with the lightbox's numbering.
+ */
+export function groupWorks(data: ArtData): ArtGroup[] {
+  const groups: ArtGroup[] = []
+  data.works.forEach((work, index) => {
+    const title = work.group ?? null
+    const current = groups[groups.length - 1]
+    if (current && current.title === title) current.items.push({ work, index })
+    else groups.push({ title, items: [{ work, index }] })
+  })
+  return groups
+}
+
 /** The artist of one work: its own, else the entry-wide default. */
 export function workArtist(work: ArtWork, data: ArtData): string | null {
   return work.artist ?? data.artist ?? null
