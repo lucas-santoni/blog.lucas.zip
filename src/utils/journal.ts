@@ -130,18 +130,18 @@ const RELEASE_VERB: Record<MediaKind, string> = {
 }
 
 const STATUS_SENTENCE: Record<Exclude<MediaData['status'], 'finished'>, string> = {
-  abandoned: 'Je ne l’ai pas terminé.',
+  abandoned: "Je ne l'ai pas terminé.",
   ongoing: 'Je suis encore dessus.',
 }
 
 const VOWEL = /^[aeiouâàéèêëîïôûùü]/i
 
-// "de Ursula" → "d’Ursula", but "réalisé par Andrei" is untouched. `h` is
-// deliberately excluded: whether a name takes h muet ("d’Henri") or h aspiré
+// "de Ursula" → "d'Ursula", but "réalisé par Andrei" is untouched. `h` is
+// deliberately excluded: whether a name takes h muet ("d'Henri") or h aspiré
 // ("de Haruki") is unknowable from the string, and the un-elided form is the
 // safer default for the proper nouns this field holds.
 function joinCreator(preposition: string, creator: string): string {
-  if (preposition === 'de' && VOWEL.test(creator)) return `d’${creator}`
+  if (preposition === 'de' && VOWEL.test(creator)) return `d'${creator}`
   return `${preposition} ${creator}`
 }
 

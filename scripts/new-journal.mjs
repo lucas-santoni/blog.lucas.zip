@@ -68,7 +68,7 @@ link:
 groupNotes:
 works:
   - src: "./${slug}/premiere-oeuvre.jpg"
-    title: "Titre de l’œuvre"
+    title: "Titre de l'œuvre"
     artist:
     year:
     medium:

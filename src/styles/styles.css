@@ -939,6 +939,20 @@ html:has(.art-lightbox[open]) {
     margin: 1.5em 0 1.5em 0;
   }
 
+  /* Below this the page is already full width, so breaking the mosaic out of
+     the reading column buys nothing — and it actively misaligns, because
+     `100vw - 3rem` is narrower than the body's `100vw - 2em`, leaving the
+     works inset from the masthead above them. Let the block flow normally
+     and the two edges line up again. */
+  .art-mosaic,
+  .art-group-title,
+  .art-group-note {
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    transform: none;
+  }
+
   .intro {
     display: block;
   }
