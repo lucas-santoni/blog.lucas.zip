@@ -331,9 +331,12 @@ const jsonLd = media
     // screen while you are still looking at it.
     const IDLE_MS = 3000
     const SWIPE_PX = 45
+    // Must outlast the 0.25s opacity transition in the stylesheet.
+    const FADE_MS = 400
 
     let index = 0
     let idleTimer: ReturnType<typeof setTimeout> | undefined
+    let clearTimer: ReturnType<typeof setTimeout> | undefined
 
     /** Show the caption, and start the countdown that fades it again. */
     const wake = () => {
@@ -401,10 +404,17 @@ const jsonLd = media
     }, { passive: true })
 
     // Dropping the source stops a large image downloading in the background
-    // once it can no longer be seen.
+    // once it can no longer be seen — but only after the veil has finished
+    // fading. Clearing it on `close` emptied the stage instantly while the
+    // backdrop was still on screen, so the work vanished a beat before the
+    // fade and the whole thing read as a flash rather than a dissolve.
     dialog.addEventListener('close', () => {
       clearTimeout(idleTimer)
-      img.removeAttribute('src')
+      clearTimeout(clearTimer)
+      clearTimer = setTimeout(() => {
+        // Reopened in the meantime: the src belongs to the new work now.
+        if (!dialog.open) img.removeAttribute('src')
+      }, FADE_MS)
     })
   }
 </script>

@@ -770,9 +770,12 @@ li {
 }
 
 /* The veil is the close target, so the page behind it must not scroll away
-   under the pointer. */
+   under the pointer. `scrollbar-gutter` keeps the scrollbar's width reserved
+   while it is hidden — without it the page widens by ~15px on open and snaps
+   back on close, and that snap happens mid-fade, which reads as a flash. */
 html:has(.art-lightbox[open]) {
   overflow: hidden;
+  scrollbar-gutter: stable;
 }
 
 /* A column, with the caption in normal flow under the work rather than

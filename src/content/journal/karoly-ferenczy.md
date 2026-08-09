@@ -6,7 +6,14 @@ date: 2026-08-07
 artist: "Károly Ferenczy"
 venue: "Petit Palais, Paris"
 link: "https://www.petitpalais.paris.fr/expositions/karoly-ferenczy"
+# Chronological. The mosaic follows this order exactly, so it is also the
+# order a reader walks the work in — and the first entry is the share image.
 works:
+  - src: "./karoly-ferenczy/depart.jpg"
+    title: "Départ"
+    year: 1892
+    medium: "Huile sur toile"
+    credit: "Photographié au Petit Palais — artexpos.org"
   - src: "./karoly-ferenczy/orphee.jpg"
     title: "Orphée"
     year: 1894
@@ -27,6 +34,17 @@ works:
     year: 1900
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest"
+  - src: "./karoly-ferenczy/au-sommet-de-la-colline.jpg"
+    title: "Au sommet de la colline"
+    year: 1901
+    medium: "Huile sur toile"
+    credit: "Galerie nationale hongroise, Budapest"
+  - src: "./karoly-ferenczy/au-milieu-des-sommets.jpg"
+    title: "Au milieu des sommets"
+    artist: "Béla Iványi-Grünwald"
+    year: 1901
+    medium: "Huile sur toile"
+    credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/jeunes-garcons-se-baignant.jpg"
     title: "Jeunes garçons se baignant"
     year: 1902
@@ -42,6 +60,11 @@ works:
     year: 1904
     medium: "Huile sur toile"
     credit: "Wikimedia Commons"
+  - src: "./karoly-ferenczy/paysage-nuageux-izvora.jpg"
+    title: "Paysage nuageux (Izvora)"
+    year: 1905
+    medium: "Huile sur toile"
+    credit: "Galerie nationale hongroise, Budapest"
   - src: "./karoly-ferenczy/fete-de-mai.jpg"
     title: "Fête de mai"
     year: 1906
@@ -60,27 +83,6 @@ works:
   - src: "./karoly-ferenczy/les-archers.jpg"
     title: "Les Archers"
     year: 1911
-    medium: "Huile sur toile"
-    credit: "Galerie nationale hongroise, Budapest"
-  - src: "./karoly-ferenczy/paysage-nuageux-izvora.jpg"
-    title: "Paysage nuageux (Izvora)"
-    year: 1905
-    medium: "Huile sur toile"
-    credit: "Galerie nationale hongroise, Budapest"
-  - src: "./karoly-ferenczy/au-sommet-de-la-colline.jpg"
-    title: "Au sommet de la colline"
-    year: 1901
-    medium: "Huile sur toile"
-    credit: "Galerie nationale hongroise, Budapest"
-  - src: "./karoly-ferenczy/depart.jpg"
-    title: "Départ"
-    year: 1892
-    medium: "Huile sur toile"
-    credit: "Photographié au Petit Palais — artexpos.org"
-  - src: "./karoly-ferenczy/au-milieu-des-sommets.jpg"
-    title: "Au milieu des sommets"
-    artist: "Béla Iványi-Grünwald"
-    year: 1901
     medium: "Huile sur toile"
     credit: "Galerie nationale hongroise, Budapest"
 ---
