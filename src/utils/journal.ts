@@ -319,7 +319,16 @@ export function workAlt(work: ArtWork, data: ArtData): string {
 export function artSentence(data: ArtData): string {
   const n = data.works.length
   let sentence = `${n} ${n > 1 ? 'œuvres' : 'œuvre'}`
-  if (data.artist) sentence += ` de ${plain(data.artist)}`
+
+  // Named from the works actually present, not from the entry's default
+  // artist: a monograph that includes one contemporary should not describe
+  // itself as fifteen works by the one painter.
+  const artists = [...new Set(data.works.map((work) => workArtist(work, data)).filter(Boolean))]
+  if (artists.length === 1) sentence += ` de ${plain(artists[0]!)}`
+  else if (artists.length === 2) sentence += ` de ${plain(artists[0]!)} et ${plain(artists[1]!)}`
+  else if (artists.length > 2) {
+    sentence += ` de ${plain(artists[0]!)} et ${artists.length - 1} autres artistes`
+  }
   sentence += '.'
   // The venue is appended as its own fragment rather than folded in with a
   // preposition: "au Petit Palais" is right but "au Galerie …" is not, and the

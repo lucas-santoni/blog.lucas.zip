@@ -672,13 +672,16 @@ li {
 
 /* Undoes the block-image treatment .content gives every img: the centring
    margins would break the row, and the tile is the layout unit now. The
-   hairline stays — a pale sky against a pale page needs an edge. */
+   hairline stays — a pale sky against a pale page needs an edge — but the
+   6px radius goes: a painting has square corners, and rounding them crops
+   the canvas at each one. */
 .content .art-tile img {
   display: block;
   width: 100%;
   height: auto;
   margin: 0;
   border: 1px solid var(--color-code-border);
+  border-radius: 0;
 }
 
 .art-tile:hover img,
@@ -759,6 +762,8 @@ html:has(.art-lightbox[open]) {
   max-height: calc(100vh - 10rem);
   object-fit: contain;
   cursor: default;
+  /* Square, like the tiles and like the canvas. */
+  border-radius: 0;
 }
 
 .art-stage-caption {
