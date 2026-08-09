@@ -695,12 +695,16 @@ li {
   transform: translateX(-50%);
 }
 
+/* No min-width. It looks like cheap insurance against a sliver, but it is the
+   one thing that can break this layout: a tall narrow panel whose natural
+   width falls under the floor gets clamped, and a clamped tile no longer
+   shares its row's height — three Pillement panels ended up with three
+   different bottom edges. The row height already guarantees a usable width,
+   because width is ratio x height and the height is the same for the row. */
 .art-tile {
   display: block;
   flex-grow: var(--art-ratio);
   flex-basis: calc(var(--art-ratio) * var(--art-row));
-  /* Below this a wide panorama on a crowded row collapses to a sliver. */
-  min-width: 8rem;
   line-height: 0;
 }
 

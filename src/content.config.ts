@@ -109,7 +109,11 @@ const artWork = (image: ImageFn) =>
     // Falls back to the entry's `artist`, so a monograph does not repeat the
     // same name on all twenty works.
     artist: z.string().nullish(),
-    year: z.number().int().nullish(),
+    // A string as well as a number, because paintings are often dated loosely
+    // and a cartel should say what the museum says: "vers 1862", "entre 1765
+    // et 1767". The media kinds keep a plain integer — a book has a year of
+    // publication, not an art historian's estimate.
+    year: z.union([z.number().int(), z.string().trim().min(1)]).nullish(),
     medium: z.string().nullish(),
     // Where the reproduction came from — museum, archive, photographer.
     credit: z.string().nullish(),
