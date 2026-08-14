@@ -626,6 +626,12 @@ li {
      the mosaic and its headings, in rem so both resolve it identically —
      these two elements do not share a font-size. */
   --art-wide: 81rem;
+  /* Space between tiles, in both the justified and the uniform layouts. At
+     tile widths above 600px the old 0.5rem read as almost touching. Raising
+     it costs height, not structure: measured across 0.5–1.25rem, neither the
+     paintings' rows (4-4-4-3) nor the stills' (17 rows, no orphan) reflow,
+     and a tile loses at most 6px of width. */
+  --art-gap: 1rem;
 }
 
 /* Replaces the stars/creator/link block on an art entry. Same faded treatment
@@ -700,7 +706,7 @@ li {
   /* Not stretch: a tile's height must come from its own image, or a rounding
      difference within a row would scale one work to match its neighbour. */
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--art-gap);
   /* Breaks out of the 40em reading column. body is centred, so putting the
      left edge at the container's midpoint and pulling back half this block's
      own width centres it on the viewport, whatever padding is in between.
@@ -749,6 +755,33 @@ li {
   flex-grow: 999999;
   flex-basis: 0;
   height: 0;
+}
+
+/* A run whose tiles all share one aspect ratio — frames lifted from a single
+   film, every one of them 2.39:1. The justified algorithm above has nothing
+   left to solve there, and its filler actively hurts: a *full* final row still
+   hands its slack to the filler, so it renders about 11% narrower than the
+   rows above it. Equal columns are the honest layout for equal shapes, and a
+   short final row keeps one column's width instead of stretching — which is
+   the very thing the filler existed to prevent, so it is not rendered here.
+
+   The min() is what collapses this to a single column on a narrow screen,
+   which is why the flex rule below does not need a uniform counterpart: flex
+   properties have no effect on grid items. */
+.art-mosaic[data-uniform] {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, calc(var(--art-row) * var(--art-uniform-ratio))), 1fr)
+  );
+}
+
+/* A respiration: one frame taking the whole width, breaking the run of pairs.
+   `-1` is the last column line whatever the auto-fit count resolved to, so
+   this holds at every width without a media query — and collapses to a no-op
+   once the grid is down to a single column. */
+.art-mosaic[data-uniform] .art-tile[data-wide] {
+  grid-column: 1 / -1;
 }
 
 /* One work per row once two side by side would each be too small to read. */

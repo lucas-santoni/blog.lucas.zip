@@ -10,6 +10,8 @@ export type MediaKind = Exclude<JournalKind, 'thought' | 'art'>
 export type MediaData = Extract<JournalData, { kind: MediaKind }>
 export type ArtData = Extract<JournalData, { kind: 'art' }>
 export type ArtWork = ArtData['works'][number]
+export type FilmData = Extract<JournalData, { kind: 'film' }>
+export type FilmStill = NonNullable<FilmData['stills']>[number]
 
 export function isMedia(data: JournalData): data is MediaData {
   return data.kind !== 'thought' && data.kind !== 'art'
@@ -17,6 +19,11 @@ export function isMedia(data: JournalData): data is MediaData {
 
 export function isArt(data: JournalData): data is ArtData {
   return data.kind === 'art'
+}
+
+/** A film that actually carries frames — `stills` is optional on the kind. */
+export function hasStills(data: JournalData): data is FilmData & { stills: FilmStill[] } {
+  return data.kind === 'film' && Array.isArray(data.stills) && data.stills.length > 0
 }
 
 // The journal is written in French, so everything exclusive to it reads in
@@ -343,6 +350,114 @@ export function workCaption(work: ArtWork, data: ArtData): string {
 export function workAlt(work: ArtWork, data: ArtData): string {
   const parts = [plain(work.title), workArtist(work, data), work.year ? String(work.year) : null]
   return parts.filter(Boolean).join(', ')
+}
+
+/**
+ * "00:47:38.647" → "47:38".
+ *
+ * The stored value is precise enough to re-extract the frame; the reader only
+ * needs to find it in the film. Milliseconds go, and so does an hour that is
+ * zero — a feature is under two hours far more often than not, and "0:47:38"
+ * pads the line for no one.
+ */
+export function formatTimecode(time: string): string {
+  const [h, m, s] = time.split(':')
+  const seconds = s.split('.')[0]
+  return Number(h) > 0 ? `${Number(h)}:${m}:${seconds}` : `${Number(m)}:${seconds}`
+}
+
+/**
+ * The aspect ratio a run of tiles all share, or null when they differ.
+ *
+ * Frames lifted from one film are all the same shape, and that is the one case
+ * the justified layout cannot handle well — see the `[data-uniform]` rule in
+ * the stylesheet. Paintings never come back from here, which is the point:
+ * nineteen canvases sharing a ratio to four decimals does not happen.
+ */
+export function uniformRatio(items: { tile: GalleryTile }[]): number | null {
+  if (items.length === 0) return null
+  const ratio = items[0].tile.src.width / items[0].tile.src.height
+  // Rounded before comparing: two renditions of the same frame can differ by a
+  // pixel of rounding without being different shapes.
+  const round = (n: number) => n.toFixed(4)
+  return items.every((item) => round(item.tile.src.width / item.tile.src.height) === round(ratio))
+    ? ratio
+    : null
+}
+
+/** One tile in a mosaic, whatever kind of entry supplied it. */
+export type GalleryTile = {
+  src: ArtWork['src']
+  alt: string
+  /** The label under the work in the lightbox. */
+  caption: string
+  /** Second line in the lightbox, blank when there is nothing to credit. */
+  credit: string
+  /** Takes the whole width of the mosaic. Only a uniform run honours this —
+   *  the justified layout already sizes each work from its own proportions. */
+  wide: boolean
+}
+
+/** A run of consecutive tiles rendered as one mosaic, under one heading. */
+export type GalleryGroup = {
+  title: string | null
+  note: string | null
+  /** `index` is the tile's position in the flat list, which lines it up with
+   *  the full-size renditions and with the lightbox's arrow order. */
+  items: { tile: GalleryTile; index: number }[]
+}
+
+/**
+ * Normalises an entry's images into the mosaics to render.
+ *
+ * Two kinds feed this and they label their images very differently: an `art`
+ * work gets a museum cartel, a film still gets a timecode. Resolving that here
+ * means the template holds one mosaic and one lightbox rather than a copy per
+ * kind, and a third kind of gallery later only has to produce tiles.
+ *
+ * Anything else — a book, a thought — comes back empty, and the template skips
+ * the whole block.
+ */
+export function galleryGroups(data: JournalData): GalleryGroup[] {
+  if (isArt(data)) {
+    return groupWorks(data).map((group) => ({
+      title: group.title,
+      note: group.note,
+      items: group.items.map(({ work, index }) => ({
+        index,
+        tile: {
+          src: work.src,
+          alt: workAlt(work, data),
+          caption: workCaption(work, data),
+          credit: work.credit ?? '',
+          wide: false,
+        },
+      })),
+    }))
+  }
+
+  if (hasStills(data)) {
+    // One untitled run. Stills have no equivalent of `group`: they come from a
+    // single film, and a heading would imply a division the frames do not have.
+    return [
+      {
+        title: null,
+        note: null,
+        items: data.stills.map((still, index) => ({
+          index,
+          tile: {
+            src: still.src,
+            alt: still.alt,
+            caption: formatTimecode(still.time),
+            credit: '',
+            wide: still.wide === true,
+          },
+        })),
+      },
+    ]
+  }
+
+  return []
 }
 
 /**

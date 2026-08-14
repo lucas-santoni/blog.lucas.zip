@@ -124,6 +124,37 @@ const artWork = (image: ImageFn) =>
     group: z.string().nullish(),
   })
 
+/**
+ * One frame lifted from a film.
+ *
+ * `src` goes through `image()` for the same reason the artworks below do: the
+ * mosaic lays tiles out from their real proportions and needs the pixel
+ * dimensions at build time. Stills from a single film all share one ratio, so
+ * the rows come out even — the helper is still what supplies the responsive
+ * renditions and the modern formats.
+ */
+const filmStill = (image: ImageFn) =>
+  z.strictObject({
+    src: image(),
+    // The exact position in the source file. Kept because the filename is
+    // rounded to the second: "00:47:38.647" re-extracts this precise frame,
+    // where "47-38.jpg" only names its neighbourhood. Never parsed — it is
+    // provenance first, and the caption shows it trimmed of its hour.
+    time: z
+      .string()
+      .trim()
+      .regex(/^\d{1,2}:\d{2}:\d{2}(\.\d{1,3})?$/, 'must look like 00:47:38.647'),
+    // Required, unlike almost everything else here. A still carries no title
+    // to fall back on, so this is the only description a screen reader will
+    // ever get for it.
+    alt: z.string().trim().min(1),
+    // Gives the frame the full width of the mosaic instead of a single
+    // column — a pause in the run, and the way a plan large stops being
+    // treated like a close-up. Marking several in a row defeats it: the
+    // respiration only reads as one against tiles that are not.
+    wide: z.boolean().nullish(),
+  })
+
 const journal = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/journal' }),
   schema: ({ image }) =>
@@ -132,7 +163,20 @@ const journal = defineCollection({
       mediaEntry('podcast'),
       mediaEntry('game'),
       mediaEntry('music'),
-      mediaEntry('film'),
+      // Spelled out rather than built by `mediaEntry`, because a film is the
+      // one media kind that can carry a gallery of frames.
+      z.strictObject({
+        kind: z.literal('film'),
+        ...journalBase,
+        ...journalMedia,
+        // Optional, and deliberately so: most film entries are a poster, a
+        // rating and a paragraph. When present the frames render as a mosaic
+        // under the note, sharing the layout and the lightbox with `art`.
+        // The order is the order they are looked at, and it need not follow
+        // the film — a set of stills chosen for their light reads better
+        // shuffled than in projection order.
+        stills: z.array(filmStill(image)).min(1).nullish(),
+      }),
       z.strictObject({ kind: z.literal('thought'), ...journalBase }),
       z.strictObject({
         kind: z.literal('art'),
