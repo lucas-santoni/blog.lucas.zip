@@ -136,11 +136,6 @@ const RELEASE_VERB: Record<MediaKind, string> = {
   film: 'sorti en',
 }
 
-const STATUS_SENTENCE: Record<Exclude<MediaData['status'], 'finished'>, string> = {
-  abandoned: "Je ne l'ai pas terminé.",
-  ongoing: 'Je suis encore dessus.',
-}
-
 const VOWEL = /^[aeiouâàéèêëîïôûùü]/i
 
 // "de Ursula" → "d'Ursula", but "réalisé par Andrei" is untouched. `h` is
@@ -150,11 +145,6 @@ const VOWEL = /^[aeiouâàéèêëîïôûùü]/i
 function joinCreator(preposition: string, creator: string): string {
   if (preposition === 'de' && VOWEL.test(creator)) return `d'${creator}`
   return `${preposition} ${creator}`
-}
-
-// "ce livre" but "cet album".
-function demonstrative(noun: string): string {
-  return VOWEL.test(noun) ? 'cet' : 'ce'
 }
 
 // schema.org type used as `itemReviewed` in the Review JSON-LD.
@@ -241,8 +231,14 @@ export function plain(text: string): string {
 
 /**
  * Describes an entry's metadata as one French sentence —
- * "Outer Wilds est un jeu vidéo de Mobius Digital, sorti en 2019." — used as
- * the OG and RSS description so a shared link previews as something useful.
+ * "Outer Wilds est un jeu vidéo de Mobius Digital, sorti en 2019. Note : 4/5."
+ * — used as the OG and RSS description so a shared link previews as something
+ * useful.
+ *
+ * Deliberately narrow: it states what the work is and what it scored, and
+ * nothing else. The link went because a preview blurb is rarely clickable
+ * where it lands, and the status ("Je ne l'ai pas terminé.") went with it —
+ * the page's own date line already says "Abandonné le …" where it matters.
  *
  * Returns null for a `thought`, which carries no metadata to describe.
  */
@@ -264,11 +260,7 @@ export function summarySentence(data: JournalData): string | null {
   }
   parts.push(`${opening}.`)
 
-  if (data.status !== 'finished') parts.push(STATUS_SENTENCE[data.status])
-  if (data.link) parts.push(`En savoir plus sur ${hostOf(data.link)}.`)
-  if (data.rating) {
-    parts.push(`Je mettrais ${ratingText(data.rating)} à ${demonstrative(noun)} ${noun}.`)
-  }
+  if (data.rating) parts.push(`Note : ${ratingText(data.rating)}.`)
 
   return parts.join(' ')
 }
