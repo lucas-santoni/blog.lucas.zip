@@ -184,10 +184,9 @@ exists.
 
 **Description fallback:** with no `description`, a media entry derives a
 French sentence from its metadata — `"Dune est un livre de Frank Herbert,
-paru en 1965. Je mettrais ★★★★☆ à ce livre."` — and a thought uses an excerpt
-of its body, falling back to its title if the body is empty. This exists so a
-shared journal link does not preview as the site-wide blurb about CTF
-writeups.
+paru en 1965. Note : 4/5."` — and a thought uses an excerpt of its body,
+falling back to its title if the body is empty. This exists so a shared
+journal link does not preview as the site-wide blurb about CTF writeups.
 
 The journal has its own feed at `/journal/rss.xml`; the main `/rss.xml` stays
 posts-only so subscribers to the essays are not flooded.
