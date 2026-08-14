@@ -17,17 +17,16 @@ import {
   SCHEMA_TYPE,
   dateLine,
   deriveDescription,
-  groupWorks,
+  galleryGroups,
   hostOf,
   isArt,
   isMedia,
   plain,
   ratingLabel,
   ratingPercent,
+  uniformRatio,
   unknownCreator,
-  workAlt,
   workArtist,
-  workCaption,
 } from '../../utils/journal'
 
 export async function getStaticPaths() {
@@ -54,22 +53,26 @@ const description = deriveDescription(data, body)
 const media = isMedia(data) ? data : null
 const art = isArt(data) ? data : null
 
-/* Every work gets two renditions: one for the mosaic, emitted by <Image> with
+/* Both an art entry and a film with stills render as a mosaic; this flattens
+   whichever one it is into tiles, so everything below deals with one shape.
+   Empty for every other kind, which skips the block entirely. */
+const groups = galleryGroups(data)
+const tiles = groups.flatMap((group) => group.items.map((item) => item.tile))
+
+/* Every tile gets two renditions: one for the mosaic, emitted by <Image> with
    a srcset, and this full-size one behind the tile's href. The href is what
    the lightbox loads, and also what a click does with no JavaScript at all. */
 const MAX_FULL = 2400
-const stage = art
-  ? await Promise.all(
-      art.works.map((work) =>
-        getImage({
-          src: work.src,
-          width: Math.min(MAX_FULL, work.src.width),
-          format: 'webp',
-          quality: 82,
-        })
-      )
-    )
-  : []
+const stage = await Promise.all(
+  tiles.map((tile) =>
+    getImage({
+      src: tile.src,
+      width: Math.min(MAX_FULL, tile.src.width),
+      format: 'webp',
+      quality: 82,
+    })
+  )
+)
 
 /* An art entry has no `cover` field — the first work stands in as the share
    image, which is why the order in the frontmatter matters beyond the page. */
@@ -259,7 +262,7 @@ const jsonLd = media
   <div class="content">
     {hasBody && <Content />}
 
-    {art && (
+    {groups.length > 0 && (
       <>
         {/* Justified rows: each tile's flex-grow and flex-basis are both
             proportional to its aspect ratio, which is exactly the condition
@@ -269,31 +272,51 @@ const jsonLd = media
         {/* One mosaic per run of works sharing a `group`, so an entry can hold
             the exhibition and, say, the permanent collection seen the same
             day, without running them together. An entry with no groups at all
-            is a single untitled run — the ordinary case. */}
-        {groupWorks(art).map((group) => (
+            is a single untitled run — the ordinary case, and the only one a
+            film's stills produce. */}
+        {groups.map((group) => {
+          /* A run of identically-shaped tiles lays out as a grid instead —
+             the justified rows have nothing to solve, and their filler would
+             shrink a full final row. Null for anything else, which keeps the
+             flex path exactly as it was. */
+          const uniform = uniformRatio(group.items)
+          return (
           <>
             {group.title && <h2 class="art-group-title">{group.title}</h2>}
             {group.note && <p class="art-group-note">{group.note}</p>}
-            <div class="art-mosaic" data-art-mosaic>
-              {group.items.map(({ work, index }) => {
-                const ratio = work.src.width / work.src.height
-                const caption = workCaption(work, art)
+            <div
+              class="art-mosaic"
+              data-art-mosaic
+              data-uniform={uniform ? '' : undefined}
+              style={uniform ? `--art-uniform-ratio:${uniform.toFixed(4)}` : undefined}
+            >
+              {group.items.map(({ tile, index }) => {
+                const ratio = tile.src.width / tile.src.height
                 return (
                   <a
                     class="art-tile"
                     style={`--art-ratio:${ratio.toFixed(4)}`}
                     href={stage[index].src}
                     data-index={index}
-                    data-caption={caption}
-                    data-credit={work.credit ?? ''}
-                    data-alt={workAlt(work, art)}
-                    aria-label={caption}
+                    data-caption={tile.caption}
+                    data-credit={tile.credit}
+                    data-alt={tile.alt}
+                    data-wide={tile.wide ? '' : undefined}
+                    aria-label={tile.caption}
                   >
+                    {/* A wide tile is drawn at the mosaic's full width, so it
+                        needs renditions the column-sized ladder does not
+                        have — served the 1280 it would otherwise top out at,
+                        it upscales visibly on a retina screen. */}
                     <Image
-                      src={work.src}
-                      alt={workAlt(work, art)}
-                      widths={[400, 640, 900, 1280]}
-                      sizes="(max-width: 34em) 100vw, (max-width: 60em) 46vw, 30vw"
+                      src={tile.src}
+                      alt={tile.alt}
+                      widths={tile.wide ? [640, 960, 1280, 1600, 1920] : [400, 640, 900, 1280]}
+                      sizes={
+                        tile.wide
+                          ? '(max-width: 34em) 100vw, min(100vw - 3rem, 81rem)'
+                          : '(max-width: 34em) 100vw, (max-width: 60em) 46vw, 30vw'
+                      }
                       loading={index < 4 ? 'eager' : 'lazy'}
                       decoding="async"
                     />
@@ -303,11 +326,15 @@ const jsonLd = media
               {/* Absorbs the leftover space on the final row. Without it the
                   last one or two tiles stretch across the full width and dwarf
                   every work above them. flex-basis:0 keeps it off its own
-                  line. */}
-              <span class="art-mosaic-filler" aria-hidden="true"></span>
+                  line. A uniform run has no use for it — the grid already
+                  leaves a short final row at one column's width — and it would
+                  do harm there, taking the slack a *full* final row should
+                  have shared. */}
+              {!uniform && <span class="art-mosaic-filler" aria-hidden="true"></span>}
             </div>
           </>
-        ))}
+          )
+        })}
 
         {/* Opened by script; until then every tile is a plain link to the
             full-size image, so the page still works with no JavaScript. */}
