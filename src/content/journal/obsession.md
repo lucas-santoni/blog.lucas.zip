@@ -16,7 +16,7 @@ Mais le film m'a bien diverti, et il m'a amené à quelques réflexions sur
 l'amour, la dépendance affective et la toxicité dans une relation.
 
 Et forcément, en sortant de la salle, on se demande ce qu'on aurait souhaité à
-la place de Bear.
+la place de Bear !
 
 Le film m'a fait réfléchir à la notion de vœu. Dans la vie, on ne peut pas
 vraiment tricher : une relation se construit petit à petit, sur des souvenirs
