@@ -24,10 +24,10 @@ fois que je l'ouvre. Si le vœu est limité à un objet, je peux plus facilement
 prévoir les conséquences, et je peux m'en débarrasser s'il devient gênant pour
 une raison ou une autre.
 
-Mais je pense que je tenterais quand même l'infini ! Genre faire le vœu que
-chaque papier que je glisse dans la boîte et qui décrit un vœu se réalise.
-Après presque deux heures à regarder Bear payer pour un seul vœu mal formulé,
-ce n'est sûrement pas la leçon à retenir.
+Mais je pense que je tenterais quand même l'infini ! Je peux faire le vœu que
+chaque papier que je glisse dans la boîte et qui décrit un vœu se réalise. Après
+presque deux heures à regarder Bear payer pour un seul vœu mal formulé, ce n'est
+sûrement pas la leçon à retenir mais bon, c'est une opportunité en or...
 
 ---
 
