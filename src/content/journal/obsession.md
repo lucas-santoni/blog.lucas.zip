@@ -18,6 +18,17 @@ l'amour, la dépendance affective et la toxicité dans une relation.
 Et forcément, en sortant de la salle, on se demande ce qu'on aurait souhaité à
 la place de Bear.
 
+Le film m'a fait réfléchir à la notion de vœu. Dans la vie, on ne peut pas
+vraiment tricher : une relation se construit petit à petit, sur des souvenirs
+communs, du temps passé ensemble, des valeurs partagées. Ce que Bear obtient
+ressemble à de l'amour, mais ça n'en est pas. Souhaiter l'amour n'a même pas de
+sens.
+
+Et je pense que ça s'applique à plein d'autres choses : l'amitié, la confiance,
+une compétence, une réputation. Ce qui se construit avec le temps ne peut pas
+s'obtenir d'un coup. Il vaut donc mieux faire des vœux très matérialistes : de
+l'argent ou une maison valent autant, qu'on les ait gagnés ou souhaités.
+
 Je choisirais un vœu que je peux « contenir ». Par exemple : je prends une
 boîte, et je fais le vœu qu'elle soit remplie de billets de 100 dollars à chaque
 fois que je l'ouvre. Si le vœu est limité à un objet, je peux plus facilement en
