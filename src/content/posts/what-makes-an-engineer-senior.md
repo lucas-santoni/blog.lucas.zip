@@ -3,9 +3,9 @@ title: "Is a developer with ten years of experience senior?"
 slug: what-makes-an-engineer-senior
 date: 2026-06-26
 description: "Tenure isn't seniority, and seniority isn't management. After six
-years building an engineering team from one person to thirty at a fintech, here's
-what I've come to believe seniority is: the ability to reduce uncertainty for the
-people around you."
+  years building an engineering team from one person to thirty at a fintech, here's
+  what I've come to believe seniority is: the ability to reduce uncertainty for the
+  people around you."
 ---
 
 Is a developer with ten years of experience senior?

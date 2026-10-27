@@ -3,8 +3,8 @@ title: "Nightly encrypted offsite backup of <code>$HOME</code> on macOS"
 slug: macos-restic-b2
 date: 2026-05-12
 description: "Half setup guide, half tour of the macOS internals (launchd, TCC,
-AMFI, codesigning, DarkWake) that make nightly encrypted offsite backups with
-restic, resticprofile, and Backblaze B2 trickier than they should be."
+  AMFI, codesigning, DarkWake) that make nightly encrypted offsite backups with
+  restic, resticprofile, and Backblaze B2 trickier than they should be."
 ---
 
 **Update, June 2026**: a follow-up on the `prune` / `check` cycle. Restic's
